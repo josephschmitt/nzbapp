@@ -99,6 +99,11 @@ module.exports = function(grunt) {
 				files: {
 					'public_html/index.html': [
 						// Base libs
+						'public_html/js/lib/jquery.js', 
+						'public_html/js/lib/underscore.js', 
+						'public_html/js/lib/backbone.js',  
+						
+						// All other libs
 						'public_html/js/lib/*.js',
 
 						//Config file
