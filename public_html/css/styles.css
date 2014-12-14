@@ -1,0 +1,38 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  background-color: #000;
+  font-size: 16px;
+  text-rendering: optimizeLegibility;
+  font-family: "HelveticaNeue-Regular", "Helvetica", sans-serif;
+  height: 100%;
+  width: 100%;
+}
+
+a {
+  color: blue;
+  text-decoration: none;
+  -webkit-transform: translateZ(0);
+          transform: translateZ(0);
+}
+a:hover {
+  color: blue;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/*  Base page styles */
+* {
+  text-rendering: optimizeLegibility;
+}
+
+html {
+  box-sizing: border-box;
+  background: white;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
