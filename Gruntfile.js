@@ -11,7 +11,7 @@ module.exports = function(grunt) {
 				files: [{
 					expand: true,
 					cwd: 'scss/',
-					src: ['*.scss'],
+					src: ['*.scss', '**/*.scss'],
 					dest: 'public_html/css/',
 					ext: '.css'
 				}]
@@ -23,7 +23,7 @@ module.exports = function(grunt) {
 				files: [{
 					expand: true,
 					cwd: 'coffee/',
-					src: ['*.coffee'],
+					src: ['*.coffee', '**/*.coffee'],
 					dest: 'public_html/js/',
 					ext: '.js'
 				}]
@@ -107,7 +107,7 @@ module.exports = function(grunt) {
 						'public_html/js/lib/*.js',
 
 						//Config file
-						'public_html/config.js', 
+						'public_html/config.js',
 
 						// App js files
 						'public_html/js/transition-region.js', 

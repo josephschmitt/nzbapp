@@ -6,6 +6,11 @@
   (function() {
     var js;
     js = window.js = window.js || {};
+    Backbone.Marionette.Renderer.render = function(template, data) {
+      return _.template($(template).html(), data, {
+        variable: 'data'
+      });
+    };
     js.NavigationAPI = {
       showHome: (function(_this) {
         return function() {};
@@ -27,17 +32,17 @@
       return NZBAppRouter;
 
     })(Marionette.AppRouter);
-    js.NZBAppController = (function(_super) {
-      __extends(NZBAppController, _super);
+    js.NZBAppManager = (function(_super) {
+      __extends(NZBAppManager, _super);
 
-      function NZBAppController() {
+      function NZBAppManager() {
         this.dismissModal = __bind(this.dismissModal, this);
         this.showModal = __bind(this.showModal, this);
-        return NZBAppController.__super__.constructor.apply(this, arguments);
+        return NZBAppManager.__super__.constructor.apply(this, arguments);
       }
 
-      NZBAppController.prototype.initialize = function() {
-        NZBAppController.__super__.initialize.apply(this, arguments);
+      NZBAppManager.prototype.initialize = function() {
+        NZBAppManager.__super__.initialize.apply(this, arguments);
         this.addInitializer((function(_this) {
           return function() {
             return new js.NZBAppRouter();
@@ -56,7 +61,7 @@
         return this.initNavigationEvents();
       };
 
-      NZBAppController.prototype.initNavigationEvents = function() {
+      NZBAppManager.prototype.initNavigationEvents = function() {
         return this.on('home:show', (function(_this) {
           return function() {
             _this.navigate('');
@@ -65,23 +70,23 @@
         })(this));
       };
 
-      NZBAppController.prototype.navigate = function(route, options) {
+      NZBAppManager.prototype.navigate = function(route, options) {
         if (options == null) {
           options = {};
         }
         return Backbone.history.navigate(route, options);
       };
 
-      NZBAppController.prototype.getCurrentRoute = function() {
+      NZBAppManager.prototype.getCurrentRoute = function() {
         return Backbone.history.fragment;
       };
 
-      NZBAppController.prototype.showModal = function(options) {
+      NZBAppManager.prototype.showModal = function(options) {
         this.modalRegion.$el.show();
         return this.modalRegion.transitionToView(new js.Modal(options));
       };
 
-      NZBAppController.prototype.dismissModal = function() {
+      NZBAppManager.prototype.dismissModal = function() {
         this.modalRegion.on('empty', (function(_this) {
           return function() {
             return _this.modalRegion.$el.hide();
@@ -90,8 +95,8 @@
         return this.modalRegion.transitionToView();
       };
 
-      NZBAppController.prototype.start = function() {
-        NZBAppController.__super__.start.apply(this, arguments);
+      NZBAppManager.prototype.start = function() {
+        NZBAppManager.__super__.start.apply(this, arguments);
         if (Backbone.history) {
           Backbone.history.start();
         }
@@ -100,10 +105,10 @@
         }
       };
 
-      return NZBAppController;
+      return NZBAppManager;
 
     })(Marionette.Application);
-    js.NZBApp = new js.NZBAppController();
+    js.NZBApp = new js.NZBAppManager();
     return js.NZBApp.start();
   })();
 

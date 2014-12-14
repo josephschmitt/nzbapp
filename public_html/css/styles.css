@@ -12,8 +12,7 @@ body, html {
 a {
   color: blue;
   text-decoration: none;
-  -webkit-transform: translateZ(0);
-          transform: translateZ(0);
+  transform: translateZ(0);
 }
 a:hover {
   color: blue;

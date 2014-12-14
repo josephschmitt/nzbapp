@@ -2,15 +2,18 @@ do ->
     # `js` is our namespace. Everything should be in `js` to avoid name conflicts.
     js = window.js = (window.js or {})
 
+    # Custom renderer implementation
+    Backbone.Marionette.Renderer.render = (template, data) ->
+      _.template($(template).html(), data, {variable: 'data'})
+
     js.NavigationAPI =
         showHome: => 
-
 
     class js.NZBAppRouter extends Marionette.AppRouter
         appRoutes: '': 'showHome'
         controller: js.NavigationAPI
 
-    class js.NZBAppController extends Marionette.Application
+    class js.NZBAppManager extends Marionette.Application
         initialize: ->
             super
             @addInitializer =>
@@ -50,5 +53,5 @@ do ->
             if not @getCurrentRoute()? then @trigger('home:show')
 
     # Init the app
-    js.NZBApp = new js.NZBAppController()
+    js.NZBApp = new js.NZBAppManager()
     js.NZBApp.start()
