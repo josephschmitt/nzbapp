@@ -1,21 +1,18 @@
 (function() {
-	var tbs = window.tbs = window.tbs || {};
+	var js = window.js = window.js || {};
 
-	// Which RFID event to look for when triggered.
-	// Options are 'added', 'removed', or 'updated'
-	tbs.RFIDEventName = 'added';
+	js.AppConfig = {
+        CouchPotato: {
+            urlRoot: 'http://jbox.no-ip.biz:5050',
+            apiKey: 'ab4d4591a05b4ab0809124974c7c6050'
+        },
+        
+        SickBeard: {
+            urlRoot: 'http://jbox.no-ip.biz:9090',
+            apiKey: '0df35b76f3b232a84543c941b1394ed6'
+        },
 
-	// Location of the RFID Server
-	tbs.RFIDServerUrl = 'http://192.168.0.16:8081/rfid';
-
-	// API Root for all XOMNI calls
-	tbs.XOMNIApiRoot = 'http://thebigspace.api.xomni.com/';	
-
-	// The product ID of the item in XOMNI that is used as a test
-	// This is the product info that will be looked up when you click
-	// on the home page as opposed to waiting for the RFID trigger
-	tbs.XOMNITestProducTId = 1102;
-
-	// Time in milisecodns to continuously ping the RFID server
-	tbs.RFIDPingInterval = 1000;
+        callback_func: function () {
+        }
+	};
 })();
