@@ -23,12 +23,10 @@
         };
 
         SetupFields.prototype.saveServerSettings = function() {
-          if (this.ui.url.val()) {
-            NZBAppManager.commands.execute('server:url:set', this.model.get('serverName'), this.ui.url.val());
-          }
-          if (this.ui.token.val()) {
-            return NZBAppManager.commands.execute('server:token:set', this.model.get('serverName'), this.ui.token.val());
-          }
+          this.model.set('serverUrl', this.$(this.ui.url).val());
+          this.model.set('token', this.$(this.ui.token).val());
+          this.model.save();
+          return this.trigger('save');
         };
 
         return SetupFields;
@@ -42,6 +40,18 @@
         }
 
         SetupCollectionView.prototype.childView = Server.SetupFields;
+
+        SetupCollectionView.prototype.initialize = function() {
+          SetupCollectionView.__super__.initialize.apply(this, arguments);
+          this.listenTo(this.collection, 'change', this.render);
+          return this.on('childview:save', _.throttle(this.update, 100, {
+            leading: false
+          }));
+        };
+
+        SetupCollectionView.prototype.update = function() {
+          return NZBAppManager.commands.execute('server:settings:set');
+        };
 
         return SetupCollectionView;
 

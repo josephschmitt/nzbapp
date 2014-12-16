@@ -10,13 +10,19 @@ do ->
                 'url': '.server-url'
                 'token': '.server-token'
             saveServerSettings: ->
-                if @ui.url.val()
-                    NZBAppManager.commands.execute 'server:url:set', @model.get('serverName'), @ui.url.val()
-                if @ui.token.val()
-                    NZBAppManager.commands.execute 'server:token:set', @model.get('serverName'), @ui.token.val()
+                @model.set 'serverUrl', @$(@ui.url).val()
+                @model.set 'token', @$(@ui.token).val()
+                @model.save()
+                @trigger 'save'
         
         class Server.SetupCollectionView extends Marionette.CollectionView
             childView: Server.SetupFields
+            initialize: ->
+                super
+                @listenTo @collection, 'change', @render
+                @on 'childview:save', _.throttle @update, 100, leading: false
+            update: ->
+                NZBAppManager.commands.execute 'server:settings:set'
 
         class Server.Setup extends Marionette.LayoutView
             tagName: 'form'

@@ -13,7 +13,7 @@
     };
     NavigationAPI = {
       showHome: function() {
-        if (!js.NZBAppManager.request('server:url:get') || !js.NZBAppManager.request('server:token:get')) {
+        if (!js.NZBAppManager.request('server:settings:has')) {
           return js.NZBAppManager.trigger('server:setup:show');
         } else {
           return js.NZBAppManager.mainRegion.transitionToView(new Marionette.ItemView({
@@ -21,12 +21,12 @@
           }));
         }
       },
-      showSearch: function() {},
       showServerSetup: function() {
         return js.NZBAppManager.mainRegion.transitionToView(new js.NZBAppManager.Server.Setup({
-          collection: js.NZBAppManager.request('server:settings:getAll')
+          collection: js.NZBAppManager.request('server:settings:get')
         }));
-      }
+      },
+      showSearch: function() {}
     };
     NZBAppRouter = (function(_super) {
       __extends(NZBAppRouter, _super);
@@ -115,15 +115,7 @@
           return function() {
             _this.router = new NZBAppRouter();
             if (Backbone.history) {
-              Backbone.history.start();
-            }
-            if ((_this.getCurrentRoute() == null) || _this.getCurrentRoute() === 'server/setup') {
-              console.log('settings', js.NZBAppManager.request('server:settings:get'));
-              if (!js.NZBAppManager.request('server:settings:get')) {
-                return _this.trigger('server:setup:show');
-              } else {
-                return _this.trigger('home:show');
-              }
+              return Backbone.history.start();
             }
           };
         })(this), 1);
@@ -144,8 +136,7 @@
         if (!_.keys(attributes).length && !attributes.length) {
           return;
         }
-        console.log('localStorage', this.localStorage);
-        LocalStorageModel.__super__.set.apply(this, arguments);
+        LocalStorageModel.__super__.set.call(this, attributes);
         saved = (_ref = this.localStorage) != null ? _ref.find(this) : void 0;
         if (saved) {
           return this.localStorage.update(this);

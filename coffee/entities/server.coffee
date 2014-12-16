@@ -3,52 +3,41 @@ do ->
     js = window.js = (window.js or {})
 
     js.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marionette, $, _) ->
-        class ServerSettingsCollection extends js.LocalStorageModel
-            
-        class CPSettingsModel extends ServerSettingsCollection
-            defaults:
-                id: 'couchPotatoServerSettings'
-                serverName: 'CouchPotato'
-            localStorage: new Backbone.LocalStorage 'js.NZBApplication.Entities.ServerSettings'
-        class SBSettingsModel extends ServerSettingsCollection
-            defaults:
-                id: 'sickBeardServerSettings'
-                serverName: 'SickBeard'
+        class ServerSettings extends Backbone.Collection
+            model: Backbone.Model
             localStorage: new Backbone.LocalStorage 'js.NZBApplication.Entities.ServerSettings'
             
-        couchPotatoServer = new CPSettingsModel()
-        sickBeardServer = new SBSettingsModel()
+        couchPotatoServer = new Backbone.Model
+            id: 'couchPotatoServerSettings'
+            serverName: 'CouchPotato'
+        sickBeardServer = new Backbone.Model
+            id: 'sickBeardServerSettings'
+            serverName: 'SickBeard'
 
-        collection = new Backbone.Collection [couchPotatoServer, sickBeardServer]
-        Entities.collection = collection
-        console.log 'Entities.collection', collection
+        collection = new ServerSettings([couchPotatoServer, sickBeardServer])
+        collection.sync 'read', collection, 
+            success: (models) -> 
+                collection.set models, merge: true, add: false, remove: false
 
-        NZBAppManager.reqres.setHandler 'server:settings:get', ->
+        NZBAppManager.reqres.setHandler 'server:settings:has', ->
             valuePresent = (value) ->
                 !!collection.find (model) -> !!model.get(value)
-            if valuePresent('token') and valuePresent('url')
-                return collection.filter (model) -> !!model.get('token') or !!model.get('url')
-            else 
-                null
+            return valuePresent('token') and valuePresent('serverUrl')
 
-        NZBAppManager.reqres.setHandler 'server:settings:getAll', ->
+        NZBAppManager.reqres.setHandler 'server:settings:get', ->
             return collection
 
+        NZBAppManager.commands.setHandler 'server:settings:set', (settings) ->
+            if settings then collection.reset settings.models
+            collection.sync('create', collection)
+
         # Server Url
-        NZBAppManager.commands.setHandler 'server:url:set', (server, serverUrl) ->
-            switch server
-                when 'CouchPotato' then couchPotatoServer.set 'serverUrl', serverUrl
-                when 'SickBeard' then sickBeardServer.set 'serverUrl', serverUrl
         NZBAppManager.reqres.setHandler 'server:url:get', (server) ->
             switch server
                 when 'CouchPotato' then return couchPotatoServer.get 'serverUrl'
                 when 'SickBeard' then return sickBeardServer.get 'serverUrl'
 
         # Token
-        NZBAppManager.commands.setHandler 'server:token:set', (server, token) ->
-            switch server
-                when 'CouchPotato' then couchPotatoServer.set 'token', token
-                when 'SickBeard' then sickBeardServer.set 'token', token
         NZBAppManager.reqres.setHandler 'server:token:get', (server) ->
             switch server
                 when 'CouchPotato' then return couchPotatoServer.get 'token'

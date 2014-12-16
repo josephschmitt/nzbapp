@@ -6,81 +6,56 @@
     var js;
     js = window.js = window.js || {};
     return js.NZBAppManager.module('Entities', function(Entities, NZBAppManager, Backbone, Marionette, $, _) {
-      var CPSettingsModel, SBSettingsModel, ServerSettingsCollection, collection, couchPotatoServer, sickBeardServer;
-      ServerSettingsCollection = (function(_super) {
-        __extends(ServerSettingsCollection, _super);
+      var ServerSettings, collection, couchPotatoServer, sickBeardServer;
+      ServerSettings = (function(_super) {
+        __extends(ServerSettings, _super);
 
-        function ServerSettingsCollection() {
-          return ServerSettingsCollection.__super__.constructor.apply(this, arguments);
+        function ServerSettings() {
+          return ServerSettings.__super__.constructor.apply(this, arguments);
         }
 
-        return ServerSettingsCollection;
+        ServerSettings.prototype.model = Backbone.Model;
 
-      })(js.LocalStorageModel);
-      CPSettingsModel = (function(_super) {
-        __extends(CPSettingsModel, _super);
+        ServerSettings.prototype.localStorage = new Backbone.LocalStorage('js.NZBApplication.Entities.ServerSettings');
 
-        function CPSettingsModel() {
-          return CPSettingsModel.__super__.constructor.apply(this, arguments);
+        return ServerSettings;
+
+      })(Backbone.Collection);
+      couchPotatoServer = new Backbone.Model({
+        id: 'couchPotatoServerSettings',
+        serverName: 'CouchPotato'
+      });
+      sickBeardServer = new Backbone.Model({
+        id: 'sickBeardServerSettings',
+        serverName: 'SickBeard'
+      });
+      collection = new ServerSettings([couchPotatoServer, sickBeardServer]);
+      collection.sync('read', collection, {
+        success: function(models) {
+          return collection.set(models, {
+            merge: true,
+            add: false,
+            remove: false
+          });
         }
-
-        CPSettingsModel.prototype.defaults = {
-          id: 'couchPotatoServerSettings',
-          serverName: 'CouchPotato'
-        };
-
-        CPSettingsModel.prototype.localStorage = new Backbone.LocalStorage('js.NZBApplication.Entities.ServerSettings');
-
-        return CPSettingsModel;
-
-      })(ServerSettingsCollection);
-      SBSettingsModel = (function(_super) {
-        __extends(SBSettingsModel, _super);
-
-        function SBSettingsModel() {
-          return SBSettingsModel.__super__.constructor.apply(this, arguments);
-        }
-
-        SBSettingsModel.prototype.defaults = {
-          id: 'sickBeardServerSettings',
-          serverName: 'SickBeard'
-        };
-
-        SBSettingsModel.prototype.localStorage = new Backbone.LocalStorage('js.NZBApplication.Entities.ServerSettings');
-
-        return SBSettingsModel;
-
-      })(ServerSettingsCollection);
-      couchPotatoServer = new CPSettingsModel();
-      sickBeardServer = new SBSettingsModel();
-      collection = new Backbone.Collection([couchPotatoServer, sickBeardServer]);
-      Entities.collection = collection;
-      console.log('Entities.collection', collection);
-      NZBAppManager.reqres.setHandler('server:settings:get', function() {
+      });
+      NZBAppManager.reqres.setHandler('server:settings:has', function() {
         var valuePresent;
         valuePresent = function(value) {
           return !!collection.find(function(model) {
             return !!model.get(value);
           });
         };
-        if (valuePresent('token') && valuePresent('url')) {
-          return collection.filter(function(model) {
-            return !!model.get('token') || !!model.get('url');
-          });
-        } else {
-          return null;
-        }
+        return valuePresent('token') && valuePresent('serverUrl');
       });
-      NZBAppManager.reqres.setHandler('server:settings:getAll', function() {
+      NZBAppManager.reqres.setHandler('server:settings:get', function() {
         return collection;
       });
-      NZBAppManager.commands.setHandler('server:url:set', function(server, serverUrl) {
-        switch (server) {
-          case 'CouchPotato':
-            return couchPotatoServer.set('serverUrl', serverUrl);
-          case 'SickBeard':
-            return sickBeardServer.set('serverUrl', serverUrl);
+      NZBAppManager.commands.setHandler('server:settings:set', function(settings) {
+        if (settings) {
+          collection.reset(settings.models);
         }
+        return collection.sync('create', collection);
       });
       NZBAppManager.reqres.setHandler('server:url:get', function(server) {
         switch (server) {
@@ -88,14 +63,6 @@
             return couchPotatoServer.get('serverUrl');
           case 'SickBeard':
             return sickBeardServer.get('serverUrl');
-        }
-      });
-      NZBAppManager.commands.setHandler('server:token:set', function(server, token) {
-        switch (server) {
-          case 'CouchPotato':
-            return couchPotatoServer.set('token', token);
-          case 'SickBeard':
-            return sickBeardServer.set('token', token);
         }
       });
       return NZBAppManager.reqres.setHandler('server:token:get', function(server) {

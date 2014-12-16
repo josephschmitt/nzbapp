@@ -8,14 +8,14 @@ do ->
 
     NavigationAPI =
         showHome: ->
-            if not js.NZBAppManager.request('server:url:get') or not js.NZBAppManager.request('server:token:get')
+            if not js.NZBAppManager.request('server:settings:has')
                 js.NZBAppManager.trigger('server:setup:show')
             else
                 js.NZBAppManager.mainRegion.transitionToView new Marionette.ItemView template: false
-        showSearch: ->
         showServerSetup: ->
             js.NZBAppManager.mainRegion.transitionToView new js.NZBAppManager.Server.Setup
-                collection: js.NZBAppManager.request('server:settings:getAll')
+                collection: js.NZBAppManager.request('server:settings:get')
+        showSearch: ->
 
     class NZBAppRouter extends Marionette.AppRouter
         controller: NavigationAPI
@@ -59,19 +59,13 @@ do ->
             setTimeout =>
                 @router = new NZBAppRouter()
                 if Backbone.history then Backbone.history.start()
-                if not @getCurrentRoute()? or @getCurrentRoute() =='server/setup'
-                    console.log 'settings', js.NZBAppManager.request('server:settings:get')
-                    if not js.NZBAppManager.request('server:settings:get')
-                        @trigger('server:setup:show')
-                    else
-                        @trigger('home:show')
             , 1
 
     class js.LocalStorageModel extends Backbone.Model
         set: (attributes) ->
             if not _.keys(attributes).length and not attributes.length then return
-            console.log 'localStorage', @localStorage
-            super
+
+            super attributes
             saved = @localStorage?.find @
             if saved
                 @localStorage.update @
