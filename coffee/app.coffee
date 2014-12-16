@@ -11,7 +11,7 @@ do ->
             if not js.NZBAppManager.request('server:settings:has')
                 js.NZBAppManager.trigger('server:setup:show')
             else
-                js.NZBAppManager.mainRegion.transitionToView new Marionette.ItemView template: false
+                js.NZBAppManager.mainRegion.transitionToView new js.NZBAppManager.Home.HomeView()
         showServerSetup: ->
             js.NZBAppManager.mainRegion.transitionToView new js.NZBAppManager.Server.Setup
                 collection: js.NZBAppManager.request('server:settings:get')
@@ -59,7 +59,7 @@ do ->
             setTimeout =>
                 @router = new NZBAppRouter()
                 if Backbone.history then Backbone.history.start()
-            , 1
+            , 100
 
     class js.LocalStorageModel extends Backbone.Model
         set: (attributes) ->

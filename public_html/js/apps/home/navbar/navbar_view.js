@@ -6,8 +6,7 @@
     var js;
     js = window.js = window.js || {};
     return js.NZBAppManager.module('NavBar', function(NavBar, NZBAppManager, Backbone, Marionette, $, _) {
-      var NavBarTabs;
-      return NavBarTabs = (function(_super) {
+      return NavBar.NavBarTabs = (function(_super) {
         __extends(NavBarTabs, _super);
 
         function NavBarTabs() {

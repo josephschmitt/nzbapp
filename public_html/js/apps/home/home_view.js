@@ -6,8 +6,7 @@
     var js;
     js = window.js = window.js || {};
     return js.NZBAppManager.module('Home', function(Home, NZBAppManager, Backbone, Marionette, $, _) {
-      var HomeView;
-      return HomeView = (function(_super) {
+      return Home.HomeView = (function(_super) {
         __extends(HomeView, _super);
 
         function HomeView() {
@@ -17,13 +16,13 @@
         HomeView.prototype.template = '#home-template';
 
         HomeView.prototype.regions = {
-          navbarRegion: '#content-region',
-          contentRegion: '#navbar-region'
+          navbarRegion: '#navbar-region',
+          contentRegion: '#content-region'
         };
 
         HomeView.prototype.render = function() {
           HomeView.__super__.render.apply(this, arguments);
-          this.navbarRegion.show(new Marionette.ItemView({
+          this.navbarRegion.show(new NZBAppManager.NavBar.NavBarTabs({
             template: '#navbar-template'
           }));
           return this.contentRegion.show(new Marionette.ItemView({

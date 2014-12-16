@@ -16,9 +16,7 @@
         if (!js.NZBAppManager.request('server:settings:has')) {
           return js.NZBAppManager.trigger('server:setup:show');
         } else {
-          return js.NZBAppManager.mainRegion.transitionToView(new Marionette.ItemView({
-            template: false
-          }));
+          return js.NZBAppManager.mainRegion.transitionToView(new js.NZBAppManager.Home.HomeView());
         }
       },
       showServerSetup: function() {
@@ -118,7 +116,7 @@
               return Backbone.history.start();
             }
           };
-        })(this), 1);
+        })(this), 100);
       };
 
       return NZBApplication;
