@@ -5,3 +5,4 @@ do ->
     js.NZBAppManager.module 'NavBar', (NavBar, NZBAppManager, Backbone, Marionette, $, _) ->
     	class NavBar.NavBarTabs extends Marionette.ItemView
     		template: '#navbar-template'
+    		className: 'icon-bar five-up'

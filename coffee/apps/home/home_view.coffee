@@ -3,15 +3,16 @@ do ->
     js = window.js = (window.js or {})
 
     js.NZBAppManager.module 'Home', (Home, NZBAppManager, Backbone, Marionette, $, _) ->
-    	class Home.HomeView extends Marionette.LayoutView
-    		template: '#home-template'
-            id: 'home-view'
-    		regions:
+        class Home.HomeView extends Marionette.LayoutView
+            template: '#home-template'
+            pageName: 'home'
+            className: 'home--wrapper'
+            regions:
                 navbarRegion: '#navbar-region'
                 contentRegion: '#content-region'
             render: ->
                 super
                 @navbarRegion.show new NZBAppManager.NavBar.NavBarTabs
-                	template: '#navbar-template'
+                    template: '#navbar-template'
                 @contentRegion.show new Marionette.ItemView
-                	template: '#search-template'
+                    template: '#search-template'

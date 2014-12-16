@@ -22,6 +22,29 @@ a:hover {
   box-sizing: border-box;
 }
 
+.home--wrapper {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+.home--wrapper .content-area {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  overflow: auto;
+}
+
+.page--home, .home--wrapper {
+  height: 100%;
+}
+
 /*  Base page styles */
 * {
   text-rendering: optimizeLegibility;

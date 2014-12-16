@@ -15,6 +15,8 @@
 
         NavBarTabs.prototype.template = '#navbar-template';
 
+        NavBarTabs.prototype.className = 'icon-bar five-up';
+
         return NavBarTabs;
 
       })(Marionette.ItemView);

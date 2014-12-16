@@ -15,6 +15,10 @@
 
         HomeView.prototype.template = '#home-template';
 
+        HomeView.prototype.pageName = 'home';
+
+        HomeView.prototype.className = 'home--wrapper';
+
         HomeView.prototype.regions = {
           navbarRegion: '#navbar-region',
           contentRegion: '#content-region'
