@@ -1,7 +1,7 @@
 (function() {
-	var js = window.js = window.js || {};
+	var jjs = window.jjs = window.jjs || {};
 
-	js.AppConfig = {
+	jjs.AppConfig = {
         CouchPotato: {
             urlRoot: 'http://jbox.no-ip.biz:5050',
             apiKey: 'ab4d4591a05b4ab0809124974c7c6050'

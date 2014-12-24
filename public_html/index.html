@@ -31,7 +31,7 @@
     </script>
 
     <script type="text/template" id="server-setup-fields-template">
-        <legend><%- data.serverName %></legend>
+        <legend><%- data.name %></legend>
 
         <h4>Server URL</h4>
         <div class="row collapse">
@@ -83,7 +83,22 @@
     </script>
 
     <script type="text/template" id="search-template">
-        <h2>Search</h2>
+        <h2 class="text-center">Search</h2>
+        <div class"row">
+            <div class="small-12">
+                <input type="search" placeholder="Search for a Movie or TV Show" />
+            </div>
+        </div>
+        <div id="search-results-region"></div>
+    </script>
+
+    <script type="text/template" id="search-result-template">
+        <div class="small-4">
+
+        </div>
+        <div class="small-8">
+            
+        </div>
     </script>
     
     <!-- injector:js -->
@@ -101,11 +116,23 @@
     <script src="config.js"></script>
     <script src="js/transition-region.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/apps/config/storage/localstorage.js"></script>
     <script src="js/apps/home/home_view.js"></script>
     <script src="js/apps/home/navbar/navbar_view.js"></script>
     <script src="js/apps/home/search/search_view.js"></script>
+    <script src="js/apps/server/server_app.js"></script>
+    <script src="js/apps/server/server_setup.js"></script>
     <script src="js/apps/server/server_setup_view.js"></script>
+    <script src="js/apps/server/setup/setup_controller.js"></script>
+    <script src="js/apps/server/setup/setup_view.js"></script>
+    <script src="js/entities/api.js"></script>
+    <script src="js/entities/media.js"></script>
     <script src="js/entities/server.js"></script>
     <!-- endinjector -->
+
+    <script type="text/javascript">
+        // Start the app after all scripts have loaded
+        jjs.NZBAppManager.start();
+    </script>
 </body>
 </html>

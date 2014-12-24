@@ -1,48 +1,16 @@
 (function() {
-  var __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+    __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
   (function() {
-    var NZBAppRouter, NZBApplication, NavigationAPI, js;
-    js = window.js = window.js || {};
+    var NZBApplication, jjs;
+    jjs = window.jjs = window.jjs || {};
     Backbone.Marionette.Renderer.render = function(template, data) {
       return _.template($(template).html(), data, {
         variable: 'data'
       });
     };
-    NavigationAPI = {
-      showHome: function() {
-        if (!js.NZBAppManager.request('server:settings:has')) {
-          return js.NZBAppManager.trigger('server:setup:show');
-        } else {
-          return js.NZBAppManager.mainRegion.transitionToView(new js.NZBAppManager.Home.HomeView());
-        }
-      },
-      showServerSetup: function() {
-        return js.NZBAppManager.mainRegion.transitionToView(new js.NZBAppManager.Server.Setup({
-          collection: js.NZBAppManager.request('server:settings:get')
-        }));
-      },
-      showSearch: function() {}
-    };
-    NZBAppRouter = (function(_super) {
-      __extends(NZBAppRouter, _super);
-
-      function NZBAppRouter() {
-        return NZBAppRouter.__super__.constructor.apply(this, arguments);
-      }
-
-      NZBAppRouter.prototype.controller = NavigationAPI;
-
-      NZBAppRouter.prototype.appRoutes = {
-        '': 'showHome',
-        'server/setup': 'showServerSetup'
-      };
-
-      return NZBAppRouter;
-
-    })(Marionette.AppRouter);
     NZBApplication = (function(_super) {
       __extends(NZBApplication, _super);
 
@@ -66,21 +34,6 @@
         });
       };
 
-      NZBApplication.prototype.initNavigationEvents = function() {
-        this.on('home:show', (function(_this) {
-          return function() {
-            _this.navigate('');
-            return NavigationAPI.showHome();
-          };
-        })(this));
-        return this.on('server:setup:show', (function(_this) {
-          return function() {
-            _this.navigate('server/setup');
-            return NavigationAPI.showServerSetup();
-          };
-        })(this));
-      };
-
       NZBApplication.prototype.navigate = function(route, options) {
         if (options == null) {
           options = {};
@@ -94,7 +47,7 @@
 
       NZBApplication.prototype.showModal = function(options) {
         this.modalRegion.$el.show();
-        return this.modalRegion.transitionToView(new js.Modal(options));
+        return this.modalRegion.transitionToView(new jjs.Modal(options));
       };
 
       NZBApplication.prototype.dismissModal = function() {
@@ -108,52 +61,29 @@
 
       NZBApplication.prototype.start = function() {
         NZBApplication.__super__.start.apply(this, arguments);
-        this.initNavigationEvents();
-        return setTimeout((function(_this) {
-          return function() {
-            _this.router = new NZBAppRouter();
-            if (Backbone.history) {
-              return Backbone.history.start();
+        if (Backbone.history) {
+          Backbone.history.start();
+        }
+        return $.when(this.request('servers:entities')).done((function(_this) {
+          return function(serverSettings) {
+            if (!_this.request('servers:entities:valid')) {
+              return _this.trigger('servers:show');
             }
           };
-        })(this), 100);
+        })(this));
       };
 
       return NZBApplication;
 
     })(Marionette.Application);
-    js.LocalStorageModel = (function(_super) {
-      __extends(LocalStorageModel, _super);
-
-      function LocalStorageModel() {
-        return LocalStorageModel.__super__.constructor.apply(this, arguments);
-      }
-
-      LocalStorageModel.prototype.set = function(attributes) {
-        var saved, _ref;
-        if (!_.keys(attributes).length && !attributes.length) {
-          return;
-        }
-        LocalStorageModel.__super__.set.call(this, attributes);
-        saved = (_ref = this.localStorage) != null ? _ref.find(this) : void 0;
-        if (saved) {
-          return this.localStorage.update(this);
-        } else if (this.localStorage != null) {
-          return this.localStorage.create(this);
-        }
-      };
-
-      return LocalStorageModel;
-
-    })(Backbone.Model);
-    js.CouchPotatoModel = (function(_super) {
+    jjs.CouchPotatoModel = (function(_super) {
       __extends(CouchPotatoModel, _super);
 
       function CouchPotatoModel() {
         return CouchPotatoModel.__super__.constructor.apply(this, arguments);
       }
 
-      CouchPotatoModel.prototype.urlRoot = "" + js.AppConfig.CouchPotato.urlRoot + "/" + js.AppConfig.CouchPotato.apiKey;
+      CouchPotatoModel.prototype.urlRoot = "" + jjs.AppConfig.CouchPotato.urlRoot + "/" + jjs.AppConfig.CouchPotato.apiKey;
 
       CouchPotatoModel.prototype.fetch = function(options) {
         if (options == null) {
@@ -162,7 +92,7 @@
         options = _.extend(options, {
           dataType: 'jsonp',
           jsonp: 'callback_func',
-          jsonpCallback: options.jsonpCallback || 'js.AppConfig.callback_func'
+          jsonpCallback: options.jsonpCallback || 'jjs.AppConfig.callback_func'
         });
         return CouchPotatoModel.__super__.fetch.call(this, options);
       };
@@ -170,8 +100,7 @@
       return CouchPotatoModel;
 
     })(Backbone.Model);
-    js.NZBAppManager = new NZBApplication();
-    return js.NZBAppManager.start();
+    return jjs.NZBAppManager = new NZBApplication();
   })();
 
 }).call(this);

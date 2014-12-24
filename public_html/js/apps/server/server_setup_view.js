@@ -3,9 +3,9 @@
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
   (function() {
-    var js;
-    js = window.js = window.js || {};
-    return js.NZBAppManager.module('Server', function(Server, NZBAppManager, Backbone, Marionette, $, _) {
+    var jjs;
+    jjs = window.jjs = window.jjs || {};
+    return jjs.NZBAppManager.module('Server', function(Server, NZBAppManager, Backbone, Marionette, $, _) {
       Server.SetupFields = (function(_super) {
         __extends(SetupFields, _super);
 
@@ -25,8 +25,7 @@
         SetupFields.prototype.saveServerSettings = function() {
           this.model.set('serverUrl', this.$(this.ui.url).val());
           this.model.set('token', this.$(this.ui.token).val());
-          this.model.save();
-          return this.trigger('save');
+          return this.model.save();
         };
 
         return SetupFields;
@@ -42,11 +41,7 @@
         SetupCollectionView.prototype.childView = Server.SetupFields;
 
         SetupCollectionView.prototype.initialize = function() {
-          SetupCollectionView.__super__.initialize.apply(this, arguments);
-          this.listenTo(this.collection, 'change', this.render);
-          return this.on('childview:save', _.throttle(this.update, 100, {
-            leading: false
-          }));
+          return SetupCollectionView.__super__.initialize.apply(this, arguments);
         };
 
         SetupCollectionView.prototype.update = function() {

@@ -1,33 +1,14 @@
 do ->
-    # `js` is our namespace. Everything should be in `js` to avoid name conflicts.
-    js = window.js = (window.js or {})
+    # `jjs` is our namespace. Everything should be in `jjs` to avoid name conflicts.
+    jjs = window.jjs = (window.jjs or {})
 
     # Custom renderer implementation
     Backbone.Marionette.Renderer.render = (template, data) ->
       _.template($(template).html(), data, {variable: 'data'})
 
-    NavigationAPI =
-        showHome: ->
-            if not js.NZBAppManager.request('server:settings:has')
-                js.NZBAppManager.trigger('server:setup:show')
-            else
-                js.NZBAppManager.mainRegion.transitionToView new js.NZBAppManager.Home.HomeView()
-        showServerSetup: ->
-            js.NZBAppManager.mainRegion.transitionToView new js.NZBAppManager.Server.Setup
-                collection: js.NZBAppManager.request('server:settings:get')
-        showSearch: ->
-
-    class NZBAppRouter extends Marionette.AppRouter
-        controller: NavigationAPI
-        appRoutes: 
-            '': 'showHome'
-            'server/setup': 'showServerSetup'
-
     class NZBApplication extends Marionette.Application
         initialize: ->
             super
-            # @addInitializer =>
-            #     @router = new NZBAppRouter()
             @addRegions
                 mainRegion: 
                     selector: '#main'
@@ -35,53 +16,36 @@ do ->
                 modalRegion: 
                     selector: '#modal'
                     regionClass: TransitionRegion
-        initNavigationEvents: ->
-            # Init navigation events
-            @on 'home:show', =>
-                @navigate('')
-                NavigationAPI.showHome()
-            @on 'server:setup:show', =>
-                @navigate('server/setup')
-                NavigationAPI.showServerSetup()
+
         navigate: (route, options={}) ->
             Backbone.history.navigate(route, options)
         getCurrentRoute: ->
             return Backbone.history.fragment
         showModal: (options) =>
             @modalRegion.$el.show()
-            @modalRegion.transitionToView new js.Modal options
+            @modalRegion.transitionToView new jjs.Modal options
         dismissModal: =>
             @modalRegion.on 'empty', => @modalRegion.$el.hide()
             @modalRegion.transitionToView()
         start: ->
             super
-            @initNavigationEvents()
-            setTimeout =>
-                @router = new NZBAppRouter()
-                if Backbone.history then Backbone.history.start()
-            , 100
+            if Backbone.history 
+                Backbone.history.start()
+                # if not @getCurrentRoute() then @trigger 'home'
 
-    class js.LocalStorageModel extends Backbone.Model
-        set: (attributes) ->
-            if not _.keys(attributes).length and not attributes.length then return
+            $.when(@request('servers:entities')).done (serverSettings) =>
+                if not @request 'servers:entities:valid'
+                    @trigger 'servers:show'
 
-            super attributes
-            saved = @localStorage?.find @
-            if saved
-                @localStorage.update @
-            else if @localStorage?
-                @localStorage.create @
-
-    class js.CouchPotatoModel extends Backbone.Model
-        urlRoot: "#{js.AppConfig.CouchPotato.urlRoot}/#{js.AppConfig.CouchPotato.apiKey}"
-        # localStorage: new Backbone.LocalStorage 'js.NZBApplication.Entities.APIToken'
+    class jjs.CouchPotatoModel extends Backbone.Model
+        urlRoot: "#{jjs.AppConfig.CouchPotato.urlRoot}/#{jjs.AppConfig.CouchPotato.apiKey}"
+        # localStorage: new Backbone.LocalStorage 'jjs.NZBApplication.Entities.APIToken'
         fetch: (options={}) ->
             options = _.extend options, 
                 dataType: 'jsonp'
                 jsonp: 'callback_func'
-                jsonpCallback: options.jsonpCallback or 'js.AppConfig.callback_func'
+                jsonpCallback: options.jsonpCallback or 'jjs.AppConfig.callback_func'
             super options
 
     # Init the app
-    js.NZBAppManager = new NZBApplication()
-    js.NZBAppManager.start()
+    jjs.NZBAppManager = new NZBApplication()
