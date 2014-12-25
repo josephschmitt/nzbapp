@@ -42,10 +42,10 @@
           icon: 'fi-ticket',
           trigger: 'movies:show'
         }, {
-          name: 'TV',
-          url: 'tv',
+          name: 'Shows',
+          url: 'shows',
           icon: 'fi-monitor',
-          trigger: 'tv:show'
+          trigger: 'shows:show'
         }, {
           name: 'Queue',
           url: 'queue',
