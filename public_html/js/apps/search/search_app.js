@@ -5,20 +5,21 @@
 
   jjs = window.jjs = window.jjs || {};
 
-  jjs.NZBAppManager.module('ServersApp', function(ServersApp, NZBAppManager, Backbone, Marionette, $, _) {
+  jjs.NZBAppManager.module('SearchApp', function(Search, NZBAppManager, Backbone, Marionette, $, _) {
     var routesController;
-    ServersApp.RoutesController = (function() {
+    Search.RoutesController = (function() {
       function RoutesController() {}
 
-      RoutesController.prototype.listServers = function() {
-        ServersApp.Setup.Controller.listServers();
-        return NZBAppManager.execute('tabs:active:set', 'Settings');
+      RoutesController.prototype.showEmptySearch = function() {
+        return Search.Show.Controller.showEmptySearch();
       };
+
+      RoutesController.prototype.listSearchResults = function() {};
 
       return RoutesController;
 
     })();
-    ServersApp.Router = (function(_super) {
+    Search.Router = (function(_super) {
       __extends(Router, _super);
 
       function Router() {
@@ -26,19 +27,24 @@
       }
 
       Router.prototype.appRoutes = {
-        'servers': 'listServers'
+        'search': 'showEmptySearch',
+        'search/results': 'listSearchResults'
       };
 
       return Router;
 
     })(Marionette.AppRouter);
-    routesController = new ServersApp.RoutesController();
-    NZBAppManager.on('servers:show', function() {
-      NZBAppManager.navigate('servers');
-      return routesController.listServers();
+    routesController = new Search.RoutesController();
+    NZBAppManager.on('search:show', function() {
+      NZBAppManager.navigate('search');
+      return routesController.showEmptySearch();
+    });
+    NZBAppManager.on('search:results:show', function() {
+      NZBAppManager.navigate('search/results');
+      return routesController.listSearchResults();
     });
     return NZBAppManager.addInitializer(function() {
-      return new ServersApp.Router({
+      return new Search.Router({
         controller: routesController
       });
     });

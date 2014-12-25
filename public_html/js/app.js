@@ -27,6 +27,7 @@
             selector: '#main',
             regionClass: TransitionRegion
           },
+          navbarRegion: '#navbar',
           modalRegion: {
             selector: '#modal',
             regionClass: TransitionRegion
@@ -68,6 +69,8 @@
           return function(serverSettings) {
             if (!_this.request('servers:entities:valid')) {
               return _this.trigger('servers:show');
+            } else if (!_this.getCurrentRoute()) {
+              return _this.trigger('app:search:show');
             }
           };
         })(this));

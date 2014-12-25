@@ -20,13 +20,13 @@
 <body>
     <div id="modal"style="display: none;"></div>
     <main id="main"></main>
+    <div id="navbar"></div>
 
     <!-- templates -->
     <script type="text/template" id="server-setup-template">
         <div id="server-collection"></div>
         <div class="row">
-            <!--input type="button" class="button" id="server-save" value="Save" /-->
-            <a href="#" class="button" id="server-save">Save</a>
+            <a href="#" class="button small-12 medium-4 medium-offset-8" id="server-save">Save</a>
         </div>
     </script>
 
@@ -35,51 +35,28 @@
 
         <h4>Server URL</h4>
         <div class="row collapse">
-            <div class="small-3 large-2 columns">
-                <span class="prefix">http://</span>
+            <div class="small-3 large-1 columns">
+                <span class="prefix fi-link"></span>
             </div>
-            <div class="small-9 large-10 columns">
+            <div class="small-9 large-11 columns">
                 <input class="server-url" type="text" placeholder="Enter your URL..." value="<%- data.serverUrl %>">
             </div>
         </div>
 
         <h4>API Token</h4>
         <div class="row collapse">
-            <div class="small-3 large-2 columns">
-                <span class="prefix">Token</span>
+            <div class="small-3 large-1 columns">
+                <span class="prefix fi-key"></span>
             </div>
-            <div class="small-9 large-10 columns">
+            <div class="small-9 large-11 columns">
                 <input class="server-token" type="text" placeholder="Enter API Token" value="<%- data.token %>">
             </div>
         </div>
     </script>
 
-    <script type="text/template" id="home-template">
-        <div id="content-region" class="content-area"></div>
-        <div id="navbar-region"></div>
-    </script>
-
     <script type="text/template" id="navbar-template">
-        <a class="item">
-            <i class="fi-magnifying-glass"></i>
-            <label>Search</label>
-        </a>
-        <a class="item">
-            <i class="fi-home"></i>
-            <label>CouchPotato</label>
-        </a>
-        <a class="item">
-            <i class="fi-home"></i>
-            <label>SickBeard</label>
-        </a>
-        <a class="item">
-            <i class="fi-home"></i>
-            <label>SABnzbd</label>
-        </a>
-        <a class="item">
-            <i class="fi-widget"></i>
-            <label>Settings</label>
-        </a>
+        <i class="<%- data.icon %>"></i>
+        <label><%= data.label || data.name %></label>
     </script>
 
     <script type="text/template" id="search-template">
@@ -117,17 +94,19 @@
     <script src="js/transition-region.js"></script>
     <script src="js/app.js"></script>
     <script src="js/apps/config/storage/localstorage.js"></script>
-    <script src="js/apps/home/home_view.js"></script>
-    <script src="js/apps/home/navbar/navbar_view.js"></script>
-    <script src="js/apps/home/search/search_view.js"></script>
+    <script src="js/apps/navbar/navbar_app.js"></script>
+    <script src="js/apps/navbar/tabs/tab_view.js"></script>
+    <script src="js/apps/navbar/tabs/tabs_controller.js"></script>
+    <script src="js/apps/search/search_app.js"></script>
+    <script src="js/apps/search/show/search_controller.js"></script>
+    <script src="js/apps/search/show/search_view.js"></script>
     <script src="js/apps/server/server_app.js"></script>
-    <script src="js/apps/server/server_setup.js"></script>
-    <script src="js/apps/server/server_setup_view.js"></script>
     <script src="js/apps/server/setup/setup_controller.js"></script>
     <script src="js/apps/server/setup/setup_view.js"></script>
     <script src="js/entities/api.js"></script>
     <script src="js/entities/media.js"></script>
     <script src="js/entities/server.js"></script>
+    <script src="js/entities/tabs.js"></script>
     <!-- endinjector -->
 
     <script type="text/javascript">

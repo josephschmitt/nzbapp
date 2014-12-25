@@ -13,6 +13,7 @@ do ->
                 mainRegion: 
                     selector: '#main'
                     regionClass: TransitionRegion
+                navbarRegion: '#navbar'
                 modalRegion: 
                     selector: '#modal'
                     regionClass: TransitionRegion
@@ -29,13 +30,13 @@ do ->
             @modalRegion.transitionToView()
         start: ->
             super
-            if Backbone.history 
-                Backbone.history.start()
-                # if not @getCurrentRoute() then @trigger 'home'
+            if Backbone.history then Backbone.history.start()
 
             $.when(@request('servers:entities')).done (serverSettings) =>
                 if not @request 'servers:entities:valid'
                     @trigger 'servers:show'
+                else if not @getCurrentRoute()
+                    @trigger 'app:search:show'
 
     class jjs.CouchPotatoModel extends Backbone.Model
         urlRoot: "#{jjs.AppConfig.CouchPotato.urlRoot}/#{jjs.AppConfig.CouchPotato.apiKey}"

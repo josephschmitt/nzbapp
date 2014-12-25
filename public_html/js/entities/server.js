@@ -6,7 +6,7 @@
   jjs = window.jjs = window.jjs || {};
 
   jjs.NZBAppManager.module('Entities', function(Entities, NZBAppManager, Backbone, Marionette, $, _) {
-    var ServerSettings, ServersCollection, collection, couchPotatoServer, defer, sickBeardServer;
+    var ServerSettings, ServersCollection, collection, couchPotatoServer, defer, sabnzbdServer, sickBeardServer;
     ServerSettings = (function(_super) {
       __extends(ServerSettings, _super);
 
@@ -41,8 +41,12 @@
       id: 'sickBeardServerSettings',
       name: 'SickBeard'
     });
+    sabnzbdServer = new ServerSettings({
+      id: 'sabnzbdServerSettings',
+      name: 'SABnzbd'
+    });
     defer = $.Deferred();
-    collection = new ServersCollection([couchPotatoServer, sickBeardServer]);
+    collection = new ServersCollection([couchPotatoServer, sickBeardServer, sabnzbdServer]);
     collection.sync('read', collection, {
       error: function() {
         return defer.resolve(collection);
@@ -59,7 +63,7 @@
     NZBAppManager.reqres.setHandler('servers:entities', function() {
       return defer.promise();
     });
-    return NZBAppManager.reqres.setHandler('servers:entities:valid', function() {
+    NZBAppManager.reqres.setHandler('servers:entities:valid', function() {
       var valuePresent;
       valuePresent = function(value) {
         return !!collection.find(function(model) {
@@ -67,6 +71,14 @@
         });
       };
       return valuePresent('token') && valuePresent('serverUrl');
+    });
+    NZBAppManager.reqres.setHandler('servers:entities:settings', function() {
+      return collection;
+    });
+    return NZBAppManager.reqres.setHandler('servers:entities:settings:get', function(server) {
+      return collection.findWhere({
+        name: server
+      });
     });
   });
 

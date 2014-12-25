@@ -15,7 +15,7 @@
   ],
   "dependencies": {
     "marionette": "~2.2.2",
-    "foundation": "~5.4.7",
+    "foundation": "~5.5.0",
     "Backbone.localStorage": "~1.1.14",
     "foundation-icon-fonts": "*"
   }

@@ -2,22 +2,22 @@ do ->
     # `jjs` is our namespace. Everything should be in `jjs` to avoid name conflicts.
     jjs = window.jjs = (window.jjs or {})
 
-    jjs.NZBAppManager.module 'Search', (Search, NZBAppManager, Backbone, Marionette, $, _) ->
-    	class Search.Result extends Marionette.ItemView
+    jjs.NZBAppManager.module 'SearchApp.Show', (Show, NZBAppManager, Backbone, Marionette, $, _) ->
+    	class Show.Result extends Marionette.ItemView
     		template: '#search-result-template'
     		className: 'search-result row'
     		tagName: 'li'
 
-    	class Search.SearchResults extends Marionette.CollectionView
+    	class Show.SearchResults extends Marionette.CollectionView
     		tagName: 'ul'
     		className: 'search-results'
-    		childView: Search.Result
+    		childView: Show.Result
 
-    	class Search.SearchView extends Marionette.LayoutView
+    	class Show.SearchView extends Marionette.LayoutView
     		template: '#search-template'
     		regions:
     			resultsRegion: '#search-results-region'
     		render: ->
     			super
-    			@resultsRegion.show new Search.SearchResults
-    				collection: new NZBAppManager.Media.CouchPotato()
+    			# @resultsRegion.show new Show.SearchResults
+    			# 	collection: new NZBAppManager.Media.CouchPotato()
