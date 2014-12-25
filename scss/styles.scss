@@ -22,3 +22,18 @@ html {
 *, *:before, *:after {
   box-sizing: inherit;
 }
+
+body {
+	display: flex;
+	flex-direction: column;
+}
+
+#main {
+	flex: 1;
+	overflow-y: auto;
+	-webkit-overflow-scrolling: touch;
+}
+
+#navbar {
+	height: 78px;
+}
