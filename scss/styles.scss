@@ -6,7 +6,7 @@
 //
 @import
     'base',
-    'pages/home';
+    'pages/search';
 
 
 /*  Base page styles */
@@ -36,4 +36,10 @@ body {
 
 #navbar {
 	height: 78px;
+}
+
+input[type=search] {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
 }
