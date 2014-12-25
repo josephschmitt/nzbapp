@@ -11,7 +11,8 @@
       function RoutesController() {}
 
       RoutesController.prototype.showEmptySearch = function() {
-        return Search.Show.Controller.showEmptySearch();
+        Search.Show.Controller.showEmptySearch();
+        return NZBAppManager.execute('tabs:active:set', 'Search');
       };
 
       RoutesController.prototype.listSearchResults = function() {};
@@ -35,6 +36,10 @@
 
     })(Marionette.AppRouter);
     routesController = new Search.RoutesController();
+    NZBAppManager.on('home:show', function() {
+      NZBAppManager.navigate('search');
+      return routesController.showEmptySearch();
+    });
     NZBAppManager.on('search:show', function() {
       NZBAppManager.navigate('search');
       return routesController.showEmptySearch();

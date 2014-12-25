@@ -70,7 +70,7 @@
             if (!_this.request('servers:entities:valid')) {
               return _this.trigger('servers:show');
             } else if (!_this.getCurrentRoute()) {
-              return _this.trigger('app:search:show');
+              return _this.trigger('search:show');
             }
           };
         })(this));

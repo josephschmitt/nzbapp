@@ -5,6 +5,7 @@ jjs.NZBAppManager.module 'SearchApp', (Search, NZBAppManager, Backbone, Marionet
 	class Search.RoutesController
 		showEmptySearch: ->
 			Search.Show.Controller.showEmptySearch()
+			NZBAppManager.execute 'tabs:active:set', 'Search'
 		listSearchResults: ->
 
 	class Search.Router extends Marionette.AppRouter
@@ -14,6 +15,9 @@ jjs.NZBAppManager.module 'SearchApp', (Search, NZBAppManager, Backbone, Marionet
 
 	routesController = new Search.RoutesController()
 
+	NZBAppManager.on 'home:show', ->
+		NZBAppManager.navigate('search')
+		routesController.showEmptySearch()
 	NZBAppManager.on 'search:show', ->
 		NZBAppManager.navigate('search')
 		routesController.showEmptySearch()

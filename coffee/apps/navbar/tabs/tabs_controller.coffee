@@ -8,8 +8,10 @@ jjs.NZBAppManager.module 'NavbarApp.Tabs', (Tabs, NZBAppManager, Backbone, Mario
 			tabs = new Tabs.TabsView collection: tabsCollection
 			NZBAppManager.navbarRegion.show tabs
 
+			tabs.on 'childview:navigate', (childview, model) ->
+				NZBAppManager.trigger model.get('trigger')
+
 		setActive: (name) ->
 			tabsCollection = NZBAppManager.request 'tabs:entities'
-			console.log 'setActive', tabsCollection
-			tabsCollection.findWhere(active: true)?.set 'active', false, silent: true
+			tabsCollection.findWhere(active: true)?.set 'active', false
 			tabsCollection.findWhere(name: name)?.set 'active', true

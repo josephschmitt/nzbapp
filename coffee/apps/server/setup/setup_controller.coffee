@@ -5,7 +5,7 @@ jjs.NZBAppManager.module 'ServersApp.Setup', (ServersSetup, NZBAppManager, Backb
 	ServersSetup.Controller = 
 		listServers: ->
 			$.when(NZBAppManager.request('servers:entities')).done (serverSettings) =>
-				NZBAppManager.mainRegion.transitionToView new ServersSetup.Layout
+				NZBAppManager.mainRegion.show new ServersSetup.Layout
 					collection: serverSettings
 				serverSettings.on 'change', -> 
 		            serverSettings.sync 'update', serverSettings,

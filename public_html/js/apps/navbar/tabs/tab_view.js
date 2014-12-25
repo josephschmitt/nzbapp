@@ -19,18 +19,23 @@
 
       TabView.prototype.className = 'item';
 
+      TabView.prototype.events = {
+        'click': 'navigate'
+      };
+
       TabView.prototype.initialize = function() {
         TabView.__super__.initialize.apply(this, arguments);
-        return this.listenTo(this.model, 'change', (function(_this) {
-          return function() {
-            return _this.$el.toggleClass('active', !!_this.model.get('active'));
-          };
-        })(this));
+        return this.listenTo(this.model, 'change', this.render);
       };
 
       TabView.prototype.render = function() {
         TabView.__super__.render.apply(this, arguments);
-        return this.$el.attr('href', "#" + (this.model.get('url')));
+        return this.$el.attr('href', "#" + (this.model.get('url'))).toggleClass('active', !!this.model.get('active'));
+      };
+
+      TabView.prototype.navigate = function(e) {
+        e.preventDefault();
+        return this.trigger('navigate', this.model);
       };
 
       return TabView;

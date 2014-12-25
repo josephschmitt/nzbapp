@@ -8,7 +8,7 @@
       listServers: function() {
         return $.when(NZBAppManager.request('servers:entities')).done((function(_this) {
           return function(serverSettings) {
-            NZBAppManager.mainRegion.transitionToView(new ServersSetup.Layout({
+            NZBAppManager.mainRegion.show(new ServersSetup.Layout({
               collection: serverSettings
             }));
             return serverSettings.on('change', function() {

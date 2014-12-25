@@ -36,7 +36,7 @@ do ->
                 if not @request 'servers:entities:valid'
                     @trigger 'servers:show'
                 else if not @getCurrentRoute()
-                    @trigger 'app:search:show'
+                    @trigger 'search:show'
 
     class jjs.CouchPotatoModel extends Backbone.Model
         urlRoot: "#{jjs.AppConfig.CouchPotato.urlRoot}/#{jjs.AppConfig.CouchPotato.apiKey}"

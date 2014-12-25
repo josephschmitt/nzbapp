@@ -11,18 +11,18 @@
         tabs = new Tabs.TabsView({
           collection: tabsCollection
         });
-        return NZBAppManager.navbarRegion.show(tabs);
+        NZBAppManager.navbarRegion.show(tabs);
+        return tabs.on('childview:navigate', function(childview, model) {
+          return NZBAppManager.trigger(model.get('trigger'));
+        });
       },
       setActive: function(name) {
         var tabsCollection, _ref, _ref1;
         tabsCollection = NZBAppManager.request('tabs:entities');
-        console.log('setActive', tabsCollection);
         if ((_ref = tabsCollection.findWhere({
           active: true
         })) != null) {
-          _ref.set('active', false, {
-            silent: true
-          });
+          _ref.set('active', false);
         }
         return (_ref1 = tabsCollection.findWhere({
           name: name

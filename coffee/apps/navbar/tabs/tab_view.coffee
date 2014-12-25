@@ -6,12 +6,19 @@ jjs.NZBAppManager.module 'NavbarApp.Tabs', (Tabs, NZBAppManager, Backbone, Mario
 		template: '#navbar-template'
 		tagName: 'a'
 		className: 'item'
+		events:
+			'click': 'navigate'
 		initialize: ->
 			super
-			@listenTo @model, 'change', => @$el.toggleClass 'active', !!@model.get('active')
+			@listenTo @model, 'change', @render
 		render: ->
 			super
-			@$el.attr 'href', "##{@model.get('url')}"
+			@$el
+				.attr 'href', "##{@model.get('url')}"
+				.toggleClass 'active', !!@model.get('active')
+		navigate: (e) ->
+			e.preventDefault()
+			@trigger 'navigate', @model
 
 	class Tabs.TabsView extends Marionette.CollectionView
 		childView: Tabs.TabView

@@ -9,11 +9,11 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
 
 	initTabs = ->
 		Entities.tabs = new Entities.TabsCollection [
-			{ label: 'Search', name: 'Search', url: 'search', icon: 'fi-magnifying-glass' }
-			{ label: 'Movies', name: 'CouchPotato', url: 'couchpotato', icon: 'fi-ticket' }
-			{ label: 'TV', name: 'SickBeard', url: 'sickbeard', icon: 'fi-monitor' }
-			{ label: 'Queue', name: 'SABnzbd', url: 'downloads', icon: 'fi-download' }
-			{ label: 'Settings', name: 'Settings', url: 'servers', icon: 'fi-widget' }
+			{ name: 'Search', url: 'search', icon: 'fi-magnifying-glass', trigger: 'search:show' }
+			{ name: 'Movies', url: 'movies', icon: 'fi-ticket', trigger: 'movies:show' }
+			{ name: 'TV', url: 'tv', icon: 'fi-monitor', trigger: 'tv:show' }
+			{ name: 'Queue', url: 'queue', icon: 'fi-download', trigger: 'queue:show' }
+			{ name: 'Settings', url: 'settings', icon: 'fi-widget', trigger: 'servers:show' }
 		]
 
 	NZBAppManager.reqres.setHandler 'tabs:entities', ->

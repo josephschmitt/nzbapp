@@ -32,30 +32,30 @@
     initTabs = function() {
       return Entities.tabs = new Entities.TabsCollection([
         {
-          label: 'Search',
           name: 'Search',
           url: 'search',
-          icon: 'fi-magnifying-glass'
+          icon: 'fi-magnifying-glass',
+          trigger: 'search:show'
         }, {
-          label: 'Movies',
-          name: 'CouchPotato',
-          url: 'couchpotato',
-          icon: 'fi-ticket'
+          name: 'Movies',
+          url: 'movies',
+          icon: 'fi-ticket',
+          trigger: 'movies:show'
         }, {
-          label: 'TV',
-          name: 'SickBeard',
-          url: 'sickbeard',
-          icon: 'fi-monitor'
+          name: 'TV',
+          url: 'tv',
+          icon: 'fi-monitor',
+          trigger: 'tv:show'
         }, {
-          label: 'Queue',
-          name: 'SABnzbd',
-          url: 'downloads',
-          icon: 'fi-download'
+          name: 'Queue',
+          url: 'queue',
+          icon: 'fi-download',
+          trigger: 'queue:show'
         }, {
-          label: 'Settings',
           name: 'Settings',
-          url: 'servers',
-          icon: 'fi-widget'
+          url: 'settings',
+          icon: 'fi-widget',
+          trigger: 'servers:show'
         }
       ]);
     };
