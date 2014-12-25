@@ -3683,7 +3683,7 @@ label.error {
   width: 25%;
   margin: 0 auto;
   display: block;
-  padding: 1.25rem;
+  padding: 0.35rem;
   float: left;
 }
 .icon-bar > * i, .icon-bar > * img {
@@ -3747,7 +3747,7 @@ label.error {
 }
 .icon-bar > * {
   font-size: 1rem;
-  padding: 1.25rem;
+  padding: 0.35rem 0;
 }
 .icon-bar > * i + label, .icon-bar > * img + label {
   margin-top: .0625rem;

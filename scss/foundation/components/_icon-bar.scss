@@ -24,7 +24,7 @@ $icon-bar-icon-size: 1.875rem !default;
 $icon-bar-image-width: 1.875rem !default;
 $icon-bar-image-height: 1.875rem !default;
 $icon-bar-active-color: $primary-color !default;
-$icon-bar-item-padding: 1.25rem !default;
+$icon-bar-item-padding: 0.35rem !default;
 
 // We use this to set default opacity and cursor for disabled icons.
 $icon-bar-disabled-opacity: 0.7 !default;
@@ -136,7 +136,7 @@ $icon-bar-disabled-cursor: $cursor-default-value !default;
 
 	& > * {
 		font-size: $font-size;
-		padding: $padding;
+		padding: $padding 0;
 
 		i, img {
 
