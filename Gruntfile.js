@@ -88,7 +88,7 @@ module.exports = function(grunt) {
 							stripGlobBase: true
 						}
 					},
-					ignorePackages: ['modernizr']
+					ignorePackages: ['modernizr', 'foundation']
 				}
 			},
 
