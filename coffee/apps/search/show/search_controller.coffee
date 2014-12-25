@@ -4,4 +4,4 @@ jjs = window.jjs = (window.jjs or {})
 jjs.NZBAppManager.module 'SearchApp.Show', (Show, NZBAppManager, Backbone, Marionette, $, _) ->
 	Show.Controller = 
 		showEmptySearch: ->
-			NZBAppManager.mainRegion.show new Show.SearchView
+			NZBAppManager.mainRegion.show new Show.SearchView()
