@@ -79,30 +79,6 @@
       return NZBApplication;
 
     })(Marionette.Application);
-    jjs.CouchPotatoModel = (function(_super) {
-      __extends(CouchPotatoModel, _super);
-
-      function CouchPotatoModel() {
-        return CouchPotatoModel.__super__.constructor.apply(this, arguments);
-      }
-
-      CouchPotatoModel.prototype.urlRoot = "" + jjs.AppConfig.CouchPotato.urlRoot + "/" + jjs.AppConfig.CouchPotato.apiKey;
-
-      CouchPotatoModel.prototype.fetch = function(options) {
-        if (options == null) {
-          options = {};
-        }
-        options = _.extend(options, {
-          dataType: 'jsonp',
-          jsonp: 'callback_func',
-          jsonpCallback: options.jsonpCallback || 'jjs.AppConfig.callback_func'
-        });
-        return CouchPotatoModel.__super__.fetch.call(this, options);
-      };
-
-      return CouchPotatoModel;
-
-    })(Backbone.Model);
     return jjs.NZBAppManager = new NZBApplication();
   })();
 

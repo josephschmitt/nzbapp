@@ -38,15 +38,5 @@ do ->
                 else if not @getCurrentRoute()
                     @trigger 'search:show'
 
-    class jjs.CouchPotatoModel extends Backbone.Model
-        urlRoot: "#{jjs.AppConfig.CouchPotato.urlRoot}/#{jjs.AppConfig.CouchPotato.apiKey}"
-        # localStorage: new Backbone.LocalStorage 'jjs.NZBApplication.Entities.APIToken'
-        fetch: (options={}) ->
-            options = _.extend options, 
-                dataType: 'jsonp'
-                jsonp: 'callback_func'
-                jsonpCallback: options.jsonpCallback or 'jjs.AppConfig.callback_func'
-            super options
-
     # Init the app
     jjs.NZBAppManager = new NZBApplication()
