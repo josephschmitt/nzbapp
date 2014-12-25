@@ -80,7 +80,14 @@ module.exports = function(grunt) {
 			    fonts_dest: 'public_html/webfonts/lib',
 				options: {
 					keepExpandedHierarchy: false,
-					packageSpecific: {},
+					packageSpecific: {
+						foundation: {
+							dest: 'scss/',
+							files: ['scss/**'],
+							keepExpandedHierarchy: true,
+							stripGlobBase: true
+						}
+					},
 					ignorePackages: ['modernizr']
 				}
 			},
