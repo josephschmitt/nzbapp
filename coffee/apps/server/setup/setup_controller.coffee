@@ -10,4 +10,4 @@ jjs.NZBAppManager.module 'ServersApp.Setup', (ServersSetup, NZBAppManager, Backb
 				serverSettings.on 'change', -> ServersSetup.Controller.saveSettings()
 		saveSettings: ->
 			NZBAppManager.execute 'tabs:show'
-			NZBAppManager.checkServerSettings()
+			NZBAppManager.checkServerSettings(true)

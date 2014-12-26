@@ -60,19 +60,13 @@
         return this.modalRegion.transitionToView();
       };
 
-      NZBApplication.prototype.checkServerSettings = function() {
+      NZBApplication.prototype.checkServerSettings = function(redirect) {
         return $.when(this.request('servers:entities')).done((function(_this) {
           return function(serverSettings) {
             if (!_this.request('servers:entities:valid:any')) {
               return _this.trigger('servers:show');
-            } else if (!_this.getCurrentRoute()) {
-              if (!serverSettings.filter(function(setting) {
-                return !!this.request('servers:entities:valid', setting.get('serverName'));
-              }).length) {
-                return _this.trigger('servers:show');
-              } else {
-                return _this.trigger('search:show');
-              }
+            } else if (!_this.getCurrentRoute() || redirect) {
+              return _this.trigger('home:show');
             }
           };
         })(this));
