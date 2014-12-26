@@ -12,10 +12,14 @@
               collection: serverSettings
             }));
             return serverSettings.on('change', function() {
-              return NZBAppManager.trigger('home:show');
+              return ServersSetup.Controller.saveSettings();
             });
           };
         })(this));
+      },
+      saveSettings: function() {
+        NZBAppManager.execute('tabs:show');
+        return NZBAppManager.trigger('home:show');
       }
     };
   });

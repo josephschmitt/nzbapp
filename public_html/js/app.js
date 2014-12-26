@@ -67,7 +67,7 @@
         }
         return $.when(this.request('servers:entities')).done((function(_this) {
           return function(serverSettings) {
-            if (!_this.request('servers:entities:valid')) {
+            if (!_this.request('servers:entities:valid:any')) {
               return _this.trigger('servers:show');
             } else if (!_this.getCurrentRoute()) {
               return _this.trigger('search:show');

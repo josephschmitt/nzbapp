@@ -40,17 +40,20 @@
           name: 'Movies',
           url: 'movies',
           icon: 'fi-ticket',
-          trigger: 'movies:list'
+          trigger: 'movies:list',
+          serverName: 'CouchPotato'
         }, {
           name: 'Shows',
           url: 'shows',
           icon: 'fi-monitor',
-          trigger: 'shows:list'
+          trigger: 'shows:list',
+          serverName: 'SickBeard'
         }, {
           name: 'Queue',
           url: 'queue',
           icon: 'fi-download',
-          trigger: 'queue:list'
+          trigger: 'queue:list',
+          serverName: 'SABnzbd'
         }, {
           name: 'Settings',
           url: 'settings',

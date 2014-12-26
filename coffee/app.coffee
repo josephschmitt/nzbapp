@@ -33,7 +33,7 @@ do ->
             if Backbone.history then Backbone.history.start()
 
             $.when(@request('servers:entities')).done (serverSettings) =>
-                if not @request 'servers:entities:valid'
+                if not @request 'servers:entities:valid:any'
                     @trigger 'servers:show'
                 else if not @getCurrentRoute()
                     @trigger 'search:show'

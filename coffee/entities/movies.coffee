@@ -13,7 +13,6 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
                 super(attributes, options)
 
     class Entities.MovieResults extends Backbone.Collection
-        storeName: 'movieResultsCollection'
         model: Entities.MovieResult
         fetch: (options={}) ->
             options = _.extend options, 

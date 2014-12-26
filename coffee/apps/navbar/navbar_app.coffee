@@ -3,6 +3,9 @@ jjs = window.jjs = (window.jjs or {})
 
 jjs.NZBAppManager.module 'NavbarApp', (Navbar, NZBAppManager, Backbone, Marionette, $, _) ->
 
+	NZBAppManager.commands.setHandler 'tabs:show', (name) ->
+		Navbar.Tabs.Controller.showTabs()
+
 	NZBAppManager.commands.setHandler 'tabs:active:set', (name) ->
 		Navbar.Tabs.Controller.setActive(name)
 

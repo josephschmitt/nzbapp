@@ -31,9 +31,14 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
     NZBAppManager.reqres.setHandler 'servers:entities', ->
         defer.promise()
 
-    NZBAppManager.reqres.setHandler 'servers:entities:valid', ->
+    NZBAppManager.reqres.setHandler 'servers:entities:valid', (server) ->
+        valuePresent = (value) -> 
+            !!collection.findWhere(name: server)?.get(value)
+        valuePresent('token') and valuePresent('serverUrl')
+
+    NZBAppManager.reqres.setHandler 'servers:entities:valid:any', ->
         valuePresent = (value) ->
-            !!collection.find (model) -> !!model.get(value)
+            !!collection.find (model) -> !!model?.get(value)
         valuePresent('token') and valuePresent('serverUrl')
 
     NZBAppManager.reqres.setHandler 'servers:entities:settings', ->

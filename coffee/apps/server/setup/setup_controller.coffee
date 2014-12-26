@@ -7,5 +7,7 @@ jjs.NZBAppManager.module 'ServersApp.Setup', (ServersSetup, NZBAppManager, Backb
 			$.when(NZBAppManager.request('servers:entities')).done (serverSettings) =>
 				NZBAppManager.mainRegion.show new ServersSetup.Layout
 					collection: serverSettings
-				serverSettings.on 'change', -> 
-		            NZBAppManager.trigger 'home:show'
+				serverSettings.on 'change', -> ServersSetup.Controller.saveSettings()
+		saveSettings: ->
+			NZBAppManager.execute 'tabs:show'
+			NZBAppManager.trigger 'home:show'

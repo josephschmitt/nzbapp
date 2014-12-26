@@ -30,7 +30,10 @@
 
       TabView.prototype.render = function() {
         TabView.__super__.render.apply(this, arguments);
-        return this.$el.attr('href', "#" + (this.model.get('url'))).toggleClass('active', !!this.model.get('active'));
+        this.$el.attr('href', "#" + (this.model.get('url'))).toggleClass('active', !!this.model.get('active'));
+        if (this.model.get('serverName')) {
+          return this.$el.toggle(NZBAppManager.request('servers:entities:valid', this.model.get('serverName')));
+        }
       };
 
       TabView.prototype.navigate = function(e) {
@@ -50,9 +53,40 @@
 
       TabsView.prototype.childView = Tabs.TabView;
 
-      TabsView.prototype.className = 'icon-bar five-up';
+      TabsView.prototype.className = 'icon-bar';
 
       TabsView.prototype.tagName = 'nav';
+
+      TabsView.prototype.tabClasses = ['two-up', 'three-up', 'four-up', 'five-up'];
+
+      TabsView.prototype.activeTabCount = function() {
+        var count, models;
+        models = this.collection.filter(function(model) {
+          return !!(model != null ? model.get('serverName') : void 0);
+        });
+        return count = models.reduce(function(memo, num) {
+          if (memo.get) {
+            if (NZBAppManager.request('servers:entities:valid', memo.get('serverName'))) {
+              memo = 1;
+            } else {
+              memo = 0;
+            }
+          }
+          if (num.get) {
+            if (NZBAppManager.request('servers:entities:valid', num.get('serverName'))) {
+              num = 1;
+            } else {
+              num = 0;
+            }
+          }
+          return memo + num;
+        });
+      };
+
+      TabsView.prototype.render = function() {
+        TabsView.__super__.render.apply(this, arguments);
+        return this.el.className = "icon-bar " + this.tabClasses[this.activeTabCount()];
+      };
 
       return TabsView;
 

@@ -58,11 +58,21 @@
     NZBAppManager.reqres.setHandler('servers:entities', function() {
       return defer.promise();
     });
-    NZBAppManager.reqres.setHandler('servers:entities:valid', function() {
+    NZBAppManager.reqres.setHandler('servers:entities:valid', function(server) {
+      var valuePresent;
+      valuePresent = function(value) {
+        var _ref;
+        return !!((_ref = collection.findWhere({
+          name: server
+        })) != null ? _ref.get(value) : void 0);
+      };
+      return valuePresent('token') && valuePresent('serverUrl');
+    });
+    NZBAppManager.reqres.setHandler('servers:entities:valid:any', function() {
       var valuePresent;
       valuePresent = function(value) {
         return !!collection.find(function(model) {
-          return !!model.get(value);
+          return !!(model != null ? model.get(value) : void 0);
         });
       };
       return valuePresent('token') && valuePresent('serverUrl');

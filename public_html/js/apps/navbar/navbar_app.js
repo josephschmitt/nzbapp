@@ -4,6 +4,9 @@
   jjs = window.jjs = window.jjs || {};
 
   jjs.NZBAppManager.module('NavbarApp', function(Navbar, NZBAppManager, Backbone, Marionette, $, _) {
+    NZBAppManager.commands.setHandler('tabs:show', function(name) {
+      return Navbar.Tabs.Controller.showTabs();
+    });
     NZBAppManager.commands.setHandler('tabs:active:set', function(name) {
       return Navbar.Tabs.Controller.setActive(name);
     });

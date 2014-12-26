@@ -10,9 +10,9 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
 	initTabs = ->
 		Entities.tabs = new Entities.TabsCollection [
 			{ name: 'Search', url: 'search', icon: 'fi-magnifying-glass', trigger: 'search:show' }
-			{ name: 'Movies', url: 'movies', icon: 'fi-ticket', trigger: 'movies:list' }
-			{ name: 'Shows', url: 'shows', icon: 'fi-monitor', trigger: 'shows:list' }
-			{ name: 'Queue', url: 'queue', icon: 'fi-download', trigger: 'queue:list' }
+			{ name: 'Movies', url: 'movies', icon: 'fi-ticket', trigger: 'movies:list', serverName: 'CouchPotato' }
+			{ name: 'Shows', url: 'shows', icon: 'fi-monitor', trigger: 'shows:list', serverName: 'SickBeard' }
+			{ name: 'Queue', url: 'queue', icon: 'fi-download', trigger: 'queue:list', serverName: 'SABnzbd' }
 			{ name: 'Settings', url: 'settings', icon: 'fi-widget', trigger: 'servers:show' }
 		]
 

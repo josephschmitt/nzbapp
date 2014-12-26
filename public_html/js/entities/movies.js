@@ -35,8 +35,6 @@
         return MovieResults.__super__.constructor.apply(this, arguments);
       }
 
-      MovieResults.prototype.storeName = 'movieResultsCollection';
-
       MovieResults.prototype.model = Entities.MovieResult;
 
       MovieResults.prototype.fetch = function(options) {
