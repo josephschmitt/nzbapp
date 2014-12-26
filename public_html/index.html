@@ -63,7 +63,7 @@
     <script type="text/template" id="search-template">
         <h2 class="text-center">Search</h2>
         <div class="row">
-            <div class="small-12 search-container">
+            <div class="small-10 small-offset-1 search-container">
                 <input type="search" placeholder="Search for a Movie or TV Show" />
             </div>
         </div>
@@ -78,6 +78,22 @@
             
         </div>
     </script>
+
+    <script type="text/template" id="movie-list-template">
+        <div class="small-2">
+            <div class="th">
+              <img src="<%- _.first(data.images.poster) %>">
+            </div>
+        </div>
+        <div class="small-9">
+            <h3><%= data.title || data.original_title %></h3>
+            <h4 class="subtitle"><%= data.year %></h4>
+            <p><%= data.tagline %></p>
+        </div>
+        <div class="small-1">
+            <a class="fi-plus"></a>
+        </div>
+    </script>    
     
     <!-- injector:js -->
     <script src="js/lib/jquery.js"></script>
@@ -88,13 +104,15 @@
     <script src="js/lib/backbone.marionette.js"></script>
     <script src="js/lib/backbone.wreqr.js"></script>
     <script src="js/lib/fastclick.js"></script>
-    <script src="js/lib/foundation.js"></script>
     <script src="js/lib/jquery.cookie.js"></script>
     <script src="js/lib/jquery.placeholder.js"></script>
     <script src="config.js"></script>
     <script src="js/transition-region.js"></script>
     <script src="js/app.js"></script>
     <script src="js/apps/config/storage/localstorage.js"></script>
+    <script src="js/apps/movies/list/list_controller.js"></script>
+    <script src="js/apps/movies/list/list_view.js"></script>
+    <script src="js/apps/movies/movies_app.js"></script>
     <script src="js/apps/navbar/navbar_app.js"></script>
     <script src="js/apps/navbar/tabs/tab_view.js"></script>
     <script src="js/apps/navbar/tabs/tabs_controller.js"></script>

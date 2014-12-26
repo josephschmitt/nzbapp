@@ -35,6 +35,12 @@ a:hover {
           flex: 1;
 }
 
+.movies-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
 /*  Base page styles */
 * {
   text-rendering: optimizeLegibility;

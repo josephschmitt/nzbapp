@@ -40,17 +40,17 @@
           name: 'Movies',
           url: 'movies',
           icon: 'fi-ticket',
-          trigger: 'movies:show'
+          trigger: 'movies:list'
         }, {
           name: 'Shows',
           url: 'shows',
           icon: 'fi-monitor',
-          trigger: 'shows:show'
+          trigger: 'shows:list'
         }, {
           name: 'Queue',
           url: 'queue',
           icon: 'fi-download',
-          trigger: 'queue:show'
+          trigger: 'queue:list'
         }, {
           name: 'Settings',
           url: 'settings',
