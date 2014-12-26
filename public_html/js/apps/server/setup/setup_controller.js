@@ -19,7 +19,7 @@
       },
       saveSettings: function() {
         NZBAppManager.execute('tabs:show');
-        return NZBAppManager.trigger('home:show');
+        return NZBAppManager.checkServerSettings();
       }
     };
   });

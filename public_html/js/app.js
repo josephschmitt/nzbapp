@@ -60,20 +60,30 @@
         return this.modalRegion.transitionToView();
       };
 
-      NZBApplication.prototype.start = function() {
-        NZBApplication.__super__.start.apply(this, arguments);
-        if (Backbone.history) {
-          Backbone.history.start();
-        }
+      NZBApplication.prototype.checkServerSettings = function() {
         return $.when(this.request('servers:entities')).done((function(_this) {
           return function(serverSettings) {
             if (!_this.request('servers:entities:valid:any')) {
               return _this.trigger('servers:show');
             } else if (!_this.getCurrentRoute()) {
-              return _this.trigger('search:show');
+              if (!serverSettings.filter(function(setting) {
+                return !!this.request('servers:entities:valid', setting.get('serverName'));
+              }).length) {
+                return _this.trigger('servers:show');
+              } else {
+                return _this.trigger('search:show');
+              }
             }
           };
         })(this));
+      };
+
+      NZBApplication.prototype.start = function() {
+        NZBApplication.__super__.start.apply(this, arguments);
+        if (Backbone.history) {
+          Backbone.history.start();
+        }
+        return this.checkServerSettings();
       };
 
       return NZBApplication;

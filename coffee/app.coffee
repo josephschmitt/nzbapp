@@ -28,15 +28,19 @@ do ->
         dismissModal: =>
             @modalRegion.on 'empty', => @modalRegion.$el.hide()
             @modalRegion.transitionToView()
-        start: ->
-            super
-            if Backbone.history then Backbone.history.start()
-
+        checkServerSettings: ->
             $.when(@request('servers:entities')).done (serverSettings) =>
                 if not @request 'servers:entities:valid:any'
                     @trigger 'servers:show'
                 else if not @getCurrentRoute()
-                    @trigger 'search:show'
+                    if not serverSettings.filter((setting)->!!@request('servers:entities:valid', setting.get('serverName'))).length
+                        @trigger 'servers:show'
+                    else
+                        @trigger 'search:show'
+        start: ->
+            super
+            if Backbone.history then Backbone.history.start()
+            @checkServerSettings()
 
     # Init the app
     jjs.NZBAppManager = new NZBApplication()
