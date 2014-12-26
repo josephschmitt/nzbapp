@@ -15,6 +15,8 @@
         return MovieResult.__super__.constructor.apply(this, arguments);
       }
 
+      MovieResult.prototype.idAttribute = '_id';
+
       MovieResult.prototype.set = function(attributes, options) {
         if (attributes.info) {
           return MovieResult.__super__.set.call(this, attributes.info, options);
@@ -32,6 +34,8 @@
       function MovieResults() {
         return MovieResults.__super__.constructor.apply(this, arguments);
       }
+
+      MovieResults.prototype.storeName = 'movieResultsCollection';
 
       MovieResults.prototype.model = Entities.MovieResult;
 

@@ -5,9 +5,9 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
     class ServerSettings extends Backbone.Model
 
     class ServersCollection extends Backbone.Collection
-        id: 'serverSettingsCollection'
         model: ServerSettings
-        localStorage: new Backbone.LocalStorage 'serverSettingsCollection'
+        local: true
+        storeName: 'serverSettingsCollection'
 
     couchPotatoServer = new ServerSettings
         id: 'couchPotatoServerSettings'
@@ -21,12 +21,11 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
 
     defer = $.Deferred()
     
-    collection = new ServersCollection([couchPotatoServer, sickBeardServer, sabnzbdServer])
-    collection.sync 'read', collection,
-        error: ->
-            defer.resolve collection
-        success: (models) ->
-            collection.set models, merge: true, add: false, remove: false
+    collection = new ServersCollection()
+    collection.fetch
+        success: (collection, models, options) ->
+            if not models.length
+                collection.set [couchPotatoServer, sickBeardServer, sabnzbdServer]
             defer.resolve collection
 
     NZBAppManager.reqres.setHandler 'servers:entities', ->

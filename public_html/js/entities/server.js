@@ -24,11 +24,11 @@
         return ServersCollection.__super__.constructor.apply(this, arguments);
       }
 
-      ServersCollection.prototype.id = 'serverSettingsCollection';
-
       ServersCollection.prototype.model = ServerSettings;
 
-      ServersCollection.prototype.localStorage = new Backbone.LocalStorage('serverSettingsCollection');
+      ServersCollection.prototype.local = true;
+
+      ServersCollection.prototype.storeName = 'serverSettingsCollection';
 
       return ServersCollection;
 
@@ -46,17 +46,12 @@
       name: 'SABnzbd'
     });
     defer = $.Deferred();
-    collection = new ServersCollection([couchPotatoServer, sickBeardServer, sabnzbdServer]);
-    collection.sync('read', collection, {
-      error: function() {
-        return defer.resolve(collection);
-      },
-      success: function(models) {
-        collection.set(models, {
-          merge: true,
-          add: false,
-          remove: false
-        });
+    collection = new ServersCollection();
+    collection.fetch({
+      success: function(collection, models, options) {
+        if (!models.length) {
+          collection.set([couchPotatoServer, sickBeardServer, sabnzbdServer]);
+        }
         return defer.resolve(collection);
       }
     });

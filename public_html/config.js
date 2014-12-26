@@ -12,6 +12,11 @@
             apiKey: '0df35b76f3b232a84543c941b1394ed6'
         },
 
+        SABnzbd: {
+            urlRoot: 'http://jbox.no-ip.biz:8080',
+            apiKey: '508a317b1bba9ef9db60b7291112ff55'
+        },
+
         callback_func: function () {
         }
 	};

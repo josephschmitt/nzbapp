@@ -12,11 +12,7 @@
               collection: serverSettings
             }));
             return serverSettings.on('change', function() {
-              return serverSettings.sync('update', serverSettings, {
-                success: function() {
-                  return NZBAppManager.trigger('home:show');
-                }
-              });
+              return NZBAppManager.trigger('home:show');
             });
           };
         })(this));

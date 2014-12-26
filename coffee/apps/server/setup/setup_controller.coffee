@@ -8,5 +8,4 @@ jjs.NZBAppManager.module 'ServersApp.Setup', (ServersSetup, NZBAppManager, Backb
 				NZBAppManager.mainRegion.show new ServersSetup.Layout
 					collection: serverSettings
 				serverSettings.on 'change', -> 
-		            serverSettings.sync 'update', serverSettings,
-		                success: -> NZBAppManager.trigger 'home:show'
+		            NZBAppManager.trigger 'home:show'
