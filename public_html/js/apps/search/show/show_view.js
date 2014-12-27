@@ -27,11 +27,11 @@
 
         SearchView.prototype.render = function() {
           SearchView.__super__.render.apply(this, arguments);
+          clearTimeout(this.timeout);
           return this.ui.searchField.on('keydown', (function(_this) {
             return function(e) {
               clearTimeout(_this.timeout);
               return _this.timeout = setTimeout(function() {
-                clearTimeout(_this.timeout);
                 return _this.search(e);
               }, 300);
             };

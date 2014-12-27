@@ -12,10 +12,10 @@ do ->
                 searchField: 'input[type="search"]'
             render: ->
                 super
+                clearTimeout @timeout
                 @ui.searchField.on 'keydown', (e) =>
                     clearTimeout @timeout
                     @timeout = setTimeout =>
-                        clearTimeout @timeout
                         @search e
                     , 300
             renderResults: (view) ->
