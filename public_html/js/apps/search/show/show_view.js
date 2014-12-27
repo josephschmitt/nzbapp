@@ -40,7 +40,10 @@
           })(this));
           return this.ui.type.on('change', (function(_this) {
             return function(e) {
-              return _this.model.set('type', _this.ui.type.filter(':checked').val());
+              _this.model.set('type', _this.ui.type.filter(':checked').val());
+              if (_this.model.get('term')) {
+                return _this.search(e);
+              }
             };
           })(this));
         };

@@ -23,6 +23,7 @@ do ->
                     , 300
                 @ui.type.on 'change', (e) =>
                     @model.set 'type', @ui.type.filter(':checked').val()
+                    if @model.get 'term' then @search(e)
             renderResults: (view) ->
                 @resultsRegion.show view
             search: (e) ->
