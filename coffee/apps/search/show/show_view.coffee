@@ -13,18 +13,25 @@ do ->
                 type: 'input[name="type"]'
             render: ->
                 super
-                if not @model then @model = new Backbone.Model()
+                if not @model
+                    @model = new Backbone.Model type: @getType(), value: @getTerm()
+
                 clearTimeout @timeout
                 @ui.searchField.on 'keydown', (e) =>
-                    @model.set 'value', @ui.searchField.val()
+                    @model.set 'value', @getTerm()
 
                     clearTimeout @timeout
                     @timeout = setTimeout =>
                         @search e
                     , 300
+
                 @ui.type.on 'change', (e) =>
-                    @model.set 'type', @ui.type.filter(':checked').val()
-                    if @model.get 'term' then @search(e)
+                    @model.set 'type', @getType()
+                    if @model.get 'value' then @search(e)
+            getTerm: ->
+                @ui.searchField.val()
+            getType: ->
+                @ui.type.filter(':checked').val()
             renderResults: (view) ->
                 @resultsRegion.show view
             search: (e) ->

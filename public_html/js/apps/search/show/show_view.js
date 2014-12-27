@@ -29,12 +29,15 @@
         SearchView.prototype.render = function() {
           SearchView.__super__.render.apply(this, arguments);
           if (!this.model) {
-            this.model = new Backbone.Model();
+            this.model = new Backbone.Model({
+              type: this.getType(),
+              value: this.getTerm()
+            });
           }
           clearTimeout(this.timeout);
           this.ui.searchField.on('keydown', (function(_this) {
             return function(e) {
-              _this.model.set('value', _this.ui.searchField.val());
+              _this.model.set('value', _this.getTerm());
               clearTimeout(_this.timeout);
               return _this.timeout = setTimeout(function() {
                 return _this.search(e);
@@ -43,12 +46,20 @@
           })(this));
           return this.ui.type.on('change', (function(_this) {
             return function(e) {
-              _this.model.set('type', _this.ui.type.filter(':checked').val());
-              if (_this.model.get('term')) {
+              _this.model.set('type', _this.getType());
+              if (_this.model.get('value')) {
                 return _this.search(e);
               }
             };
           })(this));
+        };
+
+        SearchView.prototype.getTerm = function() {
+          return this.ui.searchField.val();
+        };
+
+        SearchView.prototype.getType = function() {
+          return this.ui.type.filter(':checked').val();
         };
 
         SearchView.prototype.renderResults = function(view) {

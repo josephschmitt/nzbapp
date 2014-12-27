@@ -2,25 +2,25 @@
 jjs = window.jjs = (window.jjs or {})
 
 jjs.NZBAppManager.module 'SearchApp.Show', (Show, NZBAppManager, Backbone, Marionette, $, _) ->
-    searchView = undefined
-    defer = undefined
+    searchView = null
+    defer = null
     Show.Controller = 
         showSearch: ->
             searchView = new Show.SearchView()
             NZBAppManager.mainRegion.show searchView
         showResultsForSearch: (type, term) ->
-            if not searchView then Show.Controller.showSearch(type, term)
+            if not searchView then Show.Controller.showSearch()
             searchView.model = new Backbone.Model type: type, value: term
             searchView.render()
 
-            defer?.reject()
+            defer?.fail()
 
             switch type
                 when 'movies'
                     defer = $.when(NZBAppManager.request('movies:search', term)).done (results) ->
-                        defer = undefined
+                        defer = null
                         searchView.renderResults new NZBAppManager.MoviesApp.List.Movies collection: results
                 when 'shows'
                     defer = $.when(NZBAppManager.request('shows:search', term)).done (results) ->
-                        defer = undefined
+                        defer = null
                         searchView.renderResults new NZBAppManager.ShowsApp.List.Shows collection: results
