@@ -28,6 +28,9 @@
 
         SearchView.prototype.render = function() {
           SearchView.__super__.render.apply(this, arguments);
+          if (!this.model) {
+            this.model = new Backbone.Model();
+          }
           clearTimeout(this.timeout);
           this.ui.searchField.on('keydown', (function(_this) {
             return function(e) {
@@ -53,8 +56,9 @@
         };
 
         SearchView.prototype.search = function(e) {
+          var _ref, _ref1;
           e.preventDefault();
-          return NZBAppManager.trigger('search:results:show', this.model.get('type'), this.model.get('value'));
+          return NZBAppManager.trigger('search:results:show', (_ref = this.model) != null ? _ref.get('type') : void 0, (_ref1 = this.model) != null ? _ref1.get('value') : void 0);
         };
 
         return SearchView;

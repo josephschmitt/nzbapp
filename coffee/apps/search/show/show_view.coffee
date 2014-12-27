@@ -13,6 +13,7 @@ do ->
                 type: 'input[name="type"]'
             render: ->
                 super
+                if not @model then @model = new Backbone.Model()
                 clearTimeout @timeout
                 @ui.searchField.on 'keydown', (e) =>
                     @model.set 'value', @ui.searchField.val()
@@ -28,4 +29,4 @@ do ->
                 @resultsRegion.show view
             search: (e) ->
                 e.preventDefault()
-                NZBAppManager.trigger 'search:results:show', @model.get('type'), @model.get('value')
+                NZBAppManager.trigger 'search:results:show', @model?.get('type'), @model?.get('value')
