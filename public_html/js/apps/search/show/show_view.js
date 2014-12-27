@@ -6,38 +6,6 @@
     var jjs;
     jjs = window.jjs = window.jjs || {};
     return jjs.NZBAppManager.module('SearchApp.Show', function(Show, NZBAppManager, Backbone, Marionette, $, _) {
-      Show.Result = (function(_super) {
-        __extends(Result, _super);
-
-        function Result() {
-          return Result.__super__.constructor.apply(this, arguments);
-        }
-
-        Result.prototype.template = '#search-result-template';
-
-        Result.prototype.className = 'search-result row';
-
-        Result.prototype.tagName = 'li';
-
-        return Result;
-
-      })(Marionette.ItemView);
-      Show.SearchResults = (function(_super) {
-        __extends(SearchResults, _super);
-
-        function SearchResults() {
-          return SearchResults.__super__.constructor.apply(this, arguments);
-        }
-
-        SearchResults.prototype.tagName = 'ul';
-
-        SearchResults.prototype.className = 'search-results';
-
-        SearchResults.prototype.childView = Show.Result;
-
-        return SearchResults;
-
-      })(Marionette.CollectionView);
       return Show.SearchView = (function(_super) {
         __extends(SearchView, _super);
 
@@ -47,12 +15,36 @@
 
         SearchView.prototype.template = '#search-template';
 
+        SearchView.prototype.timeout = 0;
+
         SearchView.prototype.regions = {
           resultsRegion: '#search-results-region'
         };
 
+        SearchView.prototype.ui = {
+          searchField: 'input[type="search"]'
+        };
+
         SearchView.prototype.render = function() {
-          return SearchView.__super__.render.apply(this, arguments);
+          SearchView.__super__.render.apply(this, arguments);
+          return this.ui.searchField.on('keydown', (function(_this) {
+            return function(e) {
+              clearTimeout(_this.timeout);
+              return _this.timeout = setTimeout(function() {
+                clearTimeout(_this.timeout);
+                return _this.search(e);
+              }, 300);
+            };
+          })(this));
+        };
+
+        SearchView.prototype.renderResults = function(view) {
+          return this.resultsRegion.show(view);
+        };
+
+        SearchView.prototype.search = function(e) {
+          e.preventDefault();
+          return NZBAppManager.trigger('search:results:show', 'movies', $(e.currentTarget).val());
         };
 
         return SearchView;

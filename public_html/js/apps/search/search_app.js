@@ -15,7 +15,9 @@
         return NZBAppManager.execute('tabs:active:set', 'Search');
       };
 
-      RoutesController.prototype.listSearchResults = function() {};
+      RoutesController.prototype.showResultsForSearch = function(type, term) {
+        return Search.Show.Controller.showResultsForSearch(type, term);
+      };
 
       return RoutesController;
 
@@ -29,7 +31,7 @@
 
       Router.prototype.appRoutes = {
         'search': 'showEmptySearch',
-        'search/results': 'listSearchResults'
+        'search/:type/:term': 'showResultsForSearch'
       };
 
       return Router;
@@ -44,9 +46,9 @@
       NZBAppManager.navigate('search');
       return routesController.showEmptySearch();
     });
-    NZBAppManager.on('search:results:show', function() {
-      NZBAppManager.navigate('search/results');
-      return routesController.listSearchResults();
+    NZBAppManager.on('search:results:show', function(type, term) {
+      NZBAppManager.navigate("search/" + type + "/" + term);
+      return routesController.showResultsForSearch(type, term);
     });
     return NZBAppManager.addInitializer(function() {
       return new Search.Router({
