@@ -10,16 +10,21 @@ do ->
                 resultsRegion: '#search-results-region'
             ui:
                 searchField: 'input[type="search"]'
+                type: 'input[name="type"]'
             render: ->
                 super
                 clearTimeout @timeout
                 @ui.searchField.on 'keydown', (e) =>
+                    @model.set 'value', @ui.searchField.val()
+
                     clearTimeout @timeout
                     @timeout = setTimeout =>
                         @search e
                     , 300
+                @ui.type.on 'change', (e) =>
+                    @model.set 'type', @ui.type.filter(':checked').val()
             renderResults: (view) ->
                 @resultsRegion.show view
             search: (e) ->
                 e.preventDefault()
-                NZBAppManager.trigger 'search:results:show', 'movies', $(e.currentTarget).val()
+                NZBAppManager.trigger 'search:results:show', @model.get('type'), @model.get('value')

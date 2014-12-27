@@ -5,11 +5,13 @@ jjs.NZBAppManager.module 'SearchApp.Show', (Show, NZBAppManager, Backbone, Mario
     searchView = undefined
     defer = undefined
     Show.Controller = 
-        showEmptySearch: ->
+        showSearch: ->
             searchView = new Show.SearchView()
             NZBAppManager.mainRegion.show searchView
         showResultsForSearch: (type, term) ->
-            if not searchView then Show.Controller.showEmptySearch()
+            if not searchView then Show.Controller.showSearch(type, term)
+            searchView.model = new Backbone.Model type: type, value: term
+            searchView.render()
 
             defer?.reject()
 

@@ -67,7 +67,7 @@
         }
       });
       Entities.Shows.onShowsSearch = function(response) {
-        return defer.resolve(shows.set(_.toArray(response.data)));
+        return defer.resolve(shows.set(response.data.results));
       };
       return defer.promise();
     };

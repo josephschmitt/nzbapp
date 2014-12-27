@@ -10,8 +10,8 @@
     Search.RoutesController = (function() {
       function RoutesController() {}
 
-      RoutesController.prototype.showEmptySearch = function() {
-        Search.Show.Controller.showEmptySearch();
+      RoutesController.prototype.showSearch = function() {
+        Search.Show.Controller.showSearch();
         return NZBAppManager.execute('tabs:active:set', 'Search');
       };
 
@@ -30,7 +30,7 @@
       }
 
       Router.prototype.appRoutes = {
-        'search': 'showEmptySearch',
+        'search': 'showSearch',
         'search/:type/:term': 'showResultsForSearch'
       };
 
@@ -40,11 +40,11 @@
     routesController = new Search.RoutesController();
     NZBAppManager.on('home:show', function() {
       NZBAppManager.navigate('search');
-      return routesController.showEmptySearch();
+      return routesController.showSearch();
     });
     NZBAppManager.on('search:show', function() {
       NZBAppManager.navigate('search');
-      return routesController.showEmptySearch();
+      return routesController.showSearch();
     });
     NZBAppManager.on('search:results:show', function(type, term) {
       NZBAppManager.navigate("search/" + type + "/" + term);

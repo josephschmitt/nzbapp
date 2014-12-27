@@ -8,14 +8,19 @@
     searchView = void 0;
     defer = void 0;
     return Show.Controller = {
-      showEmptySearch: function() {
+      showSearch: function() {
         searchView = new Show.SearchView();
         return NZBAppManager.mainRegion.show(searchView);
       },
       showResultsForSearch: function(type, term) {
         if (!searchView) {
-          Show.Controller.showEmptySearch();
+          Show.Controller.showSearch(type, term);
         }
+        searchView.model = new Backbone.Model({
+          type: type,
+          value: term
+        });
+        searchView.render();
         if (defer != null) {
           defer.reject();
         }

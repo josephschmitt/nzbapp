@@ -22,18 +22,25 @@
         };
 
         SearchView.prototype.ui = {
-          searchField: 'input[type="search"]'
+          searchField: 'input[type="search"]',
+          type: 'input[name="type"]'
         };
 
         SearchView.prototype.render = function() {
           SearchView.__super__.render.apply(this, arguments);
           clearTimeout(this.timeout);
-          return this.ui.searchField.on('keydown', (function(_this) {
+          this.ui.searchField.on('keydown', (function(_this) {
             return function(e) {
+              _this.model.set('value', _this.ui.searchField.val());
               clearTimeout(_this.timeout);
               return _this.timeout = setTimeout(function() {
                 return _this.search(e);
               }, 300);
+            };
+          })(this));
+          return this.ui.type.on('change', (function(_this) {
+            return function(e) {
+              return _this.model.set('type', _this.ui.type.filter(':checked').val());
             };
           })(this));
         };
@@ -44,7 +51,7 @@
 
         SearchView.prototype.search = function(e) {
           e.preventDefault();
-          return NZBAppManager.trigger('search:results:show', 'movies', $(e.currentTarget).val());
+          return NZBAppManager.trigger('search:results:show', this.model.get('type'), this.model.get('value'));
         };
 
         return SearchView;

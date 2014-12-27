@@ -64,19 +64,14 @@
         <h1 class="text-center">Search</h1>
         <div class="row">
             <div class="small-10 small-offset-1 search-container">
-                <input type="search" placeholder="Search for a Movie or TV Show" />
+                <input type="search" placeholder="Search for a Movie or TV Show" <% if (data.value) { %>value="<%= data.value %>"<% } %> />
             </div>
         </div>
+        <div class="row">
+            <div class="small-6"><label><input type="radio" name="type" value="movies" <% if (!data.type || data.type == 'movies') { %>checked<% } %> /> Movies</label></div>
+            <div class="small-6"><label><input type="radio" name="type" value="shows" <% if (data.type == 'shows') { %>checked<% } %> /> Shows</label></div>
+        </div>
         <div id="search-results-region"></div>
-    </script>
-
-    <script type="text/template" id="search-result-template">
-        <div class="small-4">
-
-        </div>
-        <div class="small-8">
-            
-        </div>
     </script>
 
     <script type="text/template" id="movie-list-template">
@@ -97,9 +92,10 @@
 
     <script type="text/template" id="show-list-template">
         <div class="small-11">
-            <h3><%= data.show_name %></h3>
-            <h4 class="subtitle"><%= data.network %></h4>
-            <p>Status: <span class="label rounded <% if (data.status != 'Ended' ) { %>success<% } else { %>secondary<% } %>"><%= data.status %></span></p>
+            <h3><%= data.show_name || data.name %></h3>
+            <% if (data.network) { %><h4 class="subtitle"><%= data.network %></h4><% } %>
+            <% if (data.first_aired) { %><h4 class="subtitle">First aired: <%= data.first_aired %></h4><% } %>
+            <% if (data.status) { %><p>Status: <span class="label rounded <% if (data.status != 'Ended' ) { %>success<% } else { %>secondary<% } %>"><%= data.status %></span></p><% } %>
         </div>
         <div class="small-1">
             <a class="fi-plus"></a>

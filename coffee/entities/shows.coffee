@@ -30,7 +30,7 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
 			data: name: term
 
 		Entities.Shows.onShowsSearch = (response) -> 
-			defer.resolve shows.set(_.toArray(response.data))
+			defer.resolve shows.set(response.data.results)
 		defer.promise()
 
 	getShows = () ->
