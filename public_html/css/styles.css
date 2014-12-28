@@ -35,6 +35,10 @@ a:hover {
           flex: 1;
 }
 
+.search-type-item {
+  text-align: center;
+}
+
 .movies-list {
   margin: 0;
   padding: 0;
