@@ -102,6 +102,23 @@
             <a class="button tiny fi-plus"></a>
         </div>
     </script>
+
+    <script type="text/template" id="downloads-template">
+        <h1>Queue</h1>
+        <div id="downloads-queue-region"></div>
+        
+        <h1>History</h1>
+        <div id="downloads-history-region"></div>
+    </script>
+
+    <script type="text/template" id="download-list-template">
+        <div class="small-10 columns">
+            <h4><%= data.name %></h4>
+        </div>
+        <div class="small-2 columns">
+            <a class="button tiny fi-plus"></a>
+        </div>
+    </script>
     
     <!-- injector:js -->
     <script src="js/lib/jquery.js"></script>
@@ -118,6 +135,9 @@
     <script src="config.js"></script>
     <script src="js/transition-region.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/apps/downloads/downloads_app.js"></script>
+    <script src="js/apps/downloads/list/list_controller.js"></script>
+    <script src="js/apps/downloads/list/list_view.js"></script>
     <script src="js/apps/movies/list/list_controller.js"></script>
     <script src="js/apps/movies/list/list_view.js"></script>
     <script src="js/apps/movies/movies_app.js"></script>
@@ -136,6 +156,7 @@
     <script src="js/apps/shows/list/list_view.js"></script>
     <script src="js/apps/shows/shows_app.js"></script>
     <script src="js/entities/api.js"></script>
+    <script src="js/entities/downloads.js"></script>
     <script src="js/entities/movies.js"></script>
     <script src="js/entities/server.js"></script>
     <script src="js/entities/shows.js"></script>

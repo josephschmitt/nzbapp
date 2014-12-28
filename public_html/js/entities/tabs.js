@@ -49,10 +49,10 @@
           trigger: 'shows:list',
           serverName: 'SickBeard'
         }, {
-          name: 'Queue',
-          url: 'queue',
+          name: 'Downloads',
+          url: 'downloads',
           icon: 'fi-download',
-          trigger: 'queue:list',
+          trigger: 'downloads:list',
           serverName: 'SABnzbd'
         }, {
           name: 'Settings',

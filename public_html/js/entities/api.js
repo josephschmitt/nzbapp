@@ -6,7 +6,7 @@
       return NZBAppManager.reqres.setHandler('api:endpoint', function(service, endpoint) {
         var serviceModel;
         serviceModel = NZBAppManager.request('servers:entities:settings:get', service);
-        return "" + (serviceModel.get('serverUrl')) + "/api/" + (serviceModel.get('token')) + "/" + (service === 'SickBeard' ? '?cmd=' : '') + endpoint;
+        return "" + (serviceModel.get('serverUrl')) + "/api/" + (service !== 'SABnzbd' ? serviceModel.get('token') : '') + (service === 'SickBeard' ? '?cmd=' : service === 'SABnzbd' ? '?mode=' : '/') + endpoint + (service === 'SABnzbd' ? '&apikey=' + serviceModel.get('token') + '&output=json' : '');
       });
     });
   })();

@@ -5,4 +5,4 @@ do ->
     jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marionette, $, _) ->
         NZBAppManager.reqres.setHandler 'api:endpoint', (service, endpoint) ->
             serviceModel = NZBAppManager.request('servers:entities:settings:get', service)
-            return "#{serviceModel.get('serverUrl')}/api/#{serviceModel.get('token')}/#{if service is 'SickBeard' then '?cmd=' else ''}#{endpoint}"
+            return "#{serviceModel.get('serverUrl')}/api/#{if service isnt 'SABnzbd' then serviceModel.get('token') else ''}#{if service is 'SickBeard' then '?cmd=' else if service is 'SABnzbd' then '?mode=' else '/'}#{endpoint}#{if service is 'SABnzbd' then '&apikey=' + serviceModel.get('token') + '&output=json' else ''}"
