@@ -28,6 +28,9 @@
       Alert.prototype.render = function() {
         Alert.__super__.render.apply(this, arguments);
         this.$el.attr('data-alert', true);
+        if (this.model.get('status')) {
+          this.$el.addClass(this.model.get('status'));
+        }
         return setTimeout((function(_this) {
           return function() {
             return _this.close();

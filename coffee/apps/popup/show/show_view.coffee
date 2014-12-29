@@ -12,6 +12,8 @@ jjs.NZBAppManager.module 'PopupApp.Show', (Show, NZBAppManager, Backbone, Marion
         render: ->
             super
             @$el.attr 'data-alert', true
+            if @model.get 'status'
+                @$el.addClass @model.get 'status'
             setTimeout =>
                 @close()
             , 3000

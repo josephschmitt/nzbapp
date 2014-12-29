@@ -12,6 +12,14 @@
         return $.when(NZBAppManager.request('shows:list')).done(function(shows) {
           return listShows.setCollection(shows);
         });
+      },
+      addShow: function(show) {
+        return $.when(NZBAppManager.request('show:add', show)).done(function(added) {
+          var message, status;
+          message = added.message;
+          status = added.result === 'success' ? 'success' : 'alert';
+          return NZBAppManager.execute('popup:alert:show', message, status);
+        });
       }
     };
   });

@@ -97,7 +97,7 @@
         }
       });
       Entities.Movies.onMovieAdded = function(response) {
-        return defer.resolve(new Entities.MovieResult(response.movie));
+        return defer.resolve(response);
       };
       return defer.promise();
     };

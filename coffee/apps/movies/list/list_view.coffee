@@ -11,7 +11,7 @@ jjs.NZBAppManager.module 'MoviesApp.List', (List, NZBAppManager, Backbone, Mario
         events:
             'click @ui.add': 'addMovie'
         addMovie: (e) ->
-            e.preventDefault()
+            e?.preventDefault()
             List.Controller.addMovie @model
     
     class List.Movies extends Marionette.CollectionView

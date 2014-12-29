@@ -58,8 +58,7 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
                 identifier: movie?.get 'imdb'
 
         Entities.Movies.onMovieAdded = (response) -> 
-            defer.resolve new Entities.MovieResult(response.movie)
-
+            defer.resolve response
         defer.promise()
 
     NZBAppManager.reqres.setHandler 'movies:search', (term) ->

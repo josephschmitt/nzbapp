@@ -8,3 +8,8 @@ jjs.NZBAppManager.module 'ShowsApp.List', (List, NZBAppManager, Backbone, Marion
 			NZBAppManager.mainRegion.show listShows
 			$.when(NZBAppManager.request('shows:list')).done (shows) ->
 				listShows.setCollection shows
+		addShow: (show) ->
+			$.when(NZBAppManager.request('show:add', show)).done (added) ->
+				message = added.message
+				status = if added.result is 'success' then 'success' else 'alert'
+				NZBAppManager.execute 'popup:alert:show', message, status

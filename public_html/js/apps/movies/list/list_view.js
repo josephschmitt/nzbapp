@@ -26,7 +26,9 @@
       };
 
       Movie.prototype.addMovie = function(e) {
-        e.preventDefault();
+        if (e != null) {
+          e.preventDefault();
+        }
         return List.Controller.addMovie(this.model);
       };
 

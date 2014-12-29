@@ -5,10 +5,11 @@
 
   jjs.NZBAppManager.module('PopupApp.Show', function(Show, NZBAppManager, Backbone, Marionette, $, _) {
     return Show.Controller = {
-      showAlert: function(message) {
+      showAlert: function(message, status) {
         return NZBAppManager.showModal(new Show.Alert({
           model: new Backbone.Model({
-            message: message
+            message: message,
+            status: status
           })
         }));
       },

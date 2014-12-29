@@ -17,6 +17,21 @@
 
       Show.prototype.className = 'row show-list-item';
 
+      Show.prototype.ui = {
+        add: '.add-item-button'
+      };
+
+      Show.prototype.events = {
+        'click @ui.add': 'addShow'
+      };
+
+      Show.prototype.addShow = function(e) {
+        if (e != null) {
+          e.preventDefault();
+        }
+        return List.Controller.addShow(this.model);
+      };
+
       return Show;
 
     })(Marionette.ItemView);

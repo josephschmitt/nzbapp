@@ -6,7 +6,7 @@
   jjs = window.jjs = window.jjs || {};
 
   jjs.NZBAppManager.module('Entities', function(Entities, NZBAppManager, Backbone, Marionette, $, _) {
-    var getShow, getShowSearchResults, getShows;
+    var addShow, getShow, getShowSearchResults, getShows;
     Entities.Shows = {};
     Entities.ShowResult = (function(_super) {
       __extends(ShowResult, _super);
@@ -102,14 +102,33 @@
       };
       return defer.promise();
     };
+    addShow = function(show) {
+      var defer;
+      defer = $.Deferred();
+      $.ajax(NZBAppManager.request('api:endpoint', 'SickBeard', 'show.addnew'), {
+        dataType: 'jsonp',
+        jsonp: 'callback',
+        jsonpCallback: 'jjs.NZBAppManager.Entities.Shows.onShowAdded',
+        data: {
+          tvdbid: show.get('tvdbid')
+        }
+      });
+      Entities.Shows.onShowAdded = function(response) {
+        return defer.resolve(response);
+      };
+      return defer.promise();
+    };
     NZBAppManager.reqres.setHandler('shows:search', function(term) {
       return getShowSearchResults(term);
     });
     NZBAppManager.reqres.setHandler('shows:list', function() {
       return getShows();
     });
-    return NZBAppManager.reqres.setHandler('show:info', function(tvdbid) {
+    NZBAppManager.reqres.setHandler('show:info', function(tvdbid) {
       return getShow(tvdbid);
+    });
+    return NZBAppManager.reqres.setHandler('show:add', function(show) {
+      return addShow(show);
     });
   });
 

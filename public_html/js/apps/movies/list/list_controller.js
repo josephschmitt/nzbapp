@@ -15,7 +15,10 @@
       },
       addMovie: function(movie) {
         return $.when(NZBAppManager.request('movies:add', movie)).done(function(added) {
-          return NZBAppManager.execute('popup:alert:show', "Added " + (added.get('original_title')) + " (" + (added.get('year')) + ") to your list");
+          var message, status;
+          message = "Added " + (added.movie.title || added.movie.info.original_title) + " (" + added.movie.info.year + ") to your list";
+          status = added.success ? 'success' : 'alert';
+          return NZBAppManager.execute('popup:alert:show', message, status);
         });
       }
     };
