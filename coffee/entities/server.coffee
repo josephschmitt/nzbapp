@@ -25,7 +25,10 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
     collection.fetch
         success: (collection, models, options) ->
             if not models.length
-                collection.set [couchPotatoServer, sickBeardServer, sabnzbdServer]
+                if jjs.ServerSettings?.length
+                    collection.set jjs.ServerSettings
+                else
+                    collection.set [couchPotatoServer, sickBeardServer, sabnzbdServer]
             defer.resolve collection
 
     NZBAppManager.reqres.setHandler 'servers:entities', ->

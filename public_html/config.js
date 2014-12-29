@@ -1,23 +1,24 @@
 (function() {
 	var jjs = window.jjs = window.jjs || {};
 
-	jjs.AppConfig = {
-        CouchPotato: {
-            urlRoot: 'http://jbox.no-ip.biz:5050',
-            apiKey: 'ab4d4591a05b4ab0809124974c7c6050'
+	jjs.ServerSettings = [
+        {
+            id: 'couchPotatoServerSettings',
+            name: 'CouchPotato',
+            serverUrl: 'http://jbox.no-ip.biz:5050',
+            token: 'ab4d4591a05b4ab0809124974c7c6050'
         },
-        
-        SickBeard: {
-            urlRoot: 'http://jbox.no-ip.biz:9090',
-            apiKey: '0df35b76f3b232a84543c941b1394ed6'
+        {
+            id: 'sickBeardServerSettings',
+            name: 'SickBeard',
+            serverUrl: 'http://jbox.no-ip.biz:9090',
+            token: '0df35b76f3b232a84543c941b1394ed6'
         },
-
-        SABnzbd: {
-            urlRoot: 'http://jbox.no-ip.biz:8080',
-            apiKey: '508a317b1bba9ef9db60b7291112ff55'
-        },
-
-        callback_func: function () {
+        {
+            id: 'sabnzbdServerSettings',
+            name: 'SABnzbd',
+            serverUrl: 'http://jbox.no-ip.biz:8080',
+            token: '508a317b1bba9ef9db60b7291112ff55'
         }
-	};
+    ];
 })();
