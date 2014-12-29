@@ -6,7 +6,7 @@
   jjs = window.jjs = window.jjs || {};
 
   jjs.NZBAppManager.module('Entities', function(Entities, NZBAppManager, Backbone, Marionette, $, _) {
-    var addMovie, getMovieSearchResults, getMovies, movieSearchResults, movies;
+    var addMovie, getMovieSearchResults, getMovies, movies;
     Entities.MovieResult = (function(_super) {
       __extends(MovieResult, _super);
 
@@ -57,28 +57,21 @@
 
     })(Backbone.Collection);
     movies = null;
-    movieSearchResults = null;
     getMovieSearchResults = function(term) {
-      var defer;
+      var defer, movieSearchResults;
       defer = $.Deferred();
-      if (!movieSearchResults) {
-        movieSearchResults = new Entities.MovieResults([], {
-          url: NZBAppManager.request('api:endpoint', 'CouchPotato', 'search')
-        });
-        movieSearchResults.fetch({
-          data: {
-            q: term,
-            type: 'movies'
-          },
-          success: function() {
-            return defer.resolve(movieSearchResults);
-          }
-        });
-      } else {
-        _.defer(function() {
+      movieSearchResults = new Entities.MovieResults([], {
+        url: NZBAppManager.request('api:endpoint', 'CouchPotato', 'search')
+      });
+      movieSearchResults.fetch({
+        data: {
+          q: term,
+          type: 'movies'
+        },
+        success: function() {
           return defer.resolve(movieSearchResults);
-        });
-      }
+        }
+      });
       return defer.promise();
     };
     getMovies = function() {

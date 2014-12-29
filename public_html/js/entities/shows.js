@@ -6,7 +6,7 @@
   jjs = window.jjs = window.jjs || {};
 
   jjs.NZBAppManager.module('Entities', function(Entities, NZBAppManager, Backbone, Marionette, $, _) {
-    var addShow, getShow, getShowSearchResults, getShows, showSearchResults, shows;
+    var addShow, getShow, getShowSearchResults, getShows, shows;
     Entities.ShowResult = (function(_super) {
       __extends(ShowResult, _super);
 
@@ -61,27 +61,20 @@
 
     })(Backbone.Collection);
     shows = null;
-    showSearchResults = null;
     getShowSearchResults = function(term) {
-      var defer;
+      var defer, showSearchResults;
       defer = $.Deferred();
-      if (!showSearchResults) {
-        showSearchResults = new Entities.ShowResults([], {
-          url: NZBAppManager.request('api:endpoint', 'SickBeard', 'sb.searchtvdb')
-        });
-        showSearchResults.fetch({
-          data: {
-            name: term
-          },
-          success: function() {
-            return defer.resolve(showSearchResults);
-          }
-        });
-      } else {
-        _.defer(function() {
+      showSearchResults = new Entities.ShowResults([], {
+        url: NZBAppManager.request('api:endpoint', 'SickBeard', 'sb.searchtvdb')
+      });
+      showSearchResults.fetch({
+        data: {
+          name: term
+        },
+        success: function() {
           return defer.resolve(showSearchResults);
-        });
-      }
+        }
+      });
       return defer.promise();
     };
     getShows = function() {

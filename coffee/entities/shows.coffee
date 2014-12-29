@@ -23,18 +23,14 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
             super
 
     shows = null
-    showSearchResults = null
 
     getShowSearchResults = (term) ->
         defer = $.Deferred()
-        if not showSearchResults
-            showSearchResults = new Entities.ShowResults [], url: NZBAppManager.request('api:endpoint', 'SickBeard', 'sb.searchtvdb')
-            showSearchResults.fetch
-                data: name: term
-                success: ->
-                    defer.resolve showSearchResults
-        else
-            _.defer -> defer.resolve showSearchResults
+        showSearchResults = new Entities.ShowResults [], url: NZBAppManager.request('api:endpoint', 'SickBeard', 'sb.searchtvdb')
+        showSearchResults.fetch
+            data: name: term
+            success: ->
+                defer.resolve showSearchResults
         defer.promise()
 
     getShows = () ->

@@ -22,20 +22,16 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
             super
 
     movies = null
-    movieSearchResults = null
 
     getMovieSearchResults = (term) ->
         defer = $.Deferred()
-        if not movieSearchResults
-            movieSearchResults = new Entities.MovieResults [], url: NZBAppManager.request('api:endpoint', 'CouchPotato', 'search')
-            movieSearchResults.fetch
-                data:
-                    q: term
-                    type: 'movies'
-                success: ->
-                    defer.resolve movieSearchResults
-        else
-            _.defer -> defer.resolve movieSearchResults
+        movieSearchResults = new Entities.MovieResults [], url: NZBAppManager.request('api:endpoint', 'CouchPotato', 'search')
+        movieSearchResults.fetch
+            data:
+                q: term
+                type: 'movies'
+            success: ->
+                defer.resolve movieSearchResults
         defer.promise()
 
     getMovies = () ->
