@@ -22,12 +22,12 @@ do ->
             Backbone.history.navigate(route, options)
         getCurrentRoute: ->
             return Backbone.history.fragment
-        showModal: (options) =>
+        showModal: (view) =>
             @modalRegion.$el.show()
-            @modalRegion.transitionToView new jjs.Modal options
+            @modalRegion.show view
         dismissModal: =>
             @modalRegion.on 'empty', => @modalRegion.$el.hide()
-            @modalRegion.transitionToView()
+            @modalRegion.reset()
         checkServerSettings: (redirect) ->
             $.when(@request('servers:entities')).done (serverSettings) =>
                 if not @request 'servers:entities:valid:any'

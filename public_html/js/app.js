@@ -46,9 +46,9 @@
         return Backbone.history.fragment;
       };
 
-      NZBApplication.prototype.showModal = function(options) {
+      NZBApplication.prototype.showModal = function(view) {
         this.modalRegion.$el.show();
-        return this.modalRegion.transitionToView(new jjs.Modal(options));
+        return this.modalRegion.show(view);
       };
 
       NZBApplication.prototype.dismissModal = function() {
@@ -57,7 +57,7 @@
             return _this.modalRegion.$el.hide();
           };
         })(this));
-        return this.modalRegion.transitionToView();
+        return this.modalRegion.reset();
       };
 
       NZBApplication.prototype.checkServerSettings = function(redirect) {

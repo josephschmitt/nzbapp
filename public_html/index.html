@@ -71,7 +71,7 @@
             <div class="small-4 columns search-type-item"><label><input type="radio" name="type" value="shows" <% if (data.type == 'shows') { %>checked<% } %> /> Shows</label></div>
             <div class="small-2 columns"></div>
         </div>
-        <div id="search-results-region"></div>
+        <div id="search-results-region" class="search-results"></div>
     </script>
 
     <script type="text/template" id="movie-list-template">
@@ -86,7 +86,7 @@
             <% if (data.tagline) { %><p><%= data.tagline %></p><% } %>
         </div>
         <div class="small-2 columns">
-            <a class="button tiny fi-plus"></a>
+            <a class="button tiny fi-plus success add-item-button"></a>
         </div>
     </script>
 
@@ -98,7 +98,7 @@
             <% if (data.status) { %><p>Status: <span class="label rounded <% if (data.status != 'Ended' ) { %>success<% } else { %>secondary<% } %>"><%= data.status %></span></p><% } %>
         </div>
         <div class="small-2 columns">
-            <a class="button tiny fi-plus"></a>
+            <a class="button tiny fi-plus success add-item-button"></a>
         </div>
     </script>
 
@@ -124,6 +124,11 @@
             <a class="button tiny fi-plus"></a>
         </div>
     </script>
+
+    <script type="text/template" id="alert-template">
+        <%= data.message %>
+        <a href="#" class="close">&times;</a>
+    </script>
     
     <!-- injector:js -->
     <script src="js/lib/jquery.js"></script>
@@ -143,12 +148,19 @@
     <script src="js/apps/downloads/downloads_app.js"></script>
     <script src="js/apps/downloads/list/list_controller.js"></script>
     <script src="js/apps/downloads/list/list_view.js"></script>
+    <script src="js/apps/modal/modal_app.js"></script>
+    <script src="js/apps/modal/show/show_controller.js"></script>
+    <script src="js/apps/modal/show/show_view.js"></script>
     <script src="js/apps/movies/list/list_controller.js"></script>
     <script src="js/apps/movies/list/list_view.js"></script>
     <script src="js/apps/movies/movies_app.js"></script>
     <script src="js/apps/navbar/navbar_app.js"></script>
     <script src="js/apps/navbar/tabs/tab_view.js"></script>
     <script src="js/apps/navbar/tabs/tabs_controller.js"></script>
+    <script src="js/apps/popup/modal_app.js"></script>
+    <script src="js/apps/popup/popup_app.js"></script>
+    <script src="js/apps/popup/show/show_controller.js"></script>
+    <script src="js/apps/popup/show/show_view.js"></script>
     <script src="js/apps/search/results/results_controller.js"></script>
     <script src="js/apps/search/results/results_view.js"></script>
     <script src="js/apps/search/search_app.js"></script>
@@ -162,7 +174,9 @@
     <script src="js/apps/shows/shows_app.js"></script>
     <script src="js/entities/api.js"></script>
     <script src="js/entities/downloads.js"></script>
+    <script src="js/entities/modal.js"></script>
     <script src="js/entities/movies.js"></script>
+    <script src="js/entities/popup.js"></script>
     <script src="js/entities/server.js"></script>
     <script src="js/entities/shows.js"></script>
     <script src="js/entities/tabs.js"></script>

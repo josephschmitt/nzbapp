@@ -39,6 +39,17 @@ a:hover {
   text-align: center;
 }
 
+.search-results [class*=list-item].row *:first-child {
+  padding-left: 0;
+}
+.search-results [class*=list-item].row *:last-child {
+  padding-right: 0;
+}
+
+.add-item-button {
+  display: block;
+}
+
 .movies-list {
   margin: 0;
   padding: 0;
@@ -88,4 +99,11 @@ input[type=search] {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+}
+
+.alert-box {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
 }

@@ -8,3 +8,7 @@ jjs.NZBAppManager.module 'MoviesApp.List', (List, NZBAppManager, Backbone, Mario
 			NZBAppManager.mainRegion.show listMovies
 			$.when(NZBAppManager.request('movies:list')).done (movies) ->
 				listMovies.setCollection movies
+
+		addMovie: (movie) ->
+			$.when(NZBAppManager.request('movies:add', movie)).done (added) ->
+				NZBAppManager.execute 'popup:alert:show', "Added #{added.get('original_title')} (#{added.get('year')}) to your list"

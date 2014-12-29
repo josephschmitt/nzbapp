@@ -46,9 +46,27 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
             defer.resolve movies.set(response.movies)
         defer.promise()
 
+    addMovie = (movie) ->
+        defer = $.Deferred()
+
+        $.ajax NZBAppManager.request('api:endpoint', 'CouchPotato', 'movie.add'),
+            dataType: 'jsonp'
+            jsonp: 'callback_func'
+            jsonpCallback: 'jjs.NZBAppManager.Entities.Movies.onMovieAdded'
+            data:
+                title: movie?.get 'title'
+                identifier: movie?.get 'imdb'
+
+        Entities.Movies.onMovieAdded = (response) -> 
+            defer.resolve new Entities.MovieResult(response.movie)
+
+        defer.promise()
 
     NZBAppManager.reqres.setHandler 'movies:search', (term) ->
         getMovieSearchResults(term)
 
     NZBAppManager.reqres.setHandler 'movies:list', ->
         getMovies()
+
+    NZBAppManager.reqres.setHandler 'movies:add', (movie) ->
+        addMovie(movie)

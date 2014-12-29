@@ -44,3 +44,10 @@ input[type=search] {
 	-moz-appearance: none;
 	appearance: none;
 }
+
+.alert-box {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+}

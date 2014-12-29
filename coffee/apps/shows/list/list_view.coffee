@@ -5,7 +5,7 @@ jjs.NZBAppManager.module 'ShowsApp.List', (List, NZBAppManager, Backbone, Marion
     class List.Show extends Marionette.ItemView
         template: '#show-list-template'
         # tagName: 'li'
-        className: 'row'
+        className: 'row show-list-item'
     
     class List.Shows extends Marionette.CollectionView
         childView: List.Show

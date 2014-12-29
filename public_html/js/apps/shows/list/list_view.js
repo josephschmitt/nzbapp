@@ -15,7 +15,7 @@
 
       Show.prototype.template = '#show-list-template';
 
-      Show.prototype.className = 'row';
+      Show.prototype.className = 'row show-list-item';
 
       return Show;
 

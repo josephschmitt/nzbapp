@@ -6,7 +6,7 @@
   jjs = window.jjs = window.jjs || {};
 
   jjs.NZBAppManager.module('Entities', function(Entities, NZBAppManager, Backbone, Marionette, $, _) {
-    var getMovieSearchResults, getMovies;
+    var addMovie, getMovieSearchResults, getMovies;
     Entities.Movies = {};
     Entities.MovieResult = (function(_super) {
       __extends(MovieResult, _super);
@@ -84,11 +84,31 @@
       };
       return defer.promise();
     };
+    addMovie = function(movie) {
+      var defer;
+      defer = $.Deferred();
+      $.ajax(NZBAppManager.request('api:endpoint', 'CouchPotato', 'movie.add'), {
+        dataType: 'jsonp',
+        jsonp: 'callback_func',
+        jsonpCallback: 'jjs.NZBAppManager.Entities.Movies.onMovieAdded',
+        data: {
+          title: movie != null ? movie.get('title') : void 0,
+          identifier: movie != null ? movie.get('imdb') : void 0
+        }
+      });
+      Entities.Movies.onMovieAdded = function(response) {
+        return defer.resolve(new Entities.MovieResult(response.movie));
+      };
+      return defer.promise();
+    };
     NZBAppManager.reqres.setHandler('movies:search', function(term) {
       return getMovieSearchResults(term);
     });
-    return NZBAppManager.reqres.setHandler('movies:list', function() {
+    NZBAppManager.reqres.setHandler('movies:list', function() {
       return getMovies();
+    });
+    return NZBAppManager.reqres.setHandler('movies:add', function(movie) {
+      return addMovie(movie);
     });
   });
 

@@ -9,3 +9,19 @@
 .search-type-item {
 	text-align: center;
 }
+
+.search-results {
+	[class*=list-item].row {
+		*:first-child {
+			padding-left: 0;
+		}
+
+		*:last-child {
+			padding-right: 0;
+		}
+	}
+}
+
+.add-item-button {
+	display: block;
+}

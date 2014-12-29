@@ -15,7 +15,20 @@
 
       Movie.prototype.template = '#movie-list-template';
 
-      Movie.prototype.className = 'row';
+      Movie.prototype.className = 'row movie-list-item';
+
+      Movie.prototype.ui = {
+        add: '.add-item-button'
+      };
+
+      Movie.prototype.events = {
+        'click @ui.add': 'addMovie'
+      };
+
+      Movie.prototype.addMovie = function(e) {
+        e.preventDefault();
+        return List.Controller.addMovie(this.model);
+      };
 
       return Movie;
 

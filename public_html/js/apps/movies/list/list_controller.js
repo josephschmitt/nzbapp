@@ -12,6 +12,11 @@
         return $.when(NZBAppManager.request('movies:list')).done(function(movies) {
           return listMovies.setCollection(movies);
         });
+      },
+      addMovie: function(movie) {
+        return $.when(NZBAppManager.request('movies:add', movie)).done(function(added) {
+          return NZBAppManager.execute('popup:alert:show', "Added " + (added.get('original_title')) + " (" + (added.get('year')) + ") to your list");
+        });
       }
     };
   });
