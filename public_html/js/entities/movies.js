@@ -37,16 +37,16 @@
 
       MovieResults.prototype.model = Entities.MovieResult;
 
-      MovieResults.prototype.fetch = function(options) {
-        if (options == null) {
-          options = {};
-        }
+      MovieResults.prototype.parse = function(response) {
+        return response.movies;
+      };
+
+      MovieResults.prototype.sync = function(method, model, options) {
         options = _.extend(options, {
           dataType: 'jsonp',
-          jsonp: 'callback_func',
-          jsonpCallback: options.jsonpCallback || 'jjs.AppConfig.callback_func'
+          jsonp: 'callback_func'
         });
-        return MovieResults.__super__.fetch.call(this, options);
+        return MovieResults.__super__.sync.apply(this, arguments);
       };
 
       return MovieResults;
@@ -59,15 +59,14 @@
         url: NZBAppManager.request('api:endpoint', 'CouchPotato', 'search')
       });
       movies.fetch({
-        jsonpCallback: 'jjs.NZBAppManager.Entities.Movies.onMoviesSearch',
         data: {
           q: term,
           type: 'movies'
+        },
+        success: function() {
+          return defer.resolve(movies);
         }
       });
-      Entities.Movies.onMoviesSearch = function(response) {
-        return defer.resolve(movies.set(response.movies));
-      };
       return defer.promise();
     };
     getMovies = function() {
@@ -77,28 +76,22 @@
         url: NZBAppManager.request('api:endpoint', 'CouchPotato', 'movie.list')
       });
       movies.fetch({
-        jsonpCallback: 'jjs.NZBAppManager.Entities.Movies.onMoviesList'
+        success: function() {
+          return defer.resolve(movies);
+        }
       });
-      Entities.Movies.onMoviesList = function(response) {
-        return defer.resolve(movies.set(response.movies));
-      };
       return defer.promise();
     };
     addMovie = function(movie) {
       var defer;
-      defer = $.Deferred();
-      $.ajax(NZBAppManager.request('api:endpoint', 'CouchPotato', 'movie.add'), {
+      defer = $.ajax(NZBAppManager.request('api:endpoint', 'CouchPotato', 'movie.add'), {
         dataType: 'jsonp',
         jsonp: 'callback_func',
-        jsonpCallback: 'jjs.NZBAppManager.Entities.Movies.onMovieAdded',
         data: {
           title: movie != null ? movie.get('title') : void 0,
           identifier: movie != null ? movie.get('imdb') : void 0
         }
       });
-      Entities.Movies.onMovieAdded = function(response) {
-        return defer.resolve(response);
-      };
       return defer.promise();
     };
     NZBAppManager.reqres.setHandler('movies:search', function(term) {

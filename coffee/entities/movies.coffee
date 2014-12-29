@@ -14,51 +14,40 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
 
     class Entities.MovieResults extends Backbone.Collection
         model: Entities.MovieResult
-        fetch: (options={}) ->
+        parse: (response) ->
+            response.movies
+        sync: (method, model, options) ->
             options = _.extend options, 
                 dataType: 'jsonp'
                 jsonp: 'callback_func'
-                jsonpCallback: options.jsonpCallback or 'jjs.AppConfig.callback_func'
-            super options
+            super
 
     getMovieSearchResults = (term) ->
         defer = $.Deferred()
-
         movies = new Entities.MovieResults [], url: NZBAppManager.request('api:endpoint', 'CouchPotato', 'search')
         movies.fetch
-            jsonpCallback: 'jjs.NZBAppManager.Entities.Movies.onMoviesSearch'
             data:
                 q: term
                 type: 'movies'
-
-        Entities.Movies.onMoviesSearch = (response) -> 
-            defer.resolve movies.set(response.movies)
+            success: ->
+                defer.resolve movies
         defer.promise()
 
     getMovies = () ->
         defer = $.Deferred()
-
         movies = new Entities.MovieResults [], url: NZBAppManager.request('api:endpoint', 'CouchPotato', 'movie.list')
         movies.fetch
-            jsonpCallback: 'jjs.NZBAppManager.Entities.Movies.onMoviesList'
-
-        Entities.Movies.onMoviesList = (response) -> 
-            defer.resolve movies.set(response.movies)
+            success: ->
+                defer.resolve movies
         defer.promise()
 
     addMovie = (movie) ->
-        defer = $.Deferred()
-
-        $.ajax NZBAppManager.request('api:endpoint', 'CouchPotato', 'movie.add'),
+        defer = $.ajax NZBAppManager.request('api:endpoint', 'CouchPotato', 'movie.add'),
             dataType: 'jsonp'
             jsonp: 'callback_func'
-            jsonpCallback: 'jjs.NZBAppManager.Entities.Movies.onMovieAdded'
             data:
                 title: movie?.get 'title'
                 identifier: movie?.get 'imdb'
-
-        Entities.Movies.onMovieAdded = (response) -> 
-            defer.resolve response
         defer.promise()
 
     NZBAppManager.reqres.setHandler 'movies:search', (term) ->

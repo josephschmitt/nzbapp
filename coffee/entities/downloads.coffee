@@ -8,33 +8,31 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
 
     class Entities.DownloadsQueue extends Backbone.Collection
         model: Entities.DownloadsSlot
-        fetch: (options={}) ->
+        parse: (response) ->
+            if response?.history?.slots
+                return response.history?.slots
+            else
+                return response.queue?.slots
+        sync: (method, model, options={}) ->
             options = _.extend options, 
                 dataType: 'jsonp'
                 jsonp: 'callback'
-                jsonpCallback: options.jsonpCallback or 'jjs.AppConfig.callback_func'
-            super options
+            super
 
     getQueued = () ->
         defer = $.Deferred()
-
         downloads = new Entities.DownloadsQueue [], url: NZBAppManager.request('api:endpoint', 'SABnzbd', 'queue')
         downloads.fetch
-            jsonpCallback: 'jjs.NZBAppManager.Entities.Downloads.onDownloadsList'
-
-        Entities.Downloads.onDownloadsList = (response) -> 
-            defer.resolve downloads.set(response.queue.slots)
+            success: ->
+                defer.resolve downloads
         defer.promise()
 
     getHistory = () ->
         defer = $.Deferred()
-
         downloads = new Entities.DownloadsQueue [], url: NZBAppManager.request('api:endpoint', 'SABnzbd', 'history')
         downloads.fetch
-            jsonpCallback: 'jjs.NZBAppManager.Entities.Downloads.onDownloadsHistory'
-
-        Entities.Downloads.onDownloadsHistory = (response) -> 
-            defer.resolve downloads.set(response.history.slots)
+            success: ->
+                defer.resolve downloads
         defer.promise()
 
     NZBAppManager.reqres.setHandler 'downloads:queue:list', ->

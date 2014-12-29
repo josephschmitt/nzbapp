@@ -19,7 +19,7 @@
 
       Movie.prototype.ui = {
         add: '.add-item-button',
-        add: '.remove-item-button'
+        remove: '.remove-item-button'
       };
 
       Movie.prototype.events = {

@@ -7,7 +7,7 @@ jjs.NZBAppManager.module 'MoviesApp.List', (List, NZBAppManager, Backbone, Mario
         className: 'row movie-list-item'
         ui:
             add: '.add-item-button'
-            add: '.remove-item-button'
+            remove: '.remove-item-button'
         events:
             'click @ui.add': 'addMovie'
         addMovie: (e) ->

@@ -21,8 +21,7 @@
         }
         options = _.extend(options, {
           dataType: 'jsonp',
-          jsonp: 'callback',
-          jsonpCallback: options.jsonpCallback || 'jjs.AppConfig.callback_func'
+          jsonp: 'callback'
         });
         return ShowResult.__super__.fetch.call(this, options);
       };
@@ -39,16 +38,24 @@
 
       ShowResults.prototype.model = Entities.ShowResult;
 
-      ShowResults.prototype.fetch = function(options) {
+      ShowResults.prototype.parse = function(response) {
+        var _ref;
+        if ((_ref = response.data) != null ? _ref.results : void 0) {
+          return response.data.results;
+        } else {
+          return _.toArray(response.data);
+        }
+      };
+
+      ShowResults.prototype.sync = function(method, model, options) {
         if (options == null) {
           options = {};
         }
         options = _.extend(options, {
           dataType: 'jsonp',
-          jsonp: 'callback',
-          jsonpCallback: options.jsonpCallback || 'jjs.AppConfig.callback_func'
+          jsonp: 'callback'
         });
-        return ShowResults.__super__.fetch.call(this, options);
+        return ShowResults.__super__.sync.apply(this, arguments);
       };
 
       return ShowResults;
@@ -61,14 +68,13 @@
         url: NZBAppManager.request('api:endpoint', 'SickBeard', 'sb.searchtvdb')
       });
       shows.fetch({
-        jsonpCallback: 'jjs.NZBAppManager.Entities.Shows.onShowsSearch',
         data: {
           name: term
+        },
+        success: function() {
+          return defer.resolve(shows);
         }
       });
-      Entities.Shows.onShowsSearch = function(response) {
-        return defer.resolve(shows.set(response.data.results));
-      };
       return defer.promise();
     };
     getShows = function() {
@@ -78,11 +84,10 @@
         url: NZBAppManager.request('api:endpoint', 'SickBeard', 'shows')
       });
       shows.fetch({
-        jsonpCallback: 'jjs.NZBAppManager.Entities.Shows.onShowsList'
+        success: function() {
+          return defer.resolve(shows);
+        }
       });
-      Entities.Shows.onShowsList = function(response) {
-        return defer.resolve(shows.set(_.toArray(response.data)));
-      };
       return defer.promise();
     };
     getShow = function(tvdbid) {
@@ -95,27 +100,21 @@
         data: {
           tvdbid: tvdbid
         },
-        jsonpCallback: 'jjs.NZBAppManager.Entities.Shows.onShowInfo'
+        success: function() {
+          return defer.resolve(show);
+        }
       });
-      Entities.Shows.onShowInfo = function(response) {
-        return defer.resolve(show.set(response.data));
-      };
       return defer.promise();
     };
     addShow = function(show) {
       var defer;
-      defer = $.Deferred();
-      $.ajax(NZBAppManager.request('api:endpoint', 'SickBeard', 'show.addnew'), {
+      defer = $.ajax(NZBAppManager.request('api:endpoint', 'SickBeard', 'show.addnew'), {
         dataType: 'jsonp',
         jsonp: 'callback',
-        jsonpCallback: 'jjs.NZBAppManager.Entities.Shows.onShowAdded',
         data: {
           tvdbid: show.get('tvdbid')
         }
       });
-      Entities.Shows.onShowAdded = function(response) {
-        return defer.resolve(response);
-      };
       return defer.promise();
     };
     NZBAppManager.reqres.setHandler('shows:search', function(term) {
