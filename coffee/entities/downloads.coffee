@@ -2,8 +2,6 @@
 jjs = window.jjs = (window.jjs or {})
 
 jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marionette, $, _) ->
-    Entities.Downloads = {}
-
     class Entities.DownloadsSlot extends Backbone.Model
 
     class Entities.DownloadsQueue extends Backbone.Collection
@@ -19,20 +17,29 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
                 jsonp: 'callback'
             super
 
+    downloads = null
+    downloadsHistory = null
+
     getQueued = () ->
         defer = $.Deferred()
-        downloads = new Entities.DownloadsQueue [], url: NZBAppManager.request('api:endpoint', 'SABnzbd', 'queue')
-        downloads.fetch
-            success: ->
-                defer.resolve downloads
+        if not downloads
+            downloads = new Entities.DownloadsQueue [], url: NZBAppManager.request('api:endpoint', 'SABnzbd', 'queue')
+            downloads.fetch
+                success: ->
+                    defer.resolve downloads
+        else
+            defer.resolve downloads
         defer.promise()
 
     getHistory = () ->
         defer = $.Deferred()
-        downloads = new Entities.DownloadsQueue [], url: NZBAppManager.request('api:endpoint', 'SABnzbd', 'history')
-        downloads.fetch
-            success: ->
-                defer.resolve downloads
+        if not downloadsHistory
+            downloadsHistory = new Entities.DownloadsQueue [], url: NZBAppManager.request('api:endpoint', 'SABnzbd', 'history')
+            downloadsHistory.fetch
+                success: ->
+                    defer.resolve downloadsHistory
+        else
+            defer.resolve downloadsHistory
         defer.promise()
 
     NZBAppManager.reqres.setHandler 'downloads:queue:list', ->

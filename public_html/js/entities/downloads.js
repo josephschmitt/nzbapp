@@ -6,8 +6,7 @@
   jjs = window.jjs = window.jjs || {};
 
   jjs.NZBAppManager.module('Entities', function(Entities, NZBAppManager, Backbone, Marionette, $, _) {
-    var getHistory, getQueued;
-    Entities.Downloads = {};
+    var downloads, downloadsHistory, getHistory, getQueued;
     Entities.DownloadsSlot = (function(_super) {
       __extends(DownloadsSlot, _super);
 
@@ -50,30 +49,40 @@
       return DownloadsQueue;
 
     })(Backbone.Collection);
+    downloads = null;
+    downloadsHistory = null;
     getQueued = function() {
-      var defer, downloads;
+      var defer;
       defer = $.Deferred();
-      downloads = new Entities.DownloadsQueue([], {
-        url: NZBAppManager.request('api:endpoint', 'SABnzbd', 'queue')
-      });
-      downloads.fetch({
-        success: function() {
-          return defer.resolve(downloads);
-        }
-      });
+      if (!downloads) {
+        downloads = new Entities.DownloadsQueue([], {
+          url: NZBAppManager.request('api:endpoint', 'SABnzbd', 'queue')
+        });
+        downloads.fetch({
+          success: function() {
+            return defer.resolve(downloads);
+          }
+        });
+      } else {
+        defer.resolve(downloads);
+      }
       return defer.promise();
     };
     getHistory = function() {
-      var defer, downloads;
+      var defer;
       defer = $.Deferred();
-      downloads = new Entities.DownloadsQueue([], {
-        url: NZBAppManager.request('api:endpoint', 'SABnzbd', 'history')
-      });
-      downloads.fetch({
-        success: function() {
-          return defer.resolve(downloads);
-        }
-      });
+      if (!downloadsHistory) {
+        downloadsHistory = new Entities.DownloadsQueue([], {
+          url: NZBAppManager.request('api:endpoint', 'SABnzbd', 'history')
+        });
+        downloadsHistory.fetch({
+          success: function() {
+            return defer.resolve(downloadsHistory);
+          }
+        });
+      } else {
+        defer.resolve(downloadsHistory);
+      }
       return defer.promise();
     };
     NZBAppManager.reqres.setHandler('downloads:queue:list', function() {

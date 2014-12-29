@@ -6,8 +6,7 @@
   jjs = window.jjs = window.jjs || {};
 
   jjs.NZBAppManager.module('Entities', function(Entities, NZBAppManager, Backbone, Marionette, $, _) {
-    var addMovie, getMovieSearchResults, getMovies;
-    Entities.Movies = {};
+    var addMovie, getMovieSearchResults, getMovies, movieSearchResults, movies;
     Entities.MovieResult = (function(_super) {
       __extends(MovieResult, _super);
 
@@ -37,11 +36,16 @@
 
       MovieResults.prototype.model = Entities.MovieResult;
 
+      MovieResults.prototype.storeName = 'Entities.MovieResults';
+
       MovieResults.prototype.parse = function(response) {
         return response.movies;
       };
 
       MovieResults.prototype.sync = function(method, model, options) {
+        if (options == null) {
+          options = {};
+        }
         options = _.extend(options, {
           dataType: 'jsonp',
           jsonp: 'callback_func'
@@ -52,34 +56,44 @@
       return MovieResults;
 
     })(Backbone.Collection);
+    movies = null;
+    movieSearchResults = null;
     getMovieSearchResults = function(term) {
-      var defer, movies;
+      var defer;
       defer = $.Deferred();
-      movies = new Entities.MovieResults([], {
-        url: NZBAppManager.request('api:endpoint', 'CouchPotato', 'search')
-      });
-      movies.fetch({
-        data: {
-          q: term,
-          type: 'movies'
-        },
-        success: function() {
-          return defer.resolve(movies);
-        }
-      });
+      if (!movieSearchResults) {
+        movieSearchResults = new Entities.MovieResults([], {
+          url: NZBAppManager.request('api:endpoint', 'CouchPotato', 'search')
+        });
+        movieSearchResults.fetch({
+          data: {
+            q: term,
+            type: 'movies'
+          },
+          success: function() {
+            return defer.resolve(movieSearchResults);
+          }
+        });
+      } else {
+        defer.resolve(movieSearchResults);
+      }
       return defer.promise();
     };
     getMovies = function() {
-      var defer, movies;
+      var defer;
       defer = $.Deferred();
-      movies = new Entities.MovieResults([], {
-        url: NZBAppManager.request('api:endpoint', 'CouchPotato', 'movie.list')
-      });
-      movies.fetch({
-        success: function() {
-          return defer.resolve(movies);
-        }
-      });
+      if (!movies) {
+        movies = new Entities.MovieResults([], {
+          url: NZBAppManager.request('api:endpoint', 'CouchPotato', 'movie.list')
+        });
+        movies.fetch({
+          success: function() {
+            return defer.resolve(movies);
+          }
+        });
+      } else {
+        defer.resolve(movies);
+      }
       return defer.promise();
     };
     addMovie = function(movie) {

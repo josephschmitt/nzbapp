@@ -2,8 +2,6 @@
 jjs = window.jjs = (window.jjs or {})
 
 jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marionette, $, _) ->
-    Entities.Shows = {}
-
     class Entities.ShowResult extends Backbone.Model
         fetch: (options={}) ->
             options = _.extend options, 
@@ -24,21 +22,30 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
                 jsonp: 'callback'
             super
 
+    shows = null
+    showSearchResults = null
+
     getShowSearchResults = (term) ->
         defer = $.Deferred()
-        shows = new Entities.ShowResults [], url: NZBAppManager.request('api:endpoint', 'SickBeard', 'sb.searchtvdb')
-        shows.fetch
-            data: name: term
-            success: ->
-                defer.resolve shows
+        if not showSearchResults
+            showSearchResults = new Entities.ShowResults [], url: NZBAppManager.request('api:endpoint', 'SickBeard', 'sb.searchtvdb')
+            showSearchResults.fetch
+                data: name: term
+                success: ->
+                    defer.resolve showSearchResults
+        else
+            defer.resolve showSearchResults
         defer.promise()
 
     getShows = () ->
         defer = $.Deferred()
-        shows = new Entities.ShowResults [], url: NZBAppManager.request('api:endpoint', 'SickBeard', 'shows')
-        shows.fetch
-            success: ->
-                defer.resolve shows
+        if not shows
+            shows = new Entities.ShowResults [], url: NZBAppManager.request('api:endpoint', 'SickBeard', 'shows')
+            shows.fetch
+                success: ->
+                    defer.resolve shows
+        else
+            defer.resolve shows
         defer.promise()
 
     getShow = (tvdbid) ->

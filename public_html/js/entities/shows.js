@@ -6,8 +6,7 @@
   jjs = window.jjs = window.jjs || {};
 
   jjs.NZBAppManager.module('Entities', function(Entities, NZBAppManager, Backbone, Marionette, $, _) {
-    var addShow, getShow, getShowSearchResults, getShows;
-    Entities.Shows = {};
+    var addShow, getShow, getShowSearchResults, getShows, showSearchResults, shows;
     Entities.ShowResult = (function(_super) {
       __extends(ShowResult, _super);
 
@@ -61,33 +60,43 @@
       return ShowResults;
 
     })(Backbone.Collection);
+    shows = null;
+    showSearchResults = null;
     getShowSearchResults = function(term) {
-      var defer, shows;
+      var defer;
       defer = $.Deferred();
-      shows = new Entities.ShowResults([], {
-        url: NZBAppManager.request('api:endpoint', 'SickBeard', 'sb.searchtvdb')
-      });
-      shows.fetch({
-        data: {
-          name: term
-        },
-        success: function() {
-          return defer.resolve(shows);
-        }
-      });
+      if (!showSearchResults) {
+        showSearchResults = new Entities.ShowResults([], {
+          url: NZBAppManager.request('api:endpoint', 'SickBeard', 'sb.searchtvdb')
+        });
+        showSearchResults.fetch({
+          data: {
+            name: term
+          },
+          success: function() {
+            return defer.resolve(showSearchResults);
+          }
+        });
+      } else {
+        defer.resolve(showSearchResults);
+      }
       return defer.promise();
     };
     getShows = function() {
-      var defer, shows;
+      var defer;
       defer = $.Deferred();
-      shows = new Entities.ShowResults([], {
-        url: NZBAppManager.request('api:endpoint', 'SickBeard', 'shows')
-      });
-      shows.fetch({
-        success: function() {
-          return defer.resolve(shows);
-        }
-      });
+      if (!shows) {
+        shows = new Entities.ShowResults([], {
+          url: NZBAppManager.request('api:endpoint', 'SickBeard', 'shows')
+        });
+        shows.fetch({
+          success: function() {
+            return defer.resolve(shows);
+          }
+        });
+      } else {
+        defer.resolve(shows);
+      }
       return defer.promise();
     };
     getShow = function(tvdbid) {

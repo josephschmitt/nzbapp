@@ -2,8 +2,6 @@
 jjs = window.jjs = (window.jjs or {})
 
 jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marionette, $, _) ->
-    Entities.Movies = {}
-
     class Entities.MovieResult extends Backbone.Model
         idAttribute: '_id'
         set: (attributes, options) ->
@@ -14,31 +12,41 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
 
     class Entities.MovieResults extends Backbone.Collection
         model: Entities.MovieResult
+        storeName: 'Entities.MovieResults'
         parse: (response) ->
             response.movies
-        sync: (method, model, options) ->
+        sync: (method, model, options={}) ->
             options = _.extend options, 
                 dataType: 'jsonp'
                 jsonp: 'callback_func'
             super
 
+    movies = null
+    movieSearchResults = null
+
     getMovieSearchResults = (term) ->
         defer = $.Deferred()
-        movies = new Entities.MovieResults [], url: NZBAppManager.request('api:endpoint', 'CouchPotato', 'search')
-        movies.fetch
-            data:
-                q: term
-                type: 'movies'
-            success: ->
-                defer.resolve movies
+        if not movieSearchResults
+            movieSearchResults = new Entities.MovieResults [], url: NZBAppManager.request('api:endpoint', 'CouchPotato', 'search')
+            movieSearchResults.fetch
+                data:
+                    q: term
+                    type: 'movies'
+                success: ->
+                    defer.resolve movieSearchResults
+        else
+            defer.resolve movieSearchResults
         defer.promise()
 
     getMovies = () ->
         defer = $.Deferred()
-        movies = new Entities.MovieResults [], url: NZBAppManager.request('api:endpoint', 'CouchPotato', 'movie.list')
-        movies.fetch
-            success: ->
-                defer.resolve movies
+        if not movies
+            movies = new Entities.MovieResults [], url: NZBAppManager.request('api:endpoint', 'CouchPotato', 'movie.list')
+            movies.fetch
+                success: ->
+                    defer.resolve movies
+        else
+            defer.resolve movies
         defer.promise()
 
     addMovie = (movie) ->
