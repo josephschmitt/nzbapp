@@ -64,7 +64,9 @@
           }
         });
       } else {
-        defer.resolve(downloads);
+        _.defer(function() {
+          return defer.resolve(downloads);
+        });
       }
       return defer.promise();
     };
@@ -81,7 +83,9 @@
           }
         });
       } else {
-        defer.resolve(downloadsHistory);
+        _.defer(function() {
+          return defer.resolve(downloadsHistory);
+        });
       }
       return defer.promise();
     };

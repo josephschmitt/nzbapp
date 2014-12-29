@@ -35,7 +35,7 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
                 success: ->
                     defer.resolve movieSearchResults
         else
-            defer.resolve movieSearchResults
+            _.defer -> defer.resolve movieSearchResults
         defer.promise()
 
     getMovies = () ->
@@ -46,7 +46,7 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
                 success: ->
                     defer.resolve movies
         else
-            defer.resolve movies
+            _.defer -> defer.resolve movies
         defer.promise()
 
     addMovie = (movie) ->

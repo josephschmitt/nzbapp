@@ -28,7 +28,7 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
                 success: ->
                     defer.resolve downloads
         else
-            defer.resolve downloads
+            _.defer -> defer.resolve downloads
         defer.promise()
 
     getHistory = () ->
@@ -39,7 +39,7 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
                 success: ->
                     defer.resolve downloadsHistory
         else
-            defer.resolve downloadsHistory
+            _.defer -> defer.resolve downloadsHistory
         defer.promise()
 
     NZBAppManager.reqres.setHandler 'downloads:queue:list', ->

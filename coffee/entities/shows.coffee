@@ -34,7 +34,7 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
                 success: ->
                     defer.resolve showSearchResults
         else
-            defer.resolve showSearchResults
+            _.defer -> defer.resolve showSearchResults
         defer.promise()
 
     getShows = () ->
@@ -45,7 +45,7 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
                 success: ->
                     defer.resolve shows
         else
-            defer.resolve shows
+            _.defer -> defer.resolve shows
         defer.promise()
 
     getShow = (tvdbid) ->

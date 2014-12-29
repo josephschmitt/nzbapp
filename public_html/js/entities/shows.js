@@ -78,7 +78,9 @@
           }
         });
       } else {
-        defer.resolve(showSearchResults);
+        _.defer(function() {
+          return defer.resolve(showSearchResults);
+        });
       }
       return defer.promise();
     };
@@ -95,7 +97,9 @@
           }
         });
       } else {
-        defer.resolve(shows);
+        _.defer(function() {
+          return defer.resolve(shows);
+        });
       }
       return defer.promise();
     };

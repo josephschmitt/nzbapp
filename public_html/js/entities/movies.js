@@ -75,7 +75,9 @@
           }
         });
       } else {
-        defer.resolve(movieSearchResults);
+        _.defer(function() {
+          return defer.resolve(movieSearchResults);
+        });
       }
       return defer.promise();
     };
@@ -92,7 +94,9 @@
           }
         });
       } else {
-        defer.resolve(movies);
+        _.defer(function() {
+          return defer.resolve(movies);
+        });
       }
       return defer.promise();
     };
