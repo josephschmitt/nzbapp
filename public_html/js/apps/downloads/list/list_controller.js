@@ -10,9 +10,7 @@
         listDownloads = new List.DownloadsView();
         NZBAppManager.mainRegion.show(listDownloads);
         return $.when(NZBAppManager.request('downloads:queue:list'), NZBAppManager.request('downloads:history:list')).done(function(queued, history) {
-          listDownloads.queueCollection = queued;
-          listDownloads.historyCollection = history;
-          return listDownloads.render();
+          return listDownloads.setCollections(queued, history);
         });
       }
     };

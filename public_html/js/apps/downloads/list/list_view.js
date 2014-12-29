@@ -17,6 +17,15 @@
 
       Slot.prototype.className = 'row';
 
+      Slot.prototype.ui = {
+        progress: '.progress',
+        meter: '.meter'
+      };
+
+      Slot.prototype.initialize = function() {
+        return Slot.__super__.initialize.apply(this, arguments);
+      };
+
       return Slot;
 
     })(Marionette.ItemView);
@@ -30,19 +39,6 @@
       Downloads.prototype.childView = List.Slot;
 
       Downloads.prototype.className = 'downloads-list';
-
-      Downloads.prototype.initialize = function() {
-        Downloads.__super__.initialize.apply(this, arguments);
-        if (this.collection) {
-          return this.setCollection(this.collection);
-        }
-      };
-
-      Downloads.prototype.setCollection = function(collection) {
-        this.collection = collection;
-        this.listenTo(this.collection, 'change', this.render);
-        return this.render();
-      };
 
       return Downloads;
 
@@ -61,14 +57,30 @@
         historyRegion: '#downloads-history-region'
       };
 
-      DownloadsView.prototype.render = function() {
-        DownloadsView.__super__.render.apply(this, arguments);
-        this.queueRegion.show(new List.Downloads({
+      DownloadsView.prototype.setCollections = function(queued, history) {
+        this.queueCollection = queued;
+        this.historyCollection = history;
+        this.listenTo(this.queueCollection, 'change', this.renderQueue);
+        this.listenTo(this.historyCollection, 'change', this.renderHistory);
+        return this.render();
+      };
+
+      DownloadsView.prototype.renderQueue = function() {
+        return this.queueRegion.show(new List.Downloads({
           collection: this.queueCollection
         }));
+      };
+
+      DownloadsView.prototype.renderHistory = function() {
         return this.historyRegion.show(new List.Downloads({
           collection: this.historyCollection
         }));
+      };
+
+      DownloadsView.prototype.render = function() {
+        DownloadsView.__super__.render.apply(this, arguments);
+        this.renderQueue();
+        return this.renderHistory();
       };
 
       return DownloadsView;

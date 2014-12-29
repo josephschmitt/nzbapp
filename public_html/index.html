@@ -107,20 +107,27 @@
             Queue
             <small><a href="">Pause</a></small>
         </h1>
-        <div id="downloads-queue-region"></div>
+        <div id="downloads-queue-region" class="downloads-list"></div>
 
         <h1>
             History
             <small><a href="">Clear</a></small>
         </h1>
-        <div id="downloads-history-region"></div>
+        <div id="downloads-history-region" class="downloads-list"></div>
     </script>
 
     <script type="text/template" id="download-list-template">
-        <div class="small-10 columns">
+        <div class="small-12 columns">
             <h3><%= data.filename || data.name %></h3>
             <h4 class="subtitle"><%= data.status %></h4>
         </div>
+        <% if (data.percentage != 0 && data.status != 'Completed') { %>
+            <div class="small-12 columns">
+                <div class="progress"><span class="meter" style="width: <%- data.percentage %>%"></span></div>
+            </div>
+            <div class="small-6 columns"><%= data.mb - data.mbleft %> MB</div>
+            <div class="small-6 columns align-right"><%= data.size %></div>
+        <% } %>
         <!--div class="small-2 columns">
             <a class="button tiny fi-plus"></a>
         </div-->
@@ -177,7 +184,6 @@
     <script src="js/entities/downloads.js"></script>
     <script src="js/entities/modal.js"></script>
     <script src="js/entities/movies.js"></script>
-    <script src="js/entities/popup.js"></script>
     <script src="js/entities/server.js"></script>
     <script src="js/entities/shows.js"></script>
     <script src="js/entities/tabs.js"></script>

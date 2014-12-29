@@ -18,7 +18,8 @@
       Movie.prototype.className = 'row movie-list-item';
 
       Movie.prototype.ui = {
-        add: '.add-item-button'
+        add: '.add-item-button',
+        add: '.remove-item-button'
       };
 
       Movie.prototype.events = {
