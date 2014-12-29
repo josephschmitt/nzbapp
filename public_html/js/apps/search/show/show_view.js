@@ -35,7 +35,7 @@
             });
           }
           clearTimeout(this.timeout);
-          this.ui.searchField.on('keydown', (function(_this) {
+          this.ui.searchField.on('keyup', (function(_this) {
             return function(e) {
               _this.model.set('value', _this.getTerm());
               clearTimeout(_this.timeout);

@@ -17,7 +17,7 @@ do ->
                     @model = new Backbone.Model type: @getType(), value: @getTerm()
 
                 clearTimeout @timeout
-                @ui.searchField.on 'keydown', (e) =>
+                @ui.searchField.on 'keyup', (e) =>
                     @model.set 'value', @getTerm()
 
                     clearTimeout @timeout
