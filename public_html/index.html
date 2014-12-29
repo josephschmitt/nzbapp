@@ -118,11 +118,12 @@
 
     <script type="text/template" id="download-list-template">
         <div class="small-10 columns">
-            <h4><%= data.name %></h4>
+            <h3><%= data.filename || data.name %></h3>
+            <h4 class="subtitle"><%= data.status %></h4>
         </div>
-        <div class="small-2 columns">
+        <!--div class="small-2 columns">
             <a class="button tiny fi-plus"></a>
-        </div>
+        </div-->
     </script>
 
     <script type="text/template" id="alert-template">
