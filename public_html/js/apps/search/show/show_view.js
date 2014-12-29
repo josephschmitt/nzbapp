@@ -41,7 +41,7 @@
               clearTimeout(_this.timeout);
               return _this.timeout = setTimeout(function() {
                 return _this.search(e);
-              }, 300);
+              }, 500);
             };
           })(this));
           return this.ui.type.on('change', (function(_this) {

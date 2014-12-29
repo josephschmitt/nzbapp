@@ -23,7 +23,7 @@ do ->
                     clearTimeout @timeout
                     @timeout = setTimeout =>
                         @search e
-                    , 300
+                    , 500
 
                 @ui.type.on 'change', (e) =>
                     @model.set 'type', @getType()
