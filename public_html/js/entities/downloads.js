@@ -6,7 +6,7 @@
   jjs = window.jjs = window.jjs || {};
 
   jjs.NZBAppManager.module('Entities', function(Entities, NZBAppManager, Backbone, Marionette, $, _) {
-    var downloads, downloadsHistory, getHistory, getQueued;
+    var downloads, downloadsHistory, downloadsTabs, getHistory, getQueued, getTabs;
     Entities.DownloadsSlot = (function(_super) {
       __extends(DownloadsSlot, _super);
 
@@ -51,6 +51,7 @@
     })(Backbone.Collection);
     downloads = null;
     downloadsHistory = null;
+    downloadsTabs = null;
     getQueued = function() {
       var defer;
       defer = $.Deferred();
@@ -87,11 +88,30 @@
       }
       return defer.promise();
     };
-    NZBAppManager.reqres.setHandler('downloads:queue:list', function() {
+    getTabs = function() {
+      return downloadsTabs = new Backbone.Collection([
+        {
+          name: 'Queue',
+          url: 'queue',
+          trigger: 'downloads:queue:list'
+        }, {
+          name: 'History',
+          url: 'history',
+          trigger: 'downloads:history:list'
+        }
+      ]);
+    };
+    NZBAppManager.reqres.setHandler('downloads:queue:entities', function() {
       return getQueued();
     });
-    return NZBAppManager.reqres.setHandler('downloads:history:list', function() {
+    NZBAppManager.reqres.setHandler('downloads:history:entities', function() {
       return getHistory();
+    });
+    return NZBAppManager.reqres.setHandler('downloads:tabs:entities', function() {
+      if (!downloadsTabs) {
+        getTabs();
+      }
+      return downloadsTabs;
     });
   });
 

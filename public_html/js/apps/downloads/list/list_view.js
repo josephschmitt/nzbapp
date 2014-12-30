@@ -15,7 +15,7 @@
 
       Slot.prototype.template = '#download-list-template';
 
-      Slot.prototype.className = 'row';
+      Slot.prototype.className = 'download-list-item';
 
       Slot.prototype.ui = {
         progress: '.progress',
@@ -29,6 +29,55 @@
       return Slot;
 
     })(Marionette.ItemView);
+    List.TabView = (function(_super) {
+      __extends(TabView, _super);
+
+      function TabView() {
+        return TabView.__super__.constructor.apply(this, arguments);
+      }
+
+      TabView.prototype.template = '#downloads-tab-template';
+
+      TabView.prototype.tagName = 'dd';
+
+      TabView.prototype.events = {
+        'click': 'navigate'
+      };
+
+      TabView.prototype.initialize = function() {
+        TabView.__super__.initialize.apply(this, arguments);
+        return this.listenTo(this.model, 'change', this.render);
+      };
+
+      TabView.prototype.render = function() {
+        TabView.__super__.render.apply(this, arguments);
+        return this.$el.toggleClass('active', !!this.model.get('active'));
+      };
+
+      TabView.prototype.navigate = function(e) {
+        e.preventDefault();
+        return NZBAppManager.trigger(this.model.get('trigger'));
+      };
+
+      return TabView;
+
+    })(Marionette.ItemView);
+    List.TabsView = (function(_super) {
+      __extends(TabsView, _super);
+
+      function TabsView() {
+        return TabsView.__super__.constructor.apply(this, arguments);
+      }
+
+      TabsView.prototype.childView = List.TabView;
+
+      TabsView.prototype.className = 'sub-nav downloads-tabs';
+
+      TabsView.prototype.tagName = 'dl';
+
+      return TabsView;
+
+    })(Marionette.CollectionView);
     List.Downloads = (function(_super) {
       __extends(Downloads, _super);
 
@@ -53,34 +102,36 @@
       DownloadsView.prototype.template = '#downloads-template';
 
       DownloadsView.prototype.regions = {
-        queueRegion: '#downloads-queue-region',
-        historyRegion: '#downloads-history-region'
-      };
-
-      DownloadsView.prototype.setCollections = function(queued, history) {
-        this.queueCollection = queued;
-        this.historyCollection = history;
-        this.listenTo(this.queueCollection, 'change', this.renderQueue);
-        this.listenTo(this.historyCollection, 'change', this.renderHistory);
-        return this.render();
-      };
-
-      DownloadsView.prototype.renderQueue = function() {
-        return this.queueRegion.show(new List.Downloads({
-          collection: this.queueCollection
-        }));
-      };
-
-      DownloadsView.prototype.renderHistory = function() {
-        return this.historyRegion.show(new List.Downloads({
-          collection: this.historyCollection
-        }));
+        tabsRegion: '#downloads-tabs-region',
+        contentRegion: '#downloads-content-region'
       };
 
       DownloadsView.prototype.render = function() {
         DownloadsView.__super__.render.apply(this, arguments);
-        this.renderQueue();
-        return this.renderHistory();
+        return this.tabsRegion.show(new List.TabsView({
+          collection: NZBAppManager.request('downloads:tabs:entities')
+        }));
+      };
+
+      DownloadsView.prototype.setCollection = function(collection) {
+        var view;
+        view = new List.Downloads({
+          collection: collection
+        });
+        return this.contentRegion.show(view);
+      };
+
+      DownloadsView.prototype.setTab = function(tabUrl) {
+        var collection, _ref, _ref1;
+        collection = this.tabsRegion.currentView.collection;
+        if ((_ref = collection.findWhere({
+          active: true
+        })) != null) {
+          _ref.set('active', false);
+        }
+        return (_ref1 = collection.findWhere({
+          url: tabUrl
+        })) != null ? _ref1.set('active', true) : void 0;
       };
 
       return DownloadsView;

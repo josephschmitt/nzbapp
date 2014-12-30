@@ -10,8 +10,13 @@
     Downloads.RoutesController = (function() {
       function RoutesController() {}
 
-      RoutesController.prototype.listDownloads = function() {
-        Downloads.List.Controller.listDownloads();
+      RoutesController.prototype.listQueue = function() {
+        Downloads.List.Controller.listQueue();
+        return NZBAppManager.execute('tabs:active:set', 'Downloads');
+      };
+
+      RoutesController.prototype.listHistory = function() {
+        Downloads.List.Controller.listHistory();
         return NZBAppManager.execute('tabs:active:set', 'Downloads');
       };
 
@@ -26,16 +31,21 @@
       }
 
       Router.prototype.appRoutes = {
-        'downloads': 'listDownloads'
+        'downloads': 'listQueue',
+        'downloads/history': 'listHistory'
       };
 
       return Router;
 
     })(Marionette.AppRouter);
     routesController = new Downloads.RoutesController();
-    NZBAppManager.on('downloads:list', function() {
+    NZBAppManager.on('downloads:list downloads:queue:list', function() {
       NZBAppManager.navigate('downloads');
-      return routesController.listDownloads();
+      return routesController.listQueue();
+    });
+    NZBAppManager.on('downloads:history:list', function() {
+      NZBAppManager.navigate('downloads/history');
+      return routesController.listHistory();
     });
     return NZBAppManager.addInitializer(function() {
       return new Downloads.Router({

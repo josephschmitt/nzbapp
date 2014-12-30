@@ -19,6 +19,7 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
 
     downloads = null
     downloadsHistory = null
+    downloadsTabs = null
 
     getQueued = () ->
         defer = $.Deferred()
@@ -44,7 +45,16 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
             _.defer -> defer.resolve downloadsHistory
         defer.promise()
 
-    NZBAppManager.reqres.setHandler 'downloads:queue:list', ->
+    getTabs = ->
+        downloadsTabs = new Backbone.Collection [
+            { name: 'Queue', url: 'queue', trigger: 'downloads:queue:list' }
+            { name: 'History', url: 'history', trigger: 'downloads:history:list' }
+        ]
+
+    NZBAppManager.reqres.setHandler 'downloads:queue:entities', ->
         getQueued()
-    NZBAppManager.reqres.setHandler 'downloads:history:list', ->
+    NZBAppManager.reqres.setHandler 'downloads:history:entities', ->
         getHistory()
+    NZBAppManager.reqres.setHandler 'downloads:tabs:entities', ->
+        if not downloadsTabs then getTabs()
+        downloadsTabs

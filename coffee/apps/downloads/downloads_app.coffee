@@ -3,19 +3,27 @@ jjs = window.jjs = (window.jjs or {})
 
 jjs.NZBAppManager.module 'DownloadsApp', (Downloads, NZBAppManager, Backbone, Marionette, $, _) ->
 	class Downloads.RoutesController
-		listDownloads: ->
-			Downloads.List.Controller.listDownloads()
+		listQueue: ->
+			Downloads.List.Controller.listQueue()
+			NZBAppManager.execute 'tabs:active:set', 'Downloads'
+		listHistory: ->
+			Downloads.List.Controller.listHistory()
 			NZBAppManager.execute 'tabs:active:set', 'Downloads'
 
 	class Downloads.Router extends Marionette.AppRouter
 		appRoutes:
-			'downloads': 'listDownloads'
+			'downloads': 'listQueue'
+			'downloads/history': 'listHistory'
 
 	routesController = new Downloads.RoutesController()
 
-	NZBAppManager.on 'downloads:list', ->
+	NZBAppManager.on 'downloads:list downloads:queue:list', ->
 		NZBAppManager.navigate('downloads')
-		routesController.listDownloads()
+		routesController.listQueue()
+
+	NZBAppManager.on 'downloads:history:list', ->
+		NZBAppManager.navigate('downloads/history')
+		routesController.listHistory()
 
 	NZBAppManager.addInitializer ->
 		new Downloads.Router controller: routesController

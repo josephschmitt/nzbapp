@@ -79,6 +79,22 @@ a:hover {
   list-style: none;
 }
 
+#downloads-content-region {
+  margin-top: 42px;
+  overflow: hidden;
+}
+
+.downloads-tabs {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  background-color: #f2f2f2;
+  padding: 10px 10px 10px 0;
+  margin-bottom: 0;
+}
+
 /*  Base page styles */
 * {
   text-rendering: optimizeLegibility;

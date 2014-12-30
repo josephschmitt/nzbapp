@@ -118,31 +118,32 @@
         </div>
     </script>
 
-    <script type="text/template" id="downloads-template">
-        <h1>
-            Queue
-            <small><a href="">Pause</a></small>
-        </h1>
-        <div id="downloads-queue-region" class="downloads-list"></div>
+    <script type="text/template" id="downloads-tab-template">
+      <a href="#<%= data.url %>"><%= data.name %></a>
+    </script>
 
-        <h1>
-            History
-            <small><a href="">Clear</a></small>
-        </h1>
-        <div id="downloads-history-region" class="downloads-list"></div>
+    <script type="text/template" id="downloads-template">
+        <div id="downloads-tabs-region"></div>
+        <div id="downloads-content-region"></div>
+        <!--div id="downloads-queue-region" class="downloads-list"></div>
+        <div id="downloads-history-region" class="downloads-list"></div-->
     </script>
 
     <script type="text/template" id="download-list-template">
-        <div class="small-12 columns">
-            <h3><%= data.filename || data.name %></h3>
-            <h4 class="subheader"><%= data.status %></h4>
+        <div class="row">
+            <div class="small-9 large-11 columns media-meta">
+                <h4><%= data.filename || data.name %></h4>
+                <h6 class="subheader"><%= data.status %></h6>
+            </div>
         </div>
         <% if (data.percentage != 0 && data.status != 'Completed') { %>
-            <div class="small-12 columns">
-                <div class="progress"><span class="meter" style="width: <%- data.percentage %>%"></span></div>
+            <div class="row">
+                <div class="small-12 columns">
+                    <div class="progress"><span class="meter" style="width: <%- data.percentage %>%"></span></div>
+                </div>
+                <div class="small-6 columns"><%= data.mb - data.mbleft %> MB</div>
+                <div class="small-6 columns align-right"><%= data.size %></div>
             </div>
-            <div class="small-6 columns"><%= data.mb - data.mbleft %> MB</div>
-            <div class="small-6 columns align-right"><%= data.size %></div>
         <% } %>
         <!--div class="small-2 columns">
             <a class="button tiny fi-plus"></a>
@@ -174,6 +175,10 @@
     <script src="js/apps/downloads/downloads_app.js"></script>
     <script src="js/apps/downloads/list/list_controller.js"></script>
     <script src="js/apps/downloads/list/list_view.js"></script>
+    <script src="js/apps/downloads/tabs/tabs
+tabs_view.js"></script>
+    <script src="js/apps/downloads/tabs/tabs_controller.js"></script>
+    <script src="js/apps/downloads/tabs/tabs_view.js"></script>
     <script src="js/apps/modal/modal_app.js"></script>
     <script src="js/apps/modal/show/show_controller.js"></script>
     <script src="js/apps/modal/show/show_view.js"></script>
