@@ -75,17 +75,12 @@
     </script>
 
     <script type="text/template" id="movie-list-template">
-        <div class="small-3 columns">
-            <div class="th">
-              <img src="<%- _.first(data.images.poster) %>">
-            </div>
-        </div>
-        <div class="small-7 columns">
+        <div class="small-9 columns">
             <h3><%= data.title || data.original_title %></h3>
             <h4 class="subtitle"><%= data.year %></h4>
             <% if (data.tagline) { %><p><%= data.tagline %></p><% } %>
         </div>
-        <div class="small-2 columns">
+        <div class="small-3 columns">
             <a class="button tiny fi-plus success add-item-button"></a>
         </div>
     </script>
