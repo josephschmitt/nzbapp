@@ -36,8 +36,9 @@ body {
 	-webkit-overflow-scrolling: touch;
 }
 
-#navbar {
-	height: 56px;
+nav.icon-bar {
+	display: block;
+	overflow: hidden;
 }
 
 input[type=search] {
