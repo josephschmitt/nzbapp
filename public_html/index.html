@@ -190,6 +190,9 @@
     <!-- endinjector -->
 
     <script type="text/javascript">
+        // Override offline status codes (Safari reports a 404 when offline)
+        Backbone.DualStorage.offlineStatusCodes = [404, 408, 502]
+        
         // Start the app after all scripts have loaded
         jjs.NZBAppManager.start();
     </script>
