@@ -39,6 +39,8 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
             options = _.extend options, 
                 dataType: 'jsonp'
                 jsonp: 'callback_func'
+                data:
+                    status: 'active'
             super
 
     movies = null

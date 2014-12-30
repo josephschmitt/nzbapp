@@ -64,7 +64,10 @@
         }
         options = _.extend(options, {
           dataType: 'jsonp',
-          jsonp: 'callback_func'
+          jsonp: 'callback_func',
+          data: {
+            status: 'active'
+          }
         });
         return MovieResults.__super__.sync.apply(this, arguments);
       };
