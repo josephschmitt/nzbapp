@@ -32,7 +32,7 @@
         TabView.__super__.render.apply(this, arguments);
         this.$el.attr('href', "#" + (this.model.get('url'))).toggleClass('active', !!this.model.get('active'));
         if (this.model.get('serverName')) {
-          return this.$el.toggle(NZBAppManager.request('servers:entities:valid', this.model.get('serverName')));
+          return this.$el.toggleClass('hide', !NZBAppManager.request('servers:entities:valid', this.model.get('serverName')));
         }
       };
 
@@ -53,7 +53,7 @@
 
       TabsView.prototype.childView = Tabs.TabView;
 
-      TabsView.prototype.className = 'icon-bar';
+      TabsView.prototype.className = 'icon-bar medium-vertical';
 
       TabsView.prototype.tagName = 'nav';
 
@@ -85,7 +85,7 @@
 
       TabsView.prototype.render = function() {
         TabsView.__super__.render.apply(this, arguments);
-        return this.el.className = "icon-bar " + this.tabClasses[this.activeTabCount()];
+        return this.el.className = "" + this.className + " " + this.tabClasses[this.activeTabCount()];
       };
 
       return TabsView;

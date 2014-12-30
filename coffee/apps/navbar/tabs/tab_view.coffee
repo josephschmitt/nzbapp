@@ -18,7 +18,7 @@ jjs.NZBAppManager.module 'NavbarApp.Tabs', (Tabs, NZBAppManager, Backbone, Mario
                 .toggleClass 'active', !!@model.get('active')
 
             if @model.get 'serverName'
-                @$el.toggle NZBAppManager.request('servers:entities:valid', @model.get('serverName'))
+                @$el.toggleClass 'hide', not NZBAppManager.request('servers:entities:valid', @model.get('serverName'))
 
         navigate: (e) ->
             e.preventDefault()
@@ -26,7 +26,7 @@ jjs.NZBAppManager.module 'NavbarApp.Tabs', (Tabs, NZBAppManager, Backbone, Mario
 
     class Tabs.TabsView extends Marionette.CollectionView
         childView: Tabs.TabView
-        className: 'icon-bar'
+        className: 'icon-bar medium-vertical'
         tagName: 'nav'
         tabClasses: ['two-up', 'three-up', 'four-up', 'five-up']
         activeTabCount: ->
@@ -41,4 +41,4 @@ jjs.NZBAppManager.module 'NavbarApp.Tabs', (Tabs, NZBAppManager, Backbone, Mario
                 memo + num
         render: ->
             super
-            @el.className = "icon-bar #{@tabClasses[@activeTabCount()]}"
+            @el.className = "#{@className} #{@tabClasses[@activeTabCount()]}"

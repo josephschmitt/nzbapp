@@ -8,7 +8,42 @@
     'base',
     'pages/search',
     'pages/movies',
-    'pages/downloads';
+    'pages/downloads',
+    'foundation/functions';
+
+// 
+// 
+// Foundation Media Queries
+// 
+// 
+// Here we define the lower and upper bounds for each media size
+$small-range: (0em, 40em); /* 0, 640px */
+$medium-range: (40.063em, 64em); /* 641px, 1024px */
+$large-range: (64.063em, 90em); /* 1025px, 1440px */
+$xlarge-range: (90.063em, 120em); /* 1441px, 1920px */
+$xxlarge-range: (120.063em); /* 1921px */
+
+// Media Queries
+$screen: "only screen" !default;
+
+$landscape: "#{$screen} and (orientation: landscape)" !default;
+$portrait: "#{$screen} and (orientation: portrait)" !default;
+
+$small-up: $screen !default;
+$small-only: "#{$screen} and (max-width: #{upper-bound($small-range)})" !default;
+
+$medium-up: "#{$screen} and (min-width:#{lower-bound($medium-range)})" !default;
+$medium-only: "#{$screen} and (min-width:#{lower-bound($medium-range)}) and (max-width:#{upper-bound($medium-range)})" !default;
+
+$large-up: "#{$screen} and (min-width:#{lower-bound($large-range)})" !default;
+$large-only: "#{$screen} and (min-width:#{lower-bound($large-range)}) and (max-width:#{upper-bound($large-range)})" !default;
+
+$xlarge-up: "#{$screen} and (min-width:#{lower-bound($xlarge-range)})" !default;
+$xlarge-only: "#{$screen} and (min-width:#{lower-bound($xlarge-range)}) and (max-width:#{upper-bound($xlarge-range)})" !default;
+
+$xxlarge-up: "#{$screen} and (min-width:#{lower-bound($xxlarge-range)})" !default;
+$xxlarge-only: "#{$screen} and (min-width:#{lower-bound($xxlarge-range)}) and (max-width:#{upper-bound($xxlarge-range)})" !default;
+
 
 
 /*  Base page styles */
@@ -39,6 +74,37 @@ body {
 nav.icon-bar {
 	display: block;
 	overflow: hidden;
+}
+
+@media #{$medium-up} {
+	body {
+		flex-direction: row;
+	}
+
+	#main {
+		order: 1;
+	}
+
+	#navbar {
+		order: 0;
+		display: flex;
+		flex-direction: column;
+	}
+
+	nav.icon-bar.medium-vertical {
+		display: flex;
+		flex: 1;
+		flex-direction: column;
+
+		.item {
+			margin: 0;
+			display: flex;
+			flex: 1;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+		}
+	}
 }
 
 input[type=search] {
