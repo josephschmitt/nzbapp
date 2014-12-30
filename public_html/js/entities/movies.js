@@ -75,9 +75,8 @@
     getMovieSearchResults = function(term) {
       var defer, movieSearchResults;
       defer = $.Deferred();
-      movieSearchResults = new Entities.MovieResults([], {
-        url: NZBAppManager.request('api:endpoint', 'CouchPotato', 'search')
-      });
+      movieSearchResults = new Entities.MovieResults([]);
+      movieSearchResults.url = NZBAppManager.request('api:endpoint', 'CouchPotato', 'search');
       movieSearchResults.fetch({
         data: {
           q: term,
@@ -93,9 +92,8 @@
       var defer;
       defer = $.Deferred();
       if (!movies) {
-        movies = new Entities.MovieResults([], {
-          url: NZBAppManager.request('api:endpoint', 'CouchPotato', 'movie.list')
-        });
+        movies = new Entities.MovieResults([]);
+        movies.url = NZBAppManager.request('api:endpoint', 'CouchPotato', 'movie.list');
         movies.fetch({
           success: function() {
             movies.each(function(movie) {

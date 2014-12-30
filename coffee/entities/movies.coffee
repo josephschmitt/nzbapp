@@ -42,7 +42,8 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
 
     getMovieSearchResults = (term) ->
         defer = $.Deferred()
-        movieSearchResults = new Entities.MovieResults [], url: NZBAppManager.request('api:endpoint', 'CouchPotato', 'search')
+        movieSearchResults = new Entities.MovieResults []
+        movieSearchResults.url = NZBAppManager.request('api:endpoint', 'CouchPotato', 'search')
         movieSearchResults.fetch
             data:
                 q: term
@@ -54,7 +55,8 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
     getMovies = () ->
         defer = $.Deferred()
         if not movies
-            movies = new Entities.MovieResults [], url: NZBAppManager.request('api:endpoint', 'CouchPotato', 'movie.list')
+            movies = new Entities.MovieResults []
+            movies.url = NZBAppManager.request('api:endpoint', 'CouchPotato', 'movie.list')
             movies.fetch
                 success: ->
                     # Save results to localStorage

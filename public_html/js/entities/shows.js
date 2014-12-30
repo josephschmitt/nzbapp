@@ -80,9 +80,8 @@
     getShowSearchResults = function(term) {
       var defer, showSearchResults;
       defer = $.Deferred();
-      showSearchResults = new Entities.ShowResults([], {
-        url: NZBAppManager.request('api:endpoint', 'SickBeard', 'sb.searchtvdb')
-      });
+      showSearchResults = new Entities.ShowResults([]);
+      showSearchResults.url = NZBAppManager.request('api:endpoint', 'SickBeard', 'sb.searchtvdb');
       showSearchResults.fetch({
         data: {
           name: term
@@ -97,9 +96,8 @@
       var defer;
       defer = $.Deferred();
       if (!shows) {
-        shows = new Entities.ShowResults([], {
-          url: NZBAppManager.request('api:endpoint', 'SickBeard', 'shows')
-        });
+        shows = new Entities.ShowResults([]);
+        shows.url = NZBAppManager.request('api:endpoint', 'SickBeard', 'shows');
         shows.fetch({
           success: function() {
             shows.each(function(show) {
@@ -118,9 +116,8 @@
     getShow = function(tvdbid) {
       var defer, show;
       defer = $.Deferred();
-      show = new Entities.ShowResult({}, {
-        url: NZBAppManager.request('api:endpoint', 'SickBeard', 'show')
-      });
+      show = new Entities.ShowResult({});
+      show.url = NZBAppManager.request('api:endpoint', 'SickBeard', 'show');
       show.fetch({
         data: {
           tvdbid: tvdbid

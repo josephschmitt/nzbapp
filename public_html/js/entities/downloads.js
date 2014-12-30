@@ -55,9 +55,8 @@
       var defer;
       defer = $.Deferred();
       if (!downloads) {
-        downloads = new Entities.DownloadsQueue([], {
-          url: NZBAppManager.request('api:endpoint', 'SABnzbd', 'queue')
-        });
+        downloads = new Entities.DownloadsQueue([]);
+        downloads.url = NZBAppManager.request('api:endpoint', 'SABnzbd', 'queue');
         downloads.fetch({
           success: function() {
             return defer.resolve(downloads);
@@ -74,9 +73,8 @@
       var defer;
       defer = $.Deferred();
       if (!downloadsHistory) {
-        downloadsHistory = new Entities.DownloadsQueue([], {
-          url: NZBAppManager.request('api:endpoint', 'SABnzbd', 'history')
-        });
+        downloadsHistory = new Entities.DownloadsQueue([]);
+        downloadsHistory.url = NZBAppManager.request('api:endpoint', 'SABnzbd', 'history');
         downloadsHistory.fetch({
           success: function() {
             return defer.resolve(downloadsHistory);

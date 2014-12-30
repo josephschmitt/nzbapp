@@ -44,7 +44,8 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
 
     getShowSearchResults = (term) ->
         defer = $.Deferred()
-        showSearchResults = new Entities.ShowResults [], url: NZBAppManager.request('api:endpoint', 'SickBeard', 'sb.searchtvdb')
+        showSearchResults = new Entities.ShowResults []
+        showSearchResults.url = NZBAppManager.request('api:endpoint', 'SickBeard', 'sb.searchtvdb')
         showSearchResults.fetch
             data: name: term
             success: ->
@@ -54,7 +55,8 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
     getShows = () ->
         defer = $.Deferred()
         if not shows
-            shows = new Entities.ShowResults [], url: NZBAppManager.request('api:endpoint', 'SickBeard', 'shows')
+            shows = new Entities.ShowResults []
+            shows.url = NZBAppManager.request('api:endpoint', 'SickBeard', 'shows')
             shows.fetch
                 success: ->
                     # Save results to localStorage
@@ -66,7 +68,8 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
 
     getShow = (tvdbid) ->
         defer = $.Deferred()
-        show = new Entities.ShowResult {}, url: NZBAppManager.request('api:endpoint', 'SickBeard', 'show')
+        show = new Entities.ShowResult {}
+        show.url = NZBAppManager.request('api:endpoint', 'SickBeard', 'show')
         show.fetch
             data: tvdbid: tvdbid
             success: ->
