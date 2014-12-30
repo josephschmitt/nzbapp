@@ -84,7 +84,6 @@
           type: 'movies'
         },
         success: function() {
-          console.log('Movies', movieSearchResults);
           return defer.resolve(movieSearchResults);
         }
       });
@@ -101,7 +100,6 @@
             movies.each(function(movie) {
               return movie != null ? movie.save() : void 0;
             });
-            console.log('Movies', movies);
             return defer.resolve(movies);
           }
         });

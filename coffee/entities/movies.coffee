@@ -52,7 +52,6 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
                 q: term
                 type: 'movies'
             success: ->
-                console.log 'Movies', movieSearchResults
                 defer.resolve movieSearchResults
         defer.promise()
 
@@ -65,7 +64,6 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
                 success: ->
                     # Save results to localStorage
                     movies.each (movie) -> movie?.save()
-                    console.log 'Movies', movies
                     defer.resolve movies
         else
             _.defer -> defer.resolve movies
