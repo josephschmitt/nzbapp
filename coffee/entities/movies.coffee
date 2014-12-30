@@ -3,18 +3,35 @@ jjs = window.jjs = (window.jjs or {})
 
 jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marionette, $, _) ->
     class Entities.MovieResult extends Backbone.Model
-        idAttribute: '_id'
-        set: (attributes, options) ->
-            if attributes.info
-                super(attributes.info, options) 
+        parse: (response, options) ->
+            response = _.pick (if response.info? then response.info else response), [
+                'original_title'
+                'runtime'
+                'tagline'
+                'title'
+                'tmdb_id'
+                'year'
+            ]
+            super response, options
+        sync: (method, model, options={}) ->
+            # Don't try to save to the server, just to localStorage
+            if method in ['create', 'update']
+                @local = true
             else
-                super(attributes, options)
+                @local = undefined
+            options = _.extend options, 
+                dataType: 'jsonp'
+                jsonp: 'callback_func'
+            super method, model, options
 
     class Entities.MovieResults extends Backbone.Collection
         model: Entities.MovieResult
         storeName: 'Entities.MovieResults'
         parse: (response) ->
-            response.movies
+            if response.movies
+                response.movies
+            else
+                response
         sync: (method, model, options={}) ->
             options = _.extend options, 
                 dataType: 'jsonp'
@@ -40,6 +57,8 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
             movies = new Entities.MovieResults [], url: NZBAppManager.request('api:endpoint', 'CouchPotato', 'movie.list')
             movies.fetch
                 success: ->
+                    # Save results to localStorage
+                    movies.each (movie) -> movie?.save()
                     defer.resolve movies
         else
             _.defer -> defer.resolve movies

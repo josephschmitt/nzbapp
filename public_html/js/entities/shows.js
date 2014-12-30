@@ -14,15 +14,25 @@
         return ShowResult.__super__.constructor.apply(this, arguments);
       }
 
-      ShowResult.prototype.fetch = function(options) {
+      ShowResult.prototype.parse = function(response, options) {
+        response = _.pick((response.info != null ? response.info : response), ['name', 'show_name', 'network', 'first_aired', 'status']);
+        return ShowResult.__super__.parse.call(this, response, options);
+      };
+
+      ShowResult.prototype.sync = function(method, model, options) {
         if (options == null) {
           options = {};
+        }
+        if (method === 'create' || method === 'update') {
+          this.local = true;
+        } else {
+          this.local = void 0;
         }
         options = _.extend(options, {
           dataType: 'jsonp',
           jsonp: 'callback'
         });
-        return ShowResult.__super__.fetch.call(this, options);
+        return ShowResult.__super__.sync.call(this, method, model, options);
       };
 
       return ShowResult;
@@ -37,12 +47,18 @@
 
       ShowResults.prototype.model = Entities.ShowResult;
 
+      ShowResults.prototype.storeName = 'Entities.ShowResults';
+
       ShowResults.prototype.parse = function(response) {
         var _ref;
-        if ((_ref = response.data) != null ? _ref.results : void 0) {
-          return response.data.results;
+        if (response.data) {
+          if ((_ref = response.data) != null ? _ref.results : void 0) {
+            return response.data.results;
+          } else {
+            return _.toArray(response.data);
+          }
         } else {
-          return _.toArray(response.data);
+          return response;
         }
       };
 
@@ -86,6 +102,9 @@
         });
         shows.fetch({
           success: function() {
+            shows.each(function(show) {
+              return show != null ? show.save() : void 0;
+            });
             return defer.resolve(shows);
           }
         });

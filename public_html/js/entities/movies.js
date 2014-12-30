@@ -14,14 +14,25 @@
         return MovieResult.__super__.constructor.apply(this, arguments);
       }
 
-      MovieResult.prototype.idAttribute = '_id';
+      MovieResult.prototype.parse = function(response, options) {
+        response = _.pick((response.info != null ? response.info : response), ['original_title', 'runtime', 'tagline', 'title', 'tmdb_id', 'year']);
+        return MovieResult.__super__.parse.call(this, response, options);
+      };
 
-      MovieResult.prototype.set = function(attributes, options) {
-        if (attributes.info) {
-          return MovieResult.__super__.set.call(this, attributes.info, options);
-        } else {
-          return MovieResult.__super__.set.call(this, attributes, options);
+      MovieResult.prototype.sync = function(method, model, options) {
+        if (options == null) {
+          options = {};
         }
+        if (method === 'create' || method === 'update') {
+          this.local = true;
+        } else {
+          this.local = void 0;
+        }
+        options = _.extend(options, {
+          dataType: 'jsonp',
+          jsonp: 'callback_func'
+        });
+        return MovieResult.__super__.sync.call(this, method, model, options);
       };
 
       return MovieResult;
@@ -39,7 +50,11 @@
       MovieResults.prototype.storeName = 'Entities.MovieResults';
 
       MovieResults.prototype.parse = function(response) {
-        return response.movies;
+        if (response.movies) {
+          return response.movies;
+        } else {
+          return response;
+        }
       };
 
       MovieResults.prototype.sync = function(method, model, options) {
@@ -83,6 +98,9 @@
         });
         movies.fetch({
           success: function() {
+            movies.each(function(movie) {
+              return movie != null ? movie.save() : void 0;
+            });
             return defer.resolve(movies);
           }
         });

@@ -49,8 +49,13 @@
     collection = new ServersCollection();
     collection.fetch({
       success: function(collection, models, options) {
+        var _ref;
         if (!models.length) {
-          collection.set([couchPotatoServer, sickBeardServer, sabnzbdServer]);
+          if ((_ref = jjs.ServerSettings) != null ? _ref.length : void 0) {
+            collection.set(jjs.ServerSettings);
+          } else {
+            collection.set([couchPotatoServer, sickBeardServer, sabnzbdServer]);
+          }
         }
         return defer.resolve(collection);
       }

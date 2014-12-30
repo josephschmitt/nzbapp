@@ -3,19 +3,37 @@ jjs = window.jjs = (window.jjs or {})
 
 jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marionette, $, _) ->
     class Entities.ShowResult extends Backbone.Model
-        fetch: (options={}) ->
+        parse: (response, options) ->
+            response = _.pick (if response.info? then response.info else response), [
+                'name'
+                'show_name'
+                'network'
+                'first_aired'
+                'status'
+            ]
+            super response, options
+        sync: (method, model, options={}) ->
+            # Don't try to save to the server, just to localStorage
+            if method in ['create', 'update']
+                @local = true
+            else
+                @local = undefined
             options = _.extend options, 
                 dataType: 'jsonp'
                 jsonp: 'callback'
-            super options
+            super method, model, options
 
     class Entities.ShowResults extends Backbone.Collection
         model: Entities.ShowResult
+        storeName: 'Entities.ShowResults'
         parse: (response) ->
-            if response.data?.results
-                return response.data.results
-            else 
-                return _.toArray(response.data)
+            if response.data
+                if response.data?.results
+                    return response.data.results
+                else 
+                    return _.toArray(response.data)
+            else
+                return response
         sync: (method, model, options={}) ->
             options = _.extend options, 
                 dataType: 'jsonp'
@@ -39,6 +57,8 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
             shows = new Entities.ShowResults [], url: NZBAppManager.request('api:endpoint', 'SickBeard', 'shows')
             shows.fetch
                 success: ->
+                    # Save results to localStorage
+                    shows.each (show) -> show?.save()
                     defer.resolve shows
         else
             _.defer -> defer.resolve shows
