@@ -5,6 +5,8 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
     class Entities.MovieResult extends Backbone.Model
         parse: (response, options) ->
             response = _.pick (if response.info? then response.info else response), [
+                'imdb'
+                'in_wanted'
                 'original_title'
                 'runtime'
                 'tagline'
@@ -12,6 +14,7 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
                 'tmdb_id'
                 'year'
             ]
+            response.in_wanted = !!response.in_wanted
             super response, options
         sync: (method, model, options={}) ->
             # Don't try to save to the server, just to localStorage
@@ -49,6 +52,7 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
                 q: term
                 type: 'movies'
             success: ->
+                console.log 'Movies', movieSearchResults
                 defer.resolve movieSearchResults
         defer.promise()
 
@@ -61,6 +65,7 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
                 success: ->
                     # Save results to localStorage
                     movies.each (movie) -> movie?.save()
+                    console.log 'Movies', movies
                     defer.resolve movies
         else
             _.defer -> defer.resolve movies

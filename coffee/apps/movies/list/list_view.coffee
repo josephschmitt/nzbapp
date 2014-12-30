@@ -4,7 +4,7 @@ jjs = window.jjs = (window.jjs or {})
 jjs.NZBAppManager.module 'MoviesApp.List', (List, NZBAppManager, Backbone, Marionette, $, _) ->
     class List.Movie extends Marionette.ItemView
         template: '#movie-list-template'
-        className: 'row movie-list-item'
+        className: 'movie-list-item'
         ui:
             add: '.add-item-button'
             remove: '.remove-item-button'

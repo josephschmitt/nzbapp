@@ -15,7 +15,7 @@
 
       Movie.prototype.template = '#movie-list-template';
 
-      Movie.prototype.className = 'row movie-list-item';
+      Movie.prototype.className = 'movie-list-item';
 
       Movie.prototype.ui = {
         add: '.add-item-button',

@@ -1,3 +1,8 @@
+/* 0, 640px */
+/* 641px, 1024px */
+/* 1025px, 1440px */
+/* 1441px, 1920px */
+/* 1921px */
 body, html {
   margin: 0;
   padding: 0;
@@ -39,15 +44,33 @@ a:hover {
   text-align: center;
 }
 
-.search-results [class*=list-item].row *:first-child {
-  padding-left: 0;
+[class*=list-item] {
+  padding: 1rem 0;
 }
-.search-results [class*=list-item].row *:last-child {
-  padding-right: 0;
+[class*=list-item]:nth-of-type(even) {
+  background: #F9F9F9;
 }
-
-.add-item-button {
-  display: block;
+[class*=list-item] h3, [class*=list-item] h4, [class*=list-item] h6 {
+  margin: 0;
+}
+[class*=list-item] p {
+  line-height: 1.25rem;
+  margin: 0.5rem 0 0.15rem;
+}
+[class*=list-item] .media-action {
+  text-align: right;
+}
+[class*=list-item] .button {
+  display: inline-block;
+  margin: 2px 0;
+}
+@media only screen and (max-width: 40em) {
+  [class*=list-item] .button {
+    padding-top: 0.4875rem;
+    padding-bottom: 0.4875rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
 }
 
 .movies-list {
@@ -56,11 +79,6 @@ a:hover {
   list-style: none;
 }
 
-/* 0, 640px */
-/* 641px, 1024px */
-/* 1025px, 1440px */
-/* 1441px, 1920px */
-/* 1921px */
 /*  Base page styles */
 * {
   text-rendering: optimizeLegibility;

@@ -15,7 +15,8 @@
       }
 
       MovieResult.prototype.parse = function(response, options) {
-        response = _.pick((response.info != null ? response.info : response), ['original_title', 'runtime', 'tagline', 'title', 'tmdb_id', 'year']);
+        response = _.pick((response.info != null ? response.info : response), ['imdb', 'in_wanted', 'original_title', 'runtime', 'tagline', 'title', 'tmdb_id', 'year']);
+        response.in_wanted = !!response.in_wanted;
         return MovieResult.__super__.parse.call(this, response, options);
       };
 
@@ -83,6 +84,7 @@
           type: 'movies'
         },
         success: function() {
+          console.log('Movies', movieSearchResults);
           return defer.resolve(movieSearchResults);
         }
       });
@@ -99,6 +101,7 @@
             movies.each(function(movie) {
               return movie != null ? movie.save() : void 0;
             });
+            console.log('Movies', movies);
             return defer.resolve(movies);
           }
         });

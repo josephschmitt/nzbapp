@@ -1,14 +1,4 @@
-//
-//  Notes:
-//
-//  core/   folder that includes generic/reusable components
-//  app/    includes styles that are very specific to this project (just in certain areas)
-//
 @import
-    'base',
-    'pages/search',
-    'pages/movies',
-    'pages/downloads',
     'foundation/functions';
 
 // 
@@ -43,6 +33,20 @@ $xlarge-only: "#{$screen} and (min-width:#{lower-bound($xlarge-range)}) and (max
 
 $xxlarge-up: "#{$screen} and (min-width:#{lower-bound($xxlarge-range)})" !default;
 $xxlarge-only: "#{$screen} and (min-width:#{lower-bound($xxlarge-range)}) and (max-width:#{upper-bound($xxlarge-range)})" !default;
+
+
+//
+//  Notes:
+//
+//  core/   folder that includes generic/reusable components
+//  app/    includes styles that are very specific to this project (just in certain areas)
+//
+@import
+    'base',
+    'pages/search',
+    'pages/movies',
+    'pages/downloads';
+
 
 
 

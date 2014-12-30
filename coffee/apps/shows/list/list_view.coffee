@@ -4,8 +4,7 @@ jjs = window.jjs = (window.jjs or {})
 jjs.NZBAppManager.module 'ShowsApp.List', (List, NZBAppManager, Backbone, Marionette, $, _) ->
     class List.Show extends Marionette.ItemView
         template: '#show-list-template'
-        # tagName: 'li'
-        className: 'row show-list-item'
+        className: 'show-list-item'
         ui:
             add: '.add-item-button'
         events:
@@ -16,7 +15,6 @@ jjs.NZBAppManager.module 'ShowsApp.List', (List, NZBAppManager, Backbone, Marion
     
     class List.Shows extends Marionette.CollectionView
         childView: List.Show
-        # tagName: 'ul'
         className: 'shows-list'
         initialize: ->
             super

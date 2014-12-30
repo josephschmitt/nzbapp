@@ -76,25 +76,45 @@
     </script>
 
     <script type="text/template" id="movie-list-template">
-        <div class="small-9 columns">
-            <h3><%= data.title || data.original_title %></h3>
-            <h4 class="subtitle"><%= data.year %></h4>
-            <% if (data.tagline) { %><p><%= data.tagline %></p><% } %>
+        <div class="row">
+            <div class="small-9 large-11 columns media-meta">
+                <h4><%= data.title || data.original_title %></h4>
+                <h6 class="subheader"><%= data.year %></h6>
+            </div>
+            <div class="small-3 large-1 columns media-action">
+                <% if (!data.in_wanted) { %>
+                    <a class="button tiny radius fi-plus success add-item-button"></a>
+                <% } else { %>
+                    <a class="button tiny radius fi-x alert remove-item-button"></a>
+                <% } %>
+            </div>
         </div>
-        <div class="small-3 columns">
-            <a class="button tiny fi-plus success add-item-button"></a>
+        <div class="row">
+            <div class="small-12 columns media-description">
+                <% if (data.tagline) { %><p><%= data.tagline %></p><% } %>
+            </div>
         </div>
     </script>
 
     <script type="text/template" id="show-list-template">
-        <div class="small-10 columns">
-            <h3><%= data.show_name || data.name %></h3>
-            <% if (data.network) { %><h4 class="subtitle"><%= data.network %></h4><% } %>
-            <% if (data.first_aired) { %><h4 class="subtitle">First aired: <%= data.first_aired %></h4><% } %>
-            <% if (data.status) { %><p>Status: <span class="label rounded <% if (data.status != 'Ended' ) { %>success<% } else { %>secondary<% } %>"><%= data.status %></span></p><% } %>
+        <div class="row">
+            <div class="small-9 large-11 columns media-meta">
+                <h4><%= data.show_name || data.name %></h4>
+                <% if (data.network) { %><h6 class="subheader"><%= data.network %></h6><% } %>
+                <% if (data.first_aired) { %><h6 class="subheader">First aired: <%= data.first_aired %></h6><% } %>
+            </div>
+            <div class="small-3 large-1 columns media-action">
+                <% if (!data.in_wanted) { %>
+                    <a class="button tiny radius fi-plus success add-item-button"></a>
+                <% } else { %>
+                    <a class="button tiny radius fi-x alert remove-item-button"></a>
+                <% } %>
+            </div>
         </div>
-        <div class="small-2 columns">
-            <a class="button tiny fi-plus success add-item-button"></a>
+        <div class="row">
+            <div class="small-12 columns media-description">
+                <% if (data.status) { %><p><span class="label rounded <% if (data.status != 'Ended' ) { %>success<% } else { %>secondary<% } %>"><%= data.status %></span></p><% } %>
+            </div>
         </div>
     </script>
 
@@ -115,7 +135,7 @@
     <script type="text/template" id="download-list-template">
         <div class="small-12 columns">
             <h3><%= data.filename || data.name %></h3>
-            <h4 class="subtitle"><%= data.status %></h4>
+            <h4 class="subheader"><%= data.status %></h4>
         </div>
         <% if (data.percentage != 0 && data.status != 'Completed') { %>
             <div class="small-12 columns">

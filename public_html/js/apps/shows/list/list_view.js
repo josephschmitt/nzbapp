@@ -15,7 +15,7 @@
 
       Show.prototype.template = '#show-list-template';
 
-      Show.prototype.className = 'row show-list-item';
+      Show.prototype.className = 'show-list-item';
 
       Show.prototype.ui = {
         add: '.add-item-button'
