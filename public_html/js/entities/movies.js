@@ -64,10 +64,7 @@
         }
         options = _.extend(options, {
           dataType: 'jsonp',
-          jsonp: 'callback_func',
-          data: {
-            status: 'active'
-          }
+          jsonp: 'callback_func'
         });
         return MovieResults.__super__.sync.apply(this, arguments);
       };
@@ -99,6 +96,9 @@
         movies = new Entities.MovieResults([]);
         movies.url = NZBAppManager.request('api:endpoint', 'CouchPotato', 'movie.list');
         movies.fetch({
+          data: {
+            status: 'active'
+          },
           success: function() {
             movies.each(function(movie) {
               return movie != null ? movie.save() : void 0;
