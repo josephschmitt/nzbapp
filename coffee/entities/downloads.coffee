@@ -33,6 +33,15 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
             _.defer -> defer.resolve downloads
         defer.promise()
 
+    pingQueue = () ->
+        defer = $.Deferred()
+        downloads = new Entities.DownloadsQueue []
+        downloads.url = NZBAppManager.request('api:endpoint', 'SABnzbd', 'queue')
+        downloads.fetch
+            success: ->
+                defer.resolve downloads
+        defer.promise()
+
     getHistory = () ->
         defer = $.Deferred()
         if not downloadsHistory
@@ -53,6 +62,8 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
 
     NZBAppManager.reqres.setHandler 'downloads:queue:entities', ->
         getQueued()
+    NZBAppManager.reqres.setHandler 'downloads:queue:ping:entities', ->
+        pingQueue()
     NZBAppManager.reqres.setHandler 'downloads:history:entities', ->
         getHistory()
     NZBAppManager.reqres.setHandler 'downloads:tabs:entities', ->

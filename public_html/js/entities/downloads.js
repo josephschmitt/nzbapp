@@ -6,7 +6,7 @@
   jjs = window.jjs = window.jjs || {};
 
   jjs.NZBAppManager.module('Entities', function(Entities, NZBAppManager, Backbone, Marionette, $, _) {
-    var downloads, downloadsHistory, downloadsTabs, getHistory, getQueued, getTabs;
+    var downloads, downloadsHistory, downloadsTabs, getHistory, getQueued, getTabs, pingQueue;
     Entities.DownloadsSlot = (function(_super) {
       __extends(DownloadsSlot, _super);
 
@@ -70,6 +70,18 @@
       }
       return defer.promise();
     };
+    pingQueue = function() {
+      var defer;
+      defer = $.Deferred();
+      downloads = new Entities.DownloadsQueue([]);
+      downloads.url = NZBAppManager.request('api:endpoint', 'SABnzbd', 'queue');
+      downloads.fetch({
+        success: function() {
+          return defer.resolve(downloads);
+        }
+      });
+      return defer.promise();
+    };
     getHistory = function() {
       var defer;
       defer = $.Deferred();
@@ -103,6 +115,9 @@
     };
     NZBAppManager.reqres.setHandler('downloads:queue:entities', function() {
       return getQueued();
+    });
+    NZBAppManager.reqres.setHandler('downloads:queue:ping:entities', function() {
+      return pingQueue();
     });
     NZBAppManager.reqres.setHandler('downloads:history:entities', function() {
       return getHistory();
