@@ -305,11 +305,12 @@ nav.icon-bar .item i {
 nav.icon-bar .item .progbar {
   position: absolute;
   z-index: 0;
-  top: 0;
   left: 0;
   bottom: 0;
   right: 0;
   width: 0%;
+  height: 10%;
+  opacity: 0.5;
 }
 nav.icon-bar .item .progbar.secondary {
   background: #e7e7e7;
@@ -325,6 +326,9 @@ nav.icon-bar .item .progbar.warning {
 }
 nav.icon-bar .item .progbar.info {
   background: #a0d3e8;
+}
+nav.icon-bar .item.active .progbar {
+  opacity: 1;
 }
 
 @media only screen and (min-width: 40.063em) {

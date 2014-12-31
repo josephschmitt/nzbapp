@@ -91,11 +91,13 @@ nav.icon-bar {
 		.progbar {
 			position: absolute;
 			z-index: 0;
-			top: 0;
 			left: 0;
 			bottom: 0;
 			right: 0;
 			width: 0%;
+			height: 10%;
+
+			opacity: 0.5;
 
 			&.secondary {
 				background: $secondary-color;
@@ -111,6 +113,12 @@ nav.icon-bar {
 			}
 			&.info {
 				background: $info-color;
+			}
+		}
+
+		&.active {
+			.progbar {
+				opacity: 1;
 			}
 		}
 	}
