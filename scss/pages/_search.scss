@@ -18,7 +18,12 @@
 	}
 
 	h3, h4, h6 {
-		margin: 0;
+		margin: 0 50px 0 0;
+		overflow: hidden;
+
+		@media #{$medium-up} {
+			margin-right: 70px;
+		}
 	}
 
 	p {
@@ -26,8 +31,10 @@
 		margin: 0.5rem 0 0.15rem;
 	}
 
-	.media-action {
-		text-align: right;
+	.media-meta {
+		.button {
+			float: right;
+		}
 	}
 
 	.button {

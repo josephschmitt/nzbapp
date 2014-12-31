@@ -51,14 +51,20 @@ a:hover {
   background: #F9F9F9;
 }
 [class*=list-item] h3, [class*=list-item] h4, [class*=list-item] h6 {
-  margin: 0;
+  margin: 0 50px 0 0;
+  overflow: hidden;
+}
+@media only screen and (min-width: 40.063em) {
+  [class*=list-item] h3, [class*=list-item] h4, [class*=list-item] h6 {
+    margin-right: 70px;
+  }
 }
 [class*=list-item] p {
   line-height: 1.25rem;
   margin: 0.5rem 0 0.15rem;
 }
-[class*=list-item] .media-action {
-  text-align: right;
+[class*=list-item] .media-meta .button {
+  float: right;
 }
 [class*=list-item] .button {
   display: inline-block;

@@ -77,16 +77,14 @@
 
     <script type="text/template" id="movie-list-template">
         <div class="row">
-            <div class="small-9 large-11 columns media-meta">
-                <h4><%= data.title || data.original_title %></h4>
-                <h6 class="subheader"><%= data.year %></h6>
-            </div>
-            <div class="small-3 large-1 columns media-action">
+            <div class="small-12 columns media-meta">
                 <% if (!data.in_wanted) { %>
                     <a class="button tiny radius fi-plus success add-item-button"></a>
                 <% } else { %>
                     <a class="button tiny radius fi-x alert remove-item-button"></a>
                 <% } %>
+                <h4><%= data.title || data.original_title %></h4>
+                <h6 class="subheader"><%= data.year %></h6>
             </div>
         </div>
         <div class="row">
@@ -98,17 +96,15 @@
 
     <script type="text/template" id="show-list-template">
         <div class="row">
-            <div class="small-9 large-11 columns media-meta">
-                <h4><%= data.show_name || data.name %></h4>
-                <% if (data.network) { %><h6 class="subheader"><%= data.network %></h6><% } %>
-                <% if (data.first_aired) { %><h6 class="subheader">First aired: <%= data.first_aired %></h6><% } %>
-            </div>
-            <div class="small-3 large-1 columns media-action">
+            <div class="small-12 columns media-meta">
                 <% if (!data.in_wanted) { %>
                     <a class="button tiny radius fi-plus success add-item-button"></a>
                 <% } else { %>
                     <a class="button tiny radius fi-x alert remove-item-button"></a>
                 <% } %>
+                <h4><%= data.show_name || data.name %></h4>
+                <% if (data.network) { %><h6 class="subheader"><%= data.network %></h6><% } %>
+                <% if (data.first_aired) { %><h6 class="subheader">First aired: <%= data.first_aired %></h6><% } %>
             </div>
         </div>
         <div class="row">
@@ -131,12 +127,13 @@
 
     <script type="text/template" id="download-list-template">
         <div class="row">
-            <div class="small-9 large-11 columns media-meta">
+            <div class="small-12 columns media-meta">
+                <a class="button tiny radius fi-x alert remove-item-button"></a>
                 <h4><%= data.filename || data.name %></h4>
                 <h6 class="subheader"><%= data.status %></h6>
             </div>
         </div>
-        <% if (data.percentage != 0 && data.status != 'Completed') { %>
+        <% if (data.percentage != 0 && (data.status != 'Completed' && data.status != 'Failed')) { %>
             <div class="row">
                 <div class="small-12 columns">
                     <div class="progress"><span class="meter" style="width: <%- data.percentage %>%"></span></div>
@@ -145,9 +142,6 @@
                 <div class="small-6 columns align-right"><%= data.size %></div>
             </div>
         <% } %>
-        <!--div class="small-2 columns">
-            <a class="button tiny fi-plus"></a>
-        </div-->
     </script>
 
     <script type="text/template" id="alert-template">
@@ -175,10 +169,6 @@
     <script src="js/apps/downloads/downloads_app.js"></script>
     <script src="js/apps/downloads/list/list_controller.js"></script>
     <script src="js/apps/downloads/list/list_view.js"></script>
-    <script src="js/apps/downloads/tabs/tabs
-tabs_view.js"></script>
-    <script src="js/apps/downloads/tabs/tabs_controller.js"></script>
-    <script src="js/apps/downloads/tabs/tabs_view.js"></script>
     <script src="js/apps/modal/modal_app.js"></script>
     <script src="js/apps/modal/show/show_controller.js"></script>
     <script src="js/apps/modal/show/show_view.js"></script>
