@@ -101,6 +101,14 @@ a:hover {
   margin-bottom: 0;
 }
 
+.download-progress {
+  margin-top: 0.5rem;
+}
+.download-progress .progress {
+  margin-left: -3px;
+  margin-right: -3px;
+}
+
 /*  Base page styles */
 * {
   text-rendering: optimizeLegibility;

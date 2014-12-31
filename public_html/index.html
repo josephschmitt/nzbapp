@@ -126,6 +126,7 @@
     </script>
 
     <script type="text/template" id="download-list-template">
+        <% statusColor = data.status == 'Downloading' ? 'success' : data.status == 'Queued' ? 'secondary' : '' %>
         <div class="row">
             <div class="small-12 columns media-meta">
                 <% if (data.status == 'Queued' || data.status == 'Downloading') { %> 
@@ -136,16 +137,16 @@
                     <a class="button tiny radius fi-x alert remove-item-button"></a>
                 <% } %>
                 <h4><%= data.filename || data.name %></h4>
-                <h6 class="subheader"><%= data.status %></h6>
+                <h6 class="subheader"><span class="label radius <%- statusColor %>"><%= data.status %></span></h6>
             </div>
         </div>
         <% if (data.percentage != 0 && (data.status != 'Completed' && data.status != 'Failed')) { %>
-            <div class="row">
+            <div class="row download-progress">
                 <div class="small-12 columns">
-                    <div class="progress"><span class="meter" style="width: <%- data.percentage %>%"></span></div>
+                    <div class="progress <%- statusColor %>"><span class="meter" style="width: <%- data.percentage %>%"></span></div>
                 </div>
-                <div class="small-6 columns"><%= data.mb - data.mbleft %> MB</div>
-                <div class="small-6 columns align-right"><%= data.size %></div>
+                <!--div class="small-6 columns"><%= data.mb - data.mbleft %> MB</div>
+                <div class="small-6 columns align-right"><%= data.size %></div-->
             </div>
         <% } %>
     </script>

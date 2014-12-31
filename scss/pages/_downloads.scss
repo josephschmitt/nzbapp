@@ -13,3 +13,12 @@
 	padding: 10px 10px 10px 0; 
 	margin-bottom: 0;
 }
+
+.download-progress {
+	margin-top: 0.5rem;
+
+	.progress {
+		margin-left: -3px;
+		margin-right: -3px;
+	}
+}
