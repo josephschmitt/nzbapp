@@ -89,7 +89,7 @@
         </div>
         <div class="row">
             <div class="small-12 columns media-description">
-                <% if (data.tagline) { %><p><%= data.tagline %></p><% } %>
+                <% if (data.tagline) { %><p class="subheader"><%= data.tagline %></p><% } %>
             </div>
         </div>
     </script>
@@ -109,7 +109,7 @@
         </div>
         <div class="row">
             <div class="small-12 columns media-description">
-                <% if (data.status) { %><p><span class="label rounded <% if (data.status != 'Ended' ) { %>success<% } else { %>secondary<% } %>"><%= data.status %></span></p><% } %>
+                <% if (data.status) { %><p><span class="label radius <% if (data.status != 'Ended' ) { %>success<% } else { %>secondary<% } %>"><%= data.status %></span></p><% } %>
             </div>
         </div>
     </script>
