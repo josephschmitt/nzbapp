@@ -4,7 +4,7 @@ jjs = window.jjs = (window.jjs or {})
 jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marionette, $, _) ->
     class Entities.MovieResult extends Backbone.Model
         parse: (response, options) ->
-            response = _.pick (if response.info? then response.info else response), [
+            resp = _.pick (if response.info? then response.info else response), [
                 'imdb'
                 'in_wanted'
                 'original_title'
@@ -14,8 +14,8 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
                 'tmdb_id'
                 'year'
             ]
-            response.in_wanted = !!response.in_wanted
-            super response, options
+            resp.in_wanted = !!resp.in_wanted or response.status == 'active'
+            super resp, options
         sync: (method, model, options={}) ->
             # Don't try to save to the server, just to localStorage
             if method in ['create', 'update']

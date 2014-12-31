@@ -15,9 +15,10 @@
       }
 
       MovieResult.prototype.parse = function(response, options) {
-        response = _.pick((response.info != null ? response.info : response), ['imdb', 'in_wanted', 'original_title', 'runtime', 'tagline', 'title', 'tmdb_id', 'year']);
-        response.in_wanted = !!response.in_wanted;
-        return MovieResult.__super__.parse.call(this, response, options);
+        var resp;
+        resp = _.pick((response.info != null ? response.info : response), ['imdb', 'in_wanted', 'original_title', 'runtime', 'tagline', 'title', 'tmdb_id', 'year']);
+        resp.in_wanted = !!resp.in_wanted || response.status === 'active';
+        return MovieResult.__super__.parse.call(this, resp, options);
       };
 
       MovieResult.prototype.sync = function(method, model, options) {
