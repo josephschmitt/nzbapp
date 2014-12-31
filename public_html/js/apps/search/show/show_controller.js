@@ -20,7 +20,6 @@
           type: type,
           value: term
         });
-        searchView.render();
         if (defer != null) {
           defer.fail();
         }
