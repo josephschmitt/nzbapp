@@ -23,9 +23,7 @@ jjs.NZBAppManager.module 'DownloadsApp.List', (List, NZBAppManager, Backbone, Ma
             @listenTo @model, 'change', @render
         render: ->
             super
-            @$el
-                .toggleClass 'active', !!@model.get('active')
-
+            @$el.toggleClass 'active', !!@model.get('active')
         navigate: (e) ->
             e.preventDefault()
             NZBAppManager.trigger @model.get('trigger')
@@ -47,9 +45,10 @@ jjs.NZBAppManager.module 'DownloadsApp.List', (List, NZBAppManager, Backbone, Ma
         render: ->
             super
             @tabsRegion.show new List.TabsView collection: NZBAppManager.request 'downloads:tabs:entities'
-        setCollection: (collection) ->
+        setCollection: (collection, type) ->
             view = new List.Downloads collection: collection
             @contentRegion.show view
+            @setTab type
         setTab: (tabUrl) ->
             collection = @tabsRegion.currentView.collection
             collection.findWhere(active: true)?.set 'active', false

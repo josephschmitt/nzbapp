@@ -13,8 +13,7 @@
           NZBAppManager.mainRegion.show(downloadsView);
         }
         return $.when(NZBAppManager.request('downloads:queue:entities')).done(function(queued) {
-          downloadsView.setCollection(queued);
-          return downloadsView.setTab('queue');
+          return downloadsView.setCollection(queued, 'queue');
         });
       },
       listHistory: function() {
@@ -23,8 +22,7 @@
           NZBAppManager.mainRegion.show(downloadsView);
         }
         return $.when(NZBAppManager.request('downloads:history:entities')).done(function(history) {
-          downloadsView.setCollection(history);
-          return downloadsView.setTab('history');
+          return downloadsView.setCollection(history, 'history');
         });
       }
     };

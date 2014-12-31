@@ -128,7 +128,13 @@
     <script type="text/template" id="download-list-template">
         <div class="row">
             <div class="small-12 columns media-meta">
-                <a class="button tiny radius fi-x alert remove-item-button"></a>
+                <% if (data.status == 'Queued' || data.status == 'Downloading') { %> 
+                    <a class="button tiny radius fi-pause secondary pause-queue-button"></a>    
+                <% } else if (data.status == 'Paused') { %>
+                    <a class="button tiny radius fi-play secondary resume-queue-button"></a>    
+                <% } else { %>
+                    <a class="button tiny radius fi-x alert remove-item-button"></a>
+                <% } %>
                 <h4><%= data.filename || data.name %></h4>
                 <h6 class="subheader"><%= data.status %></h6>
             </div>

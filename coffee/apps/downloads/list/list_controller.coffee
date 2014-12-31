@@ -10,13 +10,11 @@ jjs.NZBAppManager.module 'DownloadsApp.List', (List, NZBAppManager, Backbone, Ma
 				NZBAppManager.mainRegion.show downloadsView
 
 			$.when(NZBAppManager.request('downloads:queue:entities')).done (queued) ->
-				downloadsView.setCollection queued
-				downloadsView.setTab 'queue'
+				downloadsView.setCollection queued, 'queue'
 		listHistory: ->
 			if not downloadsView?.currentView
 				downloadsView = new List.DownloadsView()
 				NZBAppManager.mainRegion.show downloadsView
 
 			$.when(NZBAppManager.request('downloads:history:entities')).done (history) ->
-				downloadsView.setCollection history
-				downloadsView.setTab 'history'
+				downloadsView.setCollection history, 'history'

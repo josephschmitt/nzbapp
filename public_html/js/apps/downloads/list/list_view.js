@@ -113,12 +113,13 @@
         }));
       };
 
-      DownloadsView.prototype.setCollection = function(collection) {
+      DownloadsView.prototype.setCollection = function(collection, type) {
         var view;
         view = new List.Downloads({
           collection: collection
         });
-        return this.contentRegion.show(view);
+        this.contentRegion.show(view);
+        return this.setTab(type);
       };
 
       DownloadsView.prototype.setTab = function(tabUrl) {
