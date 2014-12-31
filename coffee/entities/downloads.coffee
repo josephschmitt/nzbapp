@@ -47,7 +47,7 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
         doPing = ->
             downloads.fetch
                 success: (collection, response, options) ->
-                    deferredPing.notify downloads, response.queue
+                    deferredPing?.notify downloads, response.queue
                     if shouldPing then setTimeout doPing, 1000
 
         shouldPing = true

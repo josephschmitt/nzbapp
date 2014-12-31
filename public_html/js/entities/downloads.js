@@ -84,7 +84,9 @@
       doPing = function() {
         return downloads.fetch({
           success: function(collection, response, options) {
-            deferredPing.notify(downloads, response.queue);
+            if (deferredPing != null) {
+              deferredPing.notify(downloads, response.queue);
+            }
             if (shouldPing) {
               return setTimeout(doPing, 1000);
             }
