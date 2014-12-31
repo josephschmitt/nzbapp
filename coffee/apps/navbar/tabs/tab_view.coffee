@@ -11,6 +11,10 @@ jjs.NZBAppManager.module 'NavbarApp.Tabs', (Tabs, NZBAppManager, Backbone, Mario
         initialize: ->
             super
             @listenTo @model, 'change', @render
+            if @model.get('name') is 'Downloads'
+                NZBAppManager.on 'downloads:queue:ping', (progress, queued, status) => 
+                    @model.set 'progress', progress * 100
+                    @model.set 'status', status
         render: ->
             super
             @$el
@@ -19,10 +23,12 @@ jjs.NZBAppManager.module 'NavbarApp.Tabs', (Tabs, NZBAppManager, Backbone, Mario
 
             if @model.get 'serverName'
                 @$el.toggleClass 'hide', not NZBAppManager.request('servers:entities:valid', @model.get('serverName'))
-
         navigate: (e) ->
             e.preventDefault()
             @trigger 'navigate', @model
+        destroy: ->
+            NZBAppManager.off 'downloads:queue:ping'
+            super
 
     class Tabs.TabsView extends Marionette.CollectionView
         childView: Tabs.TabView

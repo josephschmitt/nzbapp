@@ -51,7 +51,7 @@
     Downloads.on('start', function() {
       deferredPing = NZBAppManager.request('downloads:queue:ping:entities');
       return $.when(deferredPing).progress(function(queued, response) {
-        return NZBAppManager.trigger('downloads:queue:ping', 1 - parseFloat(response.mbleft) / parseFloat(response.mb), queued);
+        return NZBAppManager.trigger('downloads:queue:ping', 1 - parseFloat(response.mbleft) / parseFloat(response.mb), queued, response.status);
       });
     });
     Downloads.on('stop', function() {

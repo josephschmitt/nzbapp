@@ -29,7 +29,7 @@ jjs.NZBAppManager.module 'DownloadsApp', (Downloads, NZBAppManager, Backbone, Ma
 	Downloads.on 'start', ->
 		deferredPing = NZBAppManager.request('downloads:queue:ping:entities')
 		$.when(deferredPing).progress (queued, response) ->
-			NZBAppManager.trigger 'downloads:queue:ping', 1 - parseFloat(response.mbleft) / parseFloat(response.mb), queued
+			NZBAppManager.trigger 'downloads:queue:ping', 1 - parseFloat(response.mbleft) / parseFloat(response.mb), queued, response.status
 
 	Downloads.on 'stop', ->
 		deferredPing.resolve()

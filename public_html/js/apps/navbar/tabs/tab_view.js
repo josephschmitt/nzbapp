@@ -25,7 +25,15 @@
 
       TabView.prototype.initialize = function() {
         TabView.__super__.initialize.apply(this, arguments);
-        return this.listenTo(this.model, 'change', this.render);
+        this.listenTo(this.model, 'change', this.render);
+        if (this.model.get('name') === 'Downloads') {
+          return NZBAppManager.on('downloads:queue:ping', (function(_this) {
+            return function(progress, queued, status) {
+              _this.model.set('progress', progress * 100);
+              return _this.model.set('status', status);
+            };
+          })(this));
+        }
       };
 
       TabView.prototype.render = function() {
@@ -39,6 +47,11 @@
       TabView.prototype.navigate = function(e) {
         e.preventDefault();
         return this.trigger('navigate', this.model);
+      };
+
+      TabView.prototype.destroy = function() {
+        NZBAppManager.off('downloads:queue:ping');
+        return TabView.__super__.destroy.apply(this, arguments);
       };
 
       return TabView;
