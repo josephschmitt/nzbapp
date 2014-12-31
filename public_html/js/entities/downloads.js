@@ -6,7 +6,7 @@
   jjs = window.jjs = window.jjs || {};
 
   jjs.NZBAppManager.module('Entities', function(Entities, NZBAppManager, Backbone, Marionette, $, _) {
-    var downloads, downloadsHistory, downloadsTabs, getHistory, getQueued, getTabs, pingQueue;
+    var deferredPing, downloads, downloadsHistory, downloadsTabs, getHistory, getQueued, getTabs, pingQueue, shouldPing;
     Entities.DownloadsSlot = (function(_super) {
       __extends(DownloadsSlot, _super);
 
@@ -52,6 +52,8 @@
     downloads = null;
     downloadsHistory = null;
     downloadsTabs = null;
+    deferredPing = null;
+    shouldPing = false;
     getQueued = function() {
       var defer;
       defer = $.Deferred();
@@ -71,16 +73,23 @@
       return defer.promise();
     };
     pingQueue = function() {
-      var defer;
-      defer = $.Deferred();
+      var doPing;
+      deferredPing = deferredPing || $.Deferred();
       downloads = new Entities.DownloadsQueue([]);
       downloads.url = NZBAppManager.request('api:endpoint', 'SABnzbd', 'queue');
-      downloads.fetch({
-        success: function() {
-          return defer.resolve(downloads);
-        }
-      });
-      return defer.promise();
+      doPing = function() {
+        return downloads.fetch({
+          success: function() {
+            deferredPing.notify(downloads);
+            if (shouldPing) {
+              return setTimeout(doPing, 1000);
+            }
+          }
+        });
+      };
+      shouldPing = true;
+      doPing();
+      return deferredPing.promise();
     };
     getHistory = function() {
       var defer;
@@ -118,6 +127,10 @@
     });
     NZBAppManager.reqres.setHandler('downloads:queue:ping:entities', function() {
       return pingQueue();
+    });
+    NZBAppManager.commands.setHandler('downloads:queue:ping:stop', function() {
+      shouldPing = false;
+      return deferredPing = null;
     });
     NZBAppManager.reqres.setHandler('downloads:history:entities', function() {
       return getHistory();

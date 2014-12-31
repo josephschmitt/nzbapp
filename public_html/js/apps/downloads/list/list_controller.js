@@ -19,17 +19,12 @@
         });
       },
       pingQueue: function() {
-        return $.when(NZBAppManager.request('downloads:queue:ping:entities')).done(function(queued) {
+        return $.when(NZBAppManager.request('downloads:queue:ping:entities')).progress(function(queued) {
           var _ref;
           if (downloadsView && downloadsView.contentRegion) {
-            if (downloadsView != null) {
-              if ((_ref = downloadsView.contentRegion.currentView) != null) {
-                _ref.collection.set(queued.models);
-              }
-            }
-            return queueTimeout = setTimeout(List.Controller.pingQueue, 5000);
+            return downloadsView != null ? (_ref = downloadsView.contentRegion.currentView) != null ? _ref.collection.set(queued.models) : void 0 : void 0;
           } else {
-            return clearTimeout(queueTimeout);
+            return NZBAppManager.execute('downloads:queue:ping:stop');
           }
         });
       },

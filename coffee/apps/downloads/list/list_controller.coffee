@@ -14,12 +14,11 @@ jjs.NZBAppManager.module 'DownloadsApp.List', (List, NZBAppManager, Backbone, Ma
 				downloadsView.setCollection queued, 'queue'
 				List.Controller.pingQueue()
 		pingQueue: ->
-			$.when(NZBAppManager.request('downloads:queue:ping:entities')).done (queued) ->
+			$.when(NZBAppManager.request('downloads:queue:ping:entities')).progress (queued) ->
 				if downloadsView and downloadsView.contentRegion
 					downloadsView?.contentRegion.currentView?.collection.set queued.models
-					queueTimeout = setTimeout List.Controller.pingQueue, 5000
 				else
-					clearTimeout queueTimeout
+					NZBAppManager.execute 'downloads:queue:ping:stop'
 		listHistory: ->
 			clearTimeout queueTimeout
 			if not downloadsView?.currentView
