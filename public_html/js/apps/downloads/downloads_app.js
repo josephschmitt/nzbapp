@@ -6,7 +6,7 @@
   jjs = window.jjs = window.jjs || {};
 
   jjs.NZBAppManager.module('DownloadsApp', function(Downloads, NZBAppManager, Backbone, Marionette, $, _) {
-    var routesController;
+    var deferredPing, routesController;
     Downloads.RoutesController = (function() {
       function RoutesController() {}
 
@@ -46,6 +46,16 @@
     NZBAppManager.on('downloads:history:list', function() {
       NZBAppManager.navigate('downloads/history');
       return routesController.listHistory();
+    });
+    deferredPing = null;
+    Downloads.on('start', function() {
+      deferredPing = NZBAppManager.request('downloads:queue:ping:entities');
+      return $.when(deferredPing).progress(function(queued, response) {
+        return NZBAppManager.trigger('downloads:queue:ping', 1 - parseFloat(response.mbleft) / parseFloat(response.mb), queued);
+      });
+    });
+    Downloads.on('stop', function() {
+      return deferredPing.resolve();
     });
     return NZBAppManager.addInitializer(function() {
       return new Downloads.Router({
