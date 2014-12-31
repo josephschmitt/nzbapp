@@ -120,6 +120,7 @@ input[type=search] {
 }
 
 .alert-box {
+	z-index: $zindex-alert;
 	position: fixed;
 	top: 0;
 	left: 0;

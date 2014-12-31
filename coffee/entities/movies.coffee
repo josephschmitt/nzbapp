@@ -14,8 +14,9 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
                 'tmdb_id'
                 'year'
             ]
+            resp._id = response._id
             resp.in_wanted = !!resp.in_wanted or response.status == 'active'
-            super resp, options
+            resp
         sync: (method, model, options={}) ->
             # Don't try to save to the server, just to localStorage
             if method in ['create', 'update']
@@ -80,6 +81,14 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
                 identifier: movie?.get 'imdb'
         defer.promise()
 
+    removeMovie = (movie) ->
+        defer = $.ajax NZBAppManager.request('api:endpoint', 'CouchPotato', 'movie.delete'),
+            dataType: 'jsonp'
+            jsonp: 'callback_func'
+            data:
+                id: movie?.get '_id'
+        defer.promise()
+
     NZBAppManager.reqres.setHandler 'movies:search', (term) ->
         getMovieSearchResults(term)
 
@@ -88,3 +97,6 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
 
     NZBAppManager.reqres.setHandler 'movies:add', (movie) ->
         addMovie(movie)
+
+    NZBAppManager.reqres.setHandler 'movies:remove', (movie) ->
+        removeMovie(movie)

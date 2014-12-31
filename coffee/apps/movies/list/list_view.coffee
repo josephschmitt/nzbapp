@@ -10,9 +10,13 @@ jjs.NZBAppManager.module 'MoviesApp.List', (List, NZBAppManager, Backbone, Mario
             remove: '.remove-item-button'
         events:
             'click @ui.add': 'addMovie'
+            'click @ui.remove': 'removeMovie'
         addMovie: (e) ->
             e?.preventDefault()
             List.Controller.addMovie @model
+        removeMovie: (e) ->
+            e?.preventDefault()
+            List.Controller.removeMovie @model
     
     class List.Movies extends Marionette.CollectionView
         childView: List.Movie

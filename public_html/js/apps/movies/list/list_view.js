@@ -23,7 +23,8 @@
       };
 
       Movie.prototype.events = {
-        'click @ui.add': 'addMovie'
+        'click @ui.add': 'addMovie',
+        'click @ui.remove': 'removeMovie'
       };
 
       Movie.prototype.addMovie = function(e) {
@@ -31,6 +32,13 @@
           e.preventDefault();
         }
         return List.Controller.addMovie(this.model);
+      };
+
+      Movie.prototype.removeMovie = function(e) {
+        if (e != null) {
+          e.preventDefault();
+        }
+        return List.Controller.removeMovie(this.model);
       };
 
       return Movie;
