@@ -37,16 +37,22 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
 
     pingQueue = () ->
         deferredPing = deferredPing or $.Deferred()
+        deferredPing.done ->
+            shouldPing = false
+            deferredPing = null
+
         downloads = new Entities.DownloadsQueue []
         downloads.url = NZBAppManager.request('api:endpoint', 'SABnzbd', 'queue')
+
         doPing = ->
             downloads.fetch
-                success: ->
-                    deferredPing.notify downloads
+                success: (collection, response, options) ->
+                    deferredPing.notify downloads, response.queue
                     if shouldPing then setTimeout doPing, 1000
+
         shouldPing = true
         doPing()
-        deferredPing.promise()
+        deferredPing
 
     getHistory = () ->
         defer = $.Deferred()
@@ -70,9 +76,6 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
         getQueued()
     NZBAppManager.reqres.setHandler 'downloads:queue:ping:entities', ->
         pingQueue()
-    NZBAppManager.commands.setHandler 'downloads:queue:ping:stop', ->
-        shouldPing = false
-        deferredPing = null
     NZBAppManager.reqres.setHandler 'downloads:history:entities', ->
         getHistory()
     NZBAppManager.reqres.setHandler 'downloads:tabs:entities', ->

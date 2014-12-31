@@ -3,7 +3,6 @@ jjs = window.jjs = (window.jjs or {})
 
 jjs.NZBAppManager.module 'DownloadsApp.List', (List, NZBAppManager, Backbone, Marionette, $, _) ->
 	downloadsView = null
-	queueTimeout = 0
 	List.Controller = 
 		listQueue: ->
 			if not downloadsView?.currentView
@@ -14,13 +13,13 @@ jjs.NZBAppManager.module 'DownloadsApp.List', (List, NZBAppManager, Backbone, Ma
 				downloadsView.setCollection queued, 'queue'
 				List.Controller.pingQueue()
 		pingQueue: ->
-			$.when(NZBAppManager.request('downloads:queue:ping:entities')).progress (queued) ->
+			ping = NZBAppManager.request('downloads:queue:ping:entities')
+			$.when(ping).progress (queued) ->
 				if downloadsView and downloadsView.contentRegion
 					downloadsView?.contentRegion.currentView?.collection.set queued.models
 				else
-					NZBAppManager.execute 'downloads:queue:ping:stop'
+					ping.resolve()
 		listHistory: ->
-			clearTimeout queueTimeout
 			if not downloadsView?.currentView
 				downloadsView = new List.DownloadsView()
 				NZBAppManager.mainRegion.show downloadsView

@@ -75,12 +75,16 @@
     pingQueue = function() {
       var doPing;
       deferredPing = deferredPing || $.Deferred();
+      deferredPing.done(function() {
+        shouldPing = false;
+        return deferredPing = null;
+      });
       downloads = new Entities.DownloadsQueue([]);
       downloads.url = NZBAppManager.request('api:endpoint', 'SABnzbd', 'queue');
       doPing = function() {
         return downloads.fetch({
-          success: function() {
-            deferredPing.notify(downloads);
+          success: function(collection, response, options) {
+            deferredPing.notify(downloads, response.queue);
             if (shouldPing) {
               return setTimeout(doPing, 1000);
             }
@@ -89,7 +93,7 @@
       };
       shouldPing = true;
       doPing();
-      return deferredPing.promise();
+      return deferredPing;
     };
     getHistory = function() {
       var defer;
@@ -127,10 +131,6 @@
     });
     NZBAppManager.reqres.setHandler('downloads:queue:ping:entities', function() {
       return pingQueue();
-    });
-    NZBAppManager.commands.setHandler('downloads:queue:ping:stop', function() {
-      shouldPing = false;
-      return deferredPing = null;
     });
     NZBAppManager.reqres.setHandler('downloads:history:entities', function() {
       return getHistory();
