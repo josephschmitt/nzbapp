@@ -6,8 +6,16 @@ jjs.NZBAppManager.module 'DownloadsApp.List', (List, NZBAppManager, Backbone, Ma
         template: '#download-list-template'
         className: 'download-list-item'
         ui:
-            progress: '.progress'
-            meter: '.meter'
+            button: '.media-meta .button'
+        events:
+            'click @ui.button': 'queueAction'
+        initialize: ->
+            super
+            @listenTo @model, 'change', @render
+        queueAction: (e) ->
+            e?.preventDefault()
+            if $(e.currentTarget).data('status') then @model.set 'status', $(e.currentTarget).data('status')
+            NZBAppManager.request 'downloads:queue:item', @model.id, $(e.currentTarget).data('action')
     
     class List.Downloads extends Marionette.CollectionView
         childView: List.Slot

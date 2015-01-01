@@ -18,8 +18,26 @@
       Slot.prototype.className = 'download-list-item';
 
       Slot.prototype.ui = {
-        progress: '.progress',
-        meter: '.meter'
+        button: '.media-meta .button'
+      };
+
+      Slot.prototype.events = {
+        'click @ui.button': 'queueAction'
+      };
+
+      Slot.prototype.initialize = function() {
+        Slot.__super__.initialize.apply(this, arguments);
+        return this.listenTo(this.model, 'change', this.render);
+      };
+
+      Slot.prototype.queueAction = function(e) {
+        if (e != null) {
+          e.preventDefault();
+        }
+        if ($(e.currentTarget).data('status')) {
+          this.model.set('status', $(e.currentTarget).data('status'));
+        }
+        return NZBAppManager.request('downloads:queue:item', this.model.id, $(e.currentTarget).data('action'));
       };
 
       return Slot;

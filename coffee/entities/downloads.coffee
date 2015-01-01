@@ -3,6 +3,7 @@ jjs = window.jjs = (window.jjs or {})
 
 jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marionette, $, _) ->
     class Entities.DownloadsSlot extends Backbone.Model
+        idAttribute: 'nzo_id'
 
     class Entities.DownloadsQueue extends Backbone.Collection
         model: Entities.DownloadsSlot
@@ -64,6 +65,27 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
             { name: 'History', url: 'history', trigger: 'downloads:history:list' }
         ]
 
+    pauseQueue = ->
+        defer = $.ajax NZBAppManager.request('api:endpoint', 'SABnzbd', 'pause'),
+            dataType: 'jsonp'
+            jsonp: 'callback'
+        defer.promise()
+
+    resumeQueue = ->
+        defer = $.ajax NZBAppManager.request('api:endpoint', 'SABnzbd', 'resume'),
+            dataType: 'jsonp'
+            jsonp: 'callback'
+        defer.promise()
+
+    performActionOnItem = (id, action) ->
+        defer = $.ajax NZBAppManager.request('api:endpoint', 'SABnzbd', 'queue'),
+            dataType: 'jsonp'
+            jsonp: 'callback'
+            data:
+                name: action
+                value: id
+        defer.promise()
+
     NZBAppManager.reqres.setHandler 'downloads:queue:entities', ->
         getQueued()
     NZBAppManager.reqres.setHandler 'downloads:history:entities', ->
@@ -71,3 +93,10 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
     NZBAppManager.reqres.setHandler 'downloads:tabs:entities', ->
         if not downloadsTabs then getTabs()
         downloadsTabs
+
+    NZBAppManager.reqres.setHandler 'downloads:queue:pause', ->
+        pauseQueue()
+    NZBAppManager.reqres.setHandler 'downloads:queue:resume', ->
+        resumeQueue()
+    NZBAppManager.reqres.setHandler 'downloads:queue:item', (id, action) ->
+        performActionOnItem(id, action)

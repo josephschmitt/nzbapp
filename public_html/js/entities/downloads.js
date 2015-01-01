@@ -6,13 +6,15 @@
   jjs = window.jjs = window.jjs || {};
 
   jjs.NZBAppManager.module('Entities', function(Entities, NZBAppManager, Backbone, Marionette, $, _) {
-    var checkPing, doPing, downloads, downloadsHistory, downloadsTabs, getHistory, getQueued, getTabs, shouldPing;
+    var checkPing, doPing, downloads, downloadsHistory, downloadsTabs, getHistory, getQueued, getTabs, pauseQueue, performActionOnItem, resumeQueue, shouldPing;
     Entities.DownloadsSlot = (function(_super) {
       __extends(DownloadsSlot, _super);
 
       function DownloadsSlot() {
         return DownloadsSlot.__super__.constructor.apply(this, arguments);
       }
+
+      DownloadsSlot.prototype.idAttribute = 'nzo_id';
 
       return DownloadsSlot;
 
@@ -118,17 +120,54 @@
         }
       ]);
     };
+    pauseQueue = function() {
+      var defer;
+      defer = $.ajax(NZBAppManager.request('api:endpoint', 'SABnzbd', 'pause'), {
+        dataType: 'jsonp',
+        jsonp: 'callback'
+      });
+      return defer.promise();
+    };
+    resumeQueue = function() {
+      var defer;
+      defer = $.ajax(NZBAppManager.request('api:endpoint', 'SABnzbd', 'resume'), {
+        dataType: 'jsonp',
+        jsonp: 'callback'
+      });
+      return defer.promise();
+    };
+    performActionOnItem = function(id, action) {
+      var defer;
+      defer = $.ajax(NZBAppManager.request('api:endpoint', 'SABnzbd', 'queue'), {
+        dataType: 'jsonp',
+        jsonp: 'callback',
+        data: {
+          name: action,
+          value: id
+        }
+      });
+      return defer.promise();
+    };
     NZBAppManager.reqres.setHandler('downloads:queue:entities', function() {
       return getQueued();
     });
     NZBAppManager.reqres.setHandler('downloads:history:entities', function() {
       return getHistory();
     });
-    return NZBAppManager.reqres.setHandler('downloads:tabs:entities', function() {
+    NZBAppManager.reqres.setHandler('downloads:tabs:entities', function() {
       if (!downloadsTabs) {
         getTabs();
       }
       return downloadsTabs;
+    });
+    NZBAppManager.reqres.setHandler('downloads:queue:pause', function() {
+      return pauseQueue();
+    });
+    NZBAppManager.reqres.setHandler('downloads:queue:resume', function() {
+      return resumeQueue();
+    });
+    return NZBAppManager.reqres.setHandler('downloads:queue:item', function(id, action) {
+      return performActionOnItem(id, action);
     });
   });
 
