@@ -215,11 +215,13 @@ a:hover {
 }
 [class*=list-item] .media-meta .button-group .button {
   display: block;
+  float: none;
 }
 [class*=list-item] .media-meta .button-group .button + .button {
   margin-top: 5px;
 }
 [class*=list-item] .button {
+  float: right;
   display: inline-block;
   margin: 2px 0;
 }

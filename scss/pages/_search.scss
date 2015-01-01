@@ -37,6 +37,7 @@
 			
 			.button {
 				display: block;
+				float: none;
 
 				& + .button {
 					margin-top: 5px;
@@ -46,6 +47,7 @@
 	}
 
 	.button {
+		float: right;
 		display: inline-block;
 		margin: 2px 0;
 
