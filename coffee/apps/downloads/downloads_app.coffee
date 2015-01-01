@@ -30,7 +30,8 @@ jjs.NZBAppManager.module 'DownloadsApp', (Downloads, NZBAppManager, Backbone, Ma
 		$.when(NZBAppManager.request('downloads:queue:entities')).done (queued) ->
 			queueCollection = queued
 			queueCollection.on 'sync', (collection, response) ->
-				NZBAppManager.trigger 'downloads:queue:ping', 1 - parseFloat(response.queue.mbleft) / parseFloat(response.queue.mb), queueCollection, response.queue.status
+				progress = if response.queue?.mbleft and response.queue?.mb then 1 - parseFloat(response.queue.mbleft) / parseFloat(response.queue.mb) else 0
+				NZBAppManager.trigger 'downloads:queue:ping', progress, queueCollection, response.queue.status
 
 	Downloads.on 'stop', ->
 		queueCollection.off 'sync'
