@@ -14,8 +14,10 @@ jjs.NZBAppManager.module 'DownloadsApp.List', (List, NZBAppManager, Backbone, Ma
             @listenTo @model, 'change', @render
         queueAction: (e) ->
             e?.preventDefault()
+            mode = if @model.get('status') is 'Completed' then 'history' else 'queue'
             if $(e.currentTarget).data('status') then @model.set 'status', $(e.currentTarget).data('status')
-            NZBAppManager.request 'downloads:queue:item', @model.id, $(e.currentTarget).data('action')
+            else @model.collection.remove(@model)
+            NZBAppManager.execute "downloads:#{mode}:item", @model.id, $(e.currentTarget).data('action')
     
     class List.Downloads extends Marionette.CollectionView
         childView: List.Slot

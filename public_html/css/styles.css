@@ -210,8 +210,14 @@ a:hover {
   line-height: 1.25rem;
   margin: 0.5rem 0 0.15rem;
 }
-[class*=list-item] .media-meta .button {
+[class*=list-item] .media-meta .button-group {
   float: right;
+}
+[class*=list-item] .media-meta .button-group .button {
+  display: block;
+}
+[class*=list-item] .media-meta .button-group .button + .button {
+  margin-top: 5px;
 }
 [class*=list-item] .button {
   display: inline-block;

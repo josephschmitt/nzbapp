@@ -31,13 +31,17 @@
       };
 
       Slot.prototype.queueAction = function(e) {
+        var mode;
         if (e != null) {
           e.preventDefault();
         }
+        mode = this.model.get('status') === 'Completed' ? 'history' : 'queue';
         if ($(e.currentTarget).data('status')) {
           this.model.set('status', $(e.currentTarget).data('status'));
+        } else {
+          this.model.collection.remove(this.model);
         }
-        return NZBAppManager.request('downloads:queue:item', this.model.id, $(e.currentTarget).data('action'));
+        return NZBAppManager.execute("downloads:" + mode + ":item", this.model.id, $(e.currentTarget).data('action'));
       };
 
       return Slot;

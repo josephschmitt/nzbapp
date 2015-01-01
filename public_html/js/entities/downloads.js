@@ -136,9 +136,9 @@
       });
       return defer.promise();
     };
-    performActionOnItem = function(id, action) {
+    performActionOnItem = function(id, action, mode) {
       var defer;
-      defer = $.ajax(NZBAppManager.request('api:endpoint', 'SABnzbd', 'queue'), {
+      defer = $.ajax(NZBAppManager.request('api:endpoint', 'SABnzbd', mode), {
         dataType: 'jsonp',
         jsonp: 'callback',
         data: {
@@ -166,8 +166,11 @@
     NZBAppManager.reqres.setHandler('downloads:queue:resume', function() {
       return resumeQueue();
     });
-    return NZBAppManager.reqres.setHandler('downloads:queue:item', function(id, action) {
-      return performActionOnItem(id, action);
+    NZBAppManager.commands.setHandler('downloads:queue:item', function(id, action) {
+      return performActionOnItem(id, action, 'queue');
+    });
+    return NZBAppManager.commands.setHandler('downloads:history:item', function(id, action) {
+      return performActionOnItem(id, action, 'history');
     });
   });
 

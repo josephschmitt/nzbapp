@@ -131,13 +131,14 @@
         <% statusColor = data.status == 'Completed' ? 'success' : data.status == 'Queued' ? 'secondary' : '' %>
         <div class="row">
             <div class="small-12 columns media-meta">
-                <% if (data.status == 'Queued' || data.status == 'Downloading') { %> 
-                    <a class="button tiny radius fi-pause secondary pause-queue-button" data-action="pause" data-status="Paused"></a>    
-                <% } else if (data.status == 'Paused') { %>
-                    <a class="button tiny radius fi-play secondary resume-queue-button" data-action="resume" data-status="Queued"></a>    
-                <% } else { %>
-                    <a class="button tiny radius fi-x alert remove-item-button" data-action="remove"></a>
-                <% } %>
+                <div class="button-group">
+                    <% if (data.status == 'Queued' || data.status == 'Downloading') { %> 
+                        <a class="button tiny radius fi-pause secondary pause-queue-button" data-action="pause" data-status="Paused"></a>    
+                    <% } else if (data.status == 'Paused') { %>
+                        <a class="button tiny radius fi-play secondary resume-queue-button" data-action="resume" data-status="Queued"></a>    
+                    <% } %>
+                    <a class="button tiny radius fi-x alert remove-item-button" data-action="delete"></a>
+                </div>
                 <h4><%= data.filename || data.name %></h4>
                 <h6 class="subheader"><span class="label radius <%- statusColor %>"><%= data.status %></span></h6>
             </div>

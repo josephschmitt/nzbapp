@@ -32,8 +32,16 @@
 	}
 
 	.media-meta {
-		.button {
+		.button-group {
 			float: right;
+			
+			.button {
+				display: block;
+
+				& + .button {
+					margin-top: 5px;
+				}
+			}
 		}
 	}
 

@@ -77,8 +77,8 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
             jsonp: 'callback'
         defer.promise()
 
-    performActionOnItem = (id, action) ->
-        defer = $.ajax NZBAppManager.request('api:endpoint', 'SABnzbd', 'queue'),
+    performActionOnItem = (id, action, mode) ->
+        defer = $.ajax NZBAppManager.request('api:endpoint', 'SABnzbd', mode),
             dataType: 'jsonp'
             jsonp: 'callback'
             data:
@@ -93,10 +93,11 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
     NZBAppManager.reqres.setHandler 'downloads:tabs:entities', ->
         if not downloadsTabs then getTabs()
         downloadsTabs
-
     NZBAppManager.reqres.setHandler 'downloads:queue:pause', ->
         pauseQueue()
     NZBAppManager.reqres.setHandler 'downloads:queue:resume', ->
         resumeQueue()
-    NZBAppManager.reqres.setHandler 'downloads:queue:item', (id, action) ->
-        performActionOnItem(id, action)
+    NZBAppManager.commands.setHandler 'downloads:queue:item', (id, action) ->
+        performActionOnItem(id, action, 'queue')
+    NZBAppManager.commands.setHandler 'downloads:history:item', (id, action) ->
+        performActionOnItem(id, action, 'history')
