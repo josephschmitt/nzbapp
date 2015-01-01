@@ -22,26 +22,6 @@ jjs.NZBAppManager.module 'DownloadsApp.List', (List, NZBAppManager, Backbone, Ma
     class List.Downloads extends Marionette.CollectionView
         childView: List.Slot
         className: 'downloads-list'
-    
-    class List.TabView extends Marionette.ItemView
-        template: '#downloads-tab-template'
-        tagName: 'dd'
-        events:
-            'click': 'navigate'
-        initialize: ->
-            super
-            @listenTo @model, 'change', @render
-        render: ->
-            super
-            @$el.toggleClass 'active', !!@model.get('active')
-        navigate: (e) ->
-            e.preventDefault()
-            NZBAppManager.trigger @model.get('trigger')
-
-    class List.TabsView extends Marionette.CollectionView
-        childView: List.TabView
-        className: 'tabs downloads-tabs'
-        tagName: 'dl'
 
     class List.DownloadsView extends Marionette.LayoutView
         template: '#downloads-template'
@@ -50,7 +30,9 @@ jjs.NZBAppManager.module 'DownloadsApp.List', (List, NZBAppManager, Backbone, Ma
             contentRegion: '#downloads-content-region'
         render: ->
             super
-            @tabsRegion.show new List.TabsView collection: NZBAppManager.request 'downloads:tabs:entities'
+            @tabsRegion.show new NZBAppManager.GUI.Tabs.TabsView 
+                collection: NZBAppManager.request 'downloads:tabs:entities'
+                className: 'tabs small text-center downloads-tabs'
         setCollection: (collection, type) ->
             view = new List.Downloads collection: collection
             @contentRegion.show view

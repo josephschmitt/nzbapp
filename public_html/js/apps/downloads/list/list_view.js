@@ -61,55 +61,6 @@
       return Downloads;
 
     })(Marionette.CollectionView);
-    List.TabView = (function(_super) {
-      __extends(TabView, _super);
-
-      function TabView() {
-        return TabView.__super__.constructor.apply(this, arguments);
-      }
-
-      TabView.prototype.template = '#downloads-tab-template';
-
-      TabView.prototype.tagName = 'dd';
-
-      TabView.prototype.events = {
-        'click': 'navigate'
-      };
-
-      TabView.prototype.initialize = function() {
-        TabView.__super__.initialize.apply(this, arguments);
-        return this.listenTo(this.model, 'change', this.render);
-      };
-
-      TabView.prototype.render = function() {
-        TabView.__super__.render.apply(this, arguments);
-        return this.$el.toggleClass('active', !!this.model.get('active'));
-      };
-
-      TabView.prototype.navigate = function(e) {
-        e.preventDefault();
-        return NZBAppManager.trigger(this.model.get('trigger'));
-      };
-
-      return TabView;
-
-    })(Marionette.ItemView);
-    List.TabsView = (function(_super) {
-      __extends(TabsView, _super);
-
-      function TabsView() {
-        return TabsView.__super__.constructor.apply(this, arguments);
-      }
-
-      TabsView.prototype.childView = List.TabView;
-
-      TabsView.prototype.className = 'tabs downloads-tabs';
-
-      TabsView.prototype.tagName = 'dl';
-
-      return TabsView;
-
-    })(Marionette.CollectionView);
     return List.DownloadsView = (function(_super) {
       __extends(DownloadsView, _super);
 
@@ -126,8 +77,9 @@
 
       DownloadsView.prototype.render = function() {
         DownloadsView.__super__.render.apply(this, arguments);
-        return this.tabsRegion.show(new List.TabsView({
-          collection: NZBAppManager.request('downloads:tabs:entities')
+        return this.tabsRegion.show(new NZBAppManager.GUI.Tabs.TabsView({
+          collection: NZBAppManager.request('downloads:tabs:entities'),
+          className: 'tabs small text-center downloads-tabs'
         }));
       };
 

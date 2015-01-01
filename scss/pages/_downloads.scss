@@ -1,5 +1,5 @@
 #downloads-content-region {
-	margin-top: 3.5rem;
+	margin-top: 2.5rem;
 	overflow: hidden;
 }
 
@@ -9,13 +9,6 @@
 	left: 0;
 	right: 0;
 	z-index: 1;
-	background: $silver;
-	text-align: center;
-
-	dd {
-		display: inline-block;
-		float: none;
-	}
 }
 
 .download-progress {

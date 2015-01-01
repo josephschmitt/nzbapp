@@ -241,7 +241,7 @@ a:hover {
 }
 
 #downloads-content-region {
-  margin-top: 3.5rem;
+  margin-top: 2.5rem;
   overflow: hidden;
 }
 
@@ -251,12 +251,6 @@ a:hover {
   left: 0;
   right: 0;
   z-index: 1;
-  background: #efefef;
-  text-align: center;
-}
-.downloads-tabs dd {
-  display: inline-block;
-  float: none;
 }
 
 .download-progress {
@@ -428,4 +422,15 @@ input[type=search] {
   top: 0;
   left: 0;
   right: 0;
+}
+
+.tabs.small {
+  background: #efefef;
+}
+.tabs.small dd {
+  display: inline-block;
+  float: none;
+}
+.tabs.small dd > a {
+  padding: 0.5rem 1rem;
 }
