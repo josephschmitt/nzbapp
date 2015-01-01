@@ -128,7 +128,7 @@
     </script>
 
     <script type="text/template" id="download-list-template">
-        <% statusColor = data.status == 'Downloading' ? 'success' : data.status == 'Queued' ? 'secondary' : '' %>
+        <% statusColor = data.status == 'Completed' ? 'success' : data.status == 'Queued' ? 'secondary' : '' %>
         <div class="row">
             <div class="small-12 columns media-meta">
                 <% if (data.status == 'Queued' || data.status == 'Downloading') { %> 
