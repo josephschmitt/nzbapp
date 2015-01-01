@@ -40,7 +40,7 @@ jjs.NZBAppManager.module 'DownloadsApp.List', (List, NZBAppManager, Backbone, Ma
 
     class List.TabsView extends Marionette.CollectionView
         childView: List.TabView
-        className: 'sub-nav downloads-tabs'
+        className: 'tabs downloads-tabs'
         tagName: 'dl'
 
     class List.DownloadsView extends Marionette.LayoutView

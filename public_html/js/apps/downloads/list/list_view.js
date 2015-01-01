@@ -103,7 +103,7 @@
 
       TabsView.prototype.childView = List.TabView;
 
-      TabsView.prototype.className = 'sub-nav downloads-tabs';
+      TabsView.prototype.className = 'tabs downloads-tabs';
 
       TabsView.prototype.tagName = 'dl';
 

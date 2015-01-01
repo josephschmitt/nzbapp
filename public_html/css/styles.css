@@ -239,7 +239,7 @@ a:hover {
 }
 
 #downloads-content-region {
-  margin-top: 42px;
+  margin-top: 3.5rem;
   overflow: hidden;
 }
 
@@ -249,9 +249,12 @@ a:hover {
   left: 0;
   right: 0;
   z-index: 1;
-  background-color: #f2f2f2;
-  padding: 10px 10px 10px 0;
-  margin-bottom: 0;
+  background: #efefef;
+  text-align: center;
+}
+.downloads-tabs dd {
+  display: inline-block;
+  float: none;
 }
 
 .download-progress {
