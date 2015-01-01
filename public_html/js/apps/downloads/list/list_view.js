@@ -22,13 +22,23 @@
         meter: '.meter'
       };
 
-      Slot.prototype.initialize = function() {
-        return Slot.__super__.initialize.apply(this, arguments);
-      };
-
       return Slot;
 
     })(Marionette.ItemView);
+    List.Downloads = (function(_super) {
+      __extends(Downloads, _super);
+
+      function Downloads() {
+        return Downloads.__super__.constructor.apply(this, arguments);
+      }
+
+      Downloads.prototype.childView = List.Slot;
+
+      Downloads.prototype.className = 'downloads-list';
+
+      return Downloads;
+
+    })(Marionette.CollectionView);
     List.TabView = (function(_super) {
       __extends(TabView, _super);
 
@@ -76,20 +86,6 @@
       TabsView.prototype.tagName = 'dl';
 
       return TabsView;
-
-    })(Marionette.CollectionView);
-    List.Downloads = (function(_super) {
-      __extends(Downloads, _super);
-
-      function Downloads() {
-        return Downloads.__super__.constructor.apply(this, arguments);
-      }
-
-      Downloads.prototype.childView = List.Slot;
-
-      Downloads.prototype.className = 'downloads-list';
-
-      return Downloads;
 
     })(Marionette.CollectionView);
     return List.DownloadsView = (function(_super) {

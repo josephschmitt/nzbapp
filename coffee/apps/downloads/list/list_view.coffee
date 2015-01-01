@@ -8,10 +8,10 @@ jjs.NZBAppManager.module 'DownloadsApp.List', (List, NZBAppManager, Backbone, Ma
         ui:
             progress: '.progress'
             meter: '.meter'
-        initialize: ->
-            super
-        #     @listenTo @model, 'change', @updateProgress
-        # updateProgress: ->
+    
+    class List.Downloads extends Marionette.CollectionView
+        childView: List.Slot
+        className: 'downloads-list'
     
     class List.TabView extends Marionette.ItemView
         template: '#downloads-tab-template'
@@ -32,10 +32,6 @@ jjs.NZBAppManager.module 'DownloadsApp.List', (List, NZBAppManager, Backbone, Ma
         childView: List.TabView
         className: 'sub-nav downloads-tabs'
         tagName: 'dl'
-    
-    class List.Downloads extends Marionette.CollectionView
-        childView: List.Slot
-        className: 'downloads-list'
 
     class List.DownloadsView extends Marionette.LayoutView
         template: '#downloads-template'

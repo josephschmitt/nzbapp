@@ -6,7 +6,7 @@
   jjs = window.jjs = window.jjs || {};
 
   jjs.NZBAppManager.module('DownloadsApp', function(Downloads, NZBAppManager, Backbone, Marionette, $, _) {
-    var deferredPing, routesController;
+    var queueCollection, routesController;
     Downloads.RoutesController = (function() {
       function RoutesController() {}
 
@@ -47,15 +47,17 @@
       NZBAppManager.navigate('downloads/history');
       return routesController.listHistory();
     });
-    deferredPing = null;
+    queueCollection = null;
     Downloads.on('start', function() {
-      deferredPing = NZBAppManager.request('downloads:queue:ping:entities');
-      return $.when(deferredPing).progress(function(queued, response) {
-        return NZBAppManager.trigger('downloads:queue:ping', 1 - parseFloat(response.mbleft) / parseFloat(response.mb), queued, response.status);
+      return $.when(NZBAppManager.request('downloads:queue:entities')).done(function(queued) {
+        queueCollection = queued;
+        return queueCollection.on('sync', function(collection, response) {
+          return NZBAppManager.trigger('downloads:queue:ping', 1 - parseFloat(response.queue.mbleft) / parseFloat(response.queue.mb), queueCollection, response.queue.status);
+        });
       });
     });
     Downloads.on('stop', function() {
-      return deferredPing.resolve();
+      return queueCollection.off('sync');
     });
     return NZBAppManager.addInitializer(function() {
       return new Downloads.Router({

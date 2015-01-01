@@ -25,14 +25,15 @@ jjs.NZBAppManager.module 'DownloadsApp', (Downloads, NZBAppManager, Backbone, Ma
 		NZBAppManager.navigate('downloads/history')
 		routesController.listHistory()
 
-	deferredPing = null
+	queueCollection = null
 	Downloads.on 'start', ->
-		deferredPing = NZBAppManager.request('downloads:queue:ping:entities')
-		$.when(deferredPing).progress (queued, response) ->
-			NZBAppManager.trigger 'downloads:queue:ping', 1 - parseFloat(response.mbleft) / parseFloat(response.mb), queued, response.status
+		$.when(NZBAppManager.request('downloads:queue:entities')).done (queued) ->
+			queueCollection = queued
+			queueCollection.on 'sync', (collection, response) ->
+				NZBAppManager.trigger 'downloads:queue:ping', 1 - parseFloat(response.queue.mbleft) / parseFloat(response.queue.mb), queueCollection, response.queue.status
 
 	Downloads.on 'stop', ->
-		deferredPing.resolve()
+		queueCollection.off 'sync'
 
 	NZBAppManager.addInitializer ->
 		new Downloads.Router controller: routesController
