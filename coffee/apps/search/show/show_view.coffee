@@ -11,6 +11,8 @@ do ->
             ui:
                 searchField: 'input[type="search"]'
                 type: 'input[name="type"]'
+            events:
+                'change @ui.type': 'typeChange'
             render: ->
                 super
                 if not @model
@@ -28,6 +30,8 @@ do ->
                 @ui.type.on 'change', (e) =>
                     @model.set 'type', @getType()
                     if @model.get 'value' then @search(e)
+            typeChange: (e) ->
+                @ui.searchField.attr 'placeholder', "Search for a #{if @model.get('type') is 'shows' then 'TV Show' else 'Movie'}"
             getTerm: ->
                 @ui.searchField.val()
             getType: ->

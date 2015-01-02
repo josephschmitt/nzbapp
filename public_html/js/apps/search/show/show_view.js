@@ -26,6 +26,10 @@
           type: 'input[name="type"]'
         };
 
+        SearchView.prototype.events = {
+          'change @ui.type': 'typeChange'
+        };
+
         SearchView.prototype.render = function() {
           SearchView.__super__.render.apply(this, arguments);
           if (!this.model) {
@@ -52,6 +56,10 @@
               }
             };
           })(this));
+        };
+
+        SearchView.prototype.typeChange = function(e) {
+          return this.ui.searchField.attr('placeholder', "Search for a " + (this.model.get('type') === 'shows' ? 'TV Show' : 'Movie'));
         };
 
         SearchView.prototype.getTerm = function() {

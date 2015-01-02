@@ -72,7 +72,7 @@
         <h1 class="text-center">Search</h1>
         <div class="row">
             <div class="small-12 search-container columns">
-                <input type="search" placeholder="Search for a Movie or TV Show" <% if (data.value) { %>value="<%= data.value %>"<% } %> />
+                <input type="search" placeholder="Search for a <% if (data.type == 'shows') { %>TV Show<% } else { %>Movie<% } %>" <% if (data.value) { %>value="<%= data.value %>"<% } %> />
             </div>
         </div>
         <div class="row">
