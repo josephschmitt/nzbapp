@@ -32,7 +32,7 @@ do ->
             $.when(@request('servers:entities')).done (serverSettings) =>
                 if not @request 'servers:entities:valid:any'
                     @trigger 'servers:show'
-                else if not @getCurrentRoute() or redirect
+                else if not @getCurrentRoute() or redirect or window.navigator.standalone
                     @trigger 'home:show'
         start: ->
             super

@@ -65,7 +65,7 @@
           return function(serverSettings) {
             if (!_this.request('servers:entities:valid:any')) {
               return _this.trigger('servers:show');
-            } else if (!_this.getCurrentRoute() || redirect) {
+            } else if (!_this.getCurrentRoute() || redirect || window.navigator.standalone) {
               return _this.trigger('home:show');
             }
           };
