@@ -54,7 +54,7 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
         defer = $.Deferred()
         if not downloadsHistory
             downloadsHistory = new Entities.DownloadsQueue []
-            downloadsHistory.url = NZBAppManager.request('api:endpoint', 'SABnzbd', 'history')
+            downloadsHistory.url = downloadsHistory.storeName = NZBAppManager.request('api:endpoint', 'SABnzbd', 'history')
             downloadsHistory.fetch
                 success: ->
                     defer.resolve downloadsHistory

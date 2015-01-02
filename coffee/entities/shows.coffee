@@ -25,7 +25,6 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
 
     class Entities.ShowResults extends Backbone.Collection
         model: Entities.ShowResult
-        storeName: 'Entities.ShowResults'
         parse: (response) ->
             if response.data
                 if response.data?.results
@@ -54,7 +53,6 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
 
     class Entities.UpcomingEpisodes extends Backbone.Collection
         model: Entities.UpcomingEpisode
-        storeName: 'Entities.UpcomingEpisodes'
         parse: (response, options) ->
             super response.data?.later, options
         sync: (method, model, options={}) ->
@@ -80,7 +78,7 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
         defer = $.Deferred()
         if not shows
             shows = new Entities.ShowResults []
-            shows.url = NZBAppManager.request('api:endpoint', 'SickBeard', 'shows')
+            shows.url = shows.storeName = NZBAppManager.request('api:endpoint', 'SickBeard', 'shows')
             shows.fetch
                 success: ->
                     # Save results to localStorage
@@ -94,7 +92,7 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
         defer = $.Deferred()
         if not shows
             shows = new Entities.UpcomingEpisodes []
-            shows.url = NZBAppManager.request('api:endpoint', 'SickBeard', 'future')
+            shows.url = shows.storeName = NZBAppManager.request('api:endpoint', 'SickBeard', 'future')
             shows.fetch
                 success: ->
                     # Save results to localStorage

@@ -50,8 +50,6 @@
 
       MovieResults.prototype.model = Entities.MovieResult;
 
-      MovieResults.prototype.storeName = 'Entities.MovieResults';
-
       MovieResults.prototype.parse = function(response) {
         if (response.movies) {
           return response.movies;
@@ -96,7 +94,7 @@
       defer = $.Deferred();
       if (!movies) {
         movies = new Entities.MovieResults([]);
-        movies.url = NZBAppManager.request('api:endpoint', 'CouchPotato', 'movie.list');
+        movies.url = movies.storeName = NZBAppManager.request('api:endpoint', 'CouchPotato', 'movie.list');
         movies.fetch({
           data: {
             status: 'active'

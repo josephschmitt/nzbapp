@@ -30,7 +30,6 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
 
     class Entities.MovieResults extends Backbone.Collection
         model: Entities.MovieResult
-        storeName: 'Entities.MovieResults'
         parse: (response) ->
             if response.movies
                 response.movies
@@ -60,7 +59,7 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
         defer = $.Deferred()
         if not movies
             movies = new Entities.MovieResults []
-            movies.url = NZBAppManager.request('api:endpoint', 'CouchPotato', 'movie.list')
+            movies.url = movies.storeName = NZBAppManager.request('api:endpoint', 'CouchPotato', 'movie.list')
             movies.fetch
                 data:
                     status: 'active'

@@ -47,8 +47,6 @@
 
       ShowResults.prototype.model = Entities.ShowResult;
 
-      ShowResults.prototype.storeName = 'Entities.ShowResults';
-
       ShowResults.prototype.parse = function(response) {
         var _ref;
         if (response.data) {
@@ -111,8 +109,6 @@
 
       UpcomingEpisodes.prototype.model = Entities.UpcomingEpisode;
 
-      UpcomingEpisodes.prototype.storeName = 'Entities.UpcomingEpisodes';
-
       UpcomingEpisodes.prototype.parse = function(response, options) {
         var _ref;
         return UpcomingEpisodes.__super__.parse.call(this, (_ref = response.data) != null ? _ref.later : void 0, options);
@@ -154,7 +150,7 @@
       defer = $.Deferred();
       if (!shows) {
         shows = new Entities.ShowResults([]);
-        shows.url = NZBAppManager.request('api:endpoint', 'SickBeard', 'shows');
+        shows.url = shows.storeName = NZBAppManager.request('api:endpoint', 'SickBeard', 'shows');
         shows.fetch({
           success: function() {
             shows.each(function(show) {
@@ -175,7 +171,7 @@
       defer = $.Deferred();
       if (!shows) {
         shows = new Entities.UpcomingEpisodes([]);
-        shows.url = NZBAppManager.request('api:endpoint', 'SickBeard', 'future');
+        shows.url = shows.storeName = NZBAppManager.request('api:endpoint', 'SickBeard', 'future');
         shows.fetch({
           success: function() {
             shows.each(function(show) {

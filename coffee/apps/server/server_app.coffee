@@ -13,8 +13,6 @@ jjs.NZBAppManager.module 'ServersApp', (ServersApp, NZBAppManager, Backbone, Mar
 
 	routesController = new ServersApp.RoutesController()
 
-	# NZBAppManager.on 'servers:settings:loaded', ->
-
 	NZBAppManager.on 'servers:show', ->
 		NZBAppManager.navigate('servers')
 		routesController.listServers()

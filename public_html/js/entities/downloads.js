@@ -99,7 +99,7 @@
       defer = $.Deferred();
       if (!downloadsHistory) {
         downloadsHistory = new Entities.DownloadsQueue([]);
-        downloadsHistory.url = NZBAppManager.request('api:endpoint', 'SABnzbd', 'history');
+        downloadsHistory.url = downloadsHistory.storeName = NZBAppManager.request('api:endpoint', 'SABnzbd', 'history');
         downloadsHistory.fetch({
           success: function() {
             return defer.resolve(downloadsHistory);
