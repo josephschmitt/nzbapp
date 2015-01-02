@@ -1,7 +1,18 @@
 CACHE MANIFEST
-# rev 10 - 2015-01-02T16:48:18.457Z
+# rev 12 - 2015-01-02T17:22:35.712Z
 
 CACHE:
+AppIcon.appiconset/Contents.json
+AppIcon.appiconset/Icon-40.png
+AppIcon.appiconset/Icon-40@2x.png
+AppIcon.appiconset/Icon-40@3x.png
+AppIcon.appiconset/Icon-60@2x.png
+AppIcon.appiconset/Icon-60@3x.png
+AppIcon.appiconset/Icon-76.png
+AppIcon.appiconset/Icon-76@2x.png
+AppIcon.appiconset/Icon-Small.png
+AppIcon.appiconset/Icon-Small@2x.png
+AppIcon.appiconset/Icon-Small@3x.png
 css/lib/foundation-icons.css
 css/lib/foundation-icons.eot
 css/lib/foundation-icons.svg

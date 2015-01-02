@@ -157,7 +157,7 @@ module.exports = function(grunt) {
 				files: [{
 					cwd: 'public_html',
 					expand: true, 
-					src: ['index.html', 'css/lib/**', '!public_html/css/lib/*.css'], 
+					src: ['index.html', 'AppIcon.appiconset/*', 'css/lib/**', '!public_html/css/lib/*.css'], 
 					dest: 'dist/'
 				}]
 			}
