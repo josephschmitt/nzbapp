@@ -22,6 +22,7 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
     downloadsHistory = null
     downloadsTabs = null
     shouldPing = false
+    pingInterval = 5000
 
     doPing = ->
         downloads?.fetch 
@@ -30,7 +31,7 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
                 checkPing()
 
     checkPing = ->
-        if shouldPing then setTimeout doPing, 1000
+        if shouldPing then setTimeout doPing, pingInterval
 
     getQueued = ->
         defer = $.Deferred()
@@ -42,6 +43,8 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
                     downloads.response = response
                     defer.resolve downloads
                     shouldPing = true
+                    if response.queue?.refresh_rate
+                        pingInterval = parseInt(response.queue?.refresh_rate) * 1000
                     checkPing()
         else
             _.defer -> defer.resolve downloads

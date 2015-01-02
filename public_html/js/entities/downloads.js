@@ -6,7 +6,7 @@
   jjs = window.jjs = window.jjs || {};
 
   jjs.NZBAppManager.module('Entities', function(Entities, NZBAppManager, Backbone, Marionette, $, _) {
-    var checkPing, doPing, downloads, downloadsHistory, downloadsTabs, getHistory, getQueued, getTabs, pauseQueue, performActionOnItem, resumeQueue, shouldPing;
+    var checkPing, doPing, downloads, downloadsHistory, downloadsTabs, getHistory, getQueued, getTabs, pauseQueue, performActionOnItem, pingInterval, resumeQueue, shouldPing;
     Entities.DownloadsSlot = (function(_super) {
       __extends(DownloadsSlot, _super);
 
@@ -55,6 +55,7 @@
     downloadsHistory = null;
     downloadsTabs = null;
     shouldPing = false;
+    pingInterval = 5000;
     doPing = function() {
       return downloads != null ? downloads.fetch({
         success: function(collection, response, options) {
@@ -65,7 +66,7 @@
     };
     checkPing = function() {
       if (shouldPing) {
-        return setTimeout(doPing, 1000);
+        return setTimeout(doPing, pingInterval);
       }
     };
     getQueued = function() {
@@ -76,9 +77,13 @@
         downloads.url = NZBAppManager.request('api:endpoint', 'SABnzbd', 'queue');
         downloads.fetch({
           success: function(collection, response, options) {
+            var _ref, _ref1;
             downloads.response = response;
             defer.resolve(downloads);
             shouldPing = true;
+            if ((_ref = response.queue) != null ? _ref.refresh_rate : void 0) {
+              pingInterval = parseInt((_ref1 = response.queue) != null ? _ref1.refresh_rate : void 0) * 1000;
+            }
             return checkPing();
           }
         });
