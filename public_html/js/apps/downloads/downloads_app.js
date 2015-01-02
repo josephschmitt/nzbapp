@@ -52,9 +52,9 @@
       return $.when(NZBAppManager.request('downloads:queue:entities')).done(function(queued) {
         queueCollection = queued;
         return queueCollection.on('sync', function(collection, response) {
-          var progress, _ref, _ref1;
+          var progress, _ref, _ref1, _ref2;
           progress = ((_ref = response.queue) != null ? _ref.mbleft : void 0) && ((_ref1 = response.queue) != null ? _ref1.mb : void 0) ? 1 - parseFloat(response.queue.mbleft) / parseFloat(response.queue.mb) : 0;
-          return NZBAppManager.trigger('downloads:queue:ping', progress, queueCollection, response.queue.status);
+          return NZBAppManager.trigger('downloads:queue:ping', progress, queueCollection, (_ref2 = response.queue) != null ? _ref2.status : void 0);
         });
       });
     });
