@@ -152,7 +152,7 @@
     </script>
 
     <script type="text/template" id="download-list-template">
-        <% statusColor = data.status == 'Completed' ? 'success' : data.status == 'Queued' ? 'secondary' : '' %>
+        <% statusColor = data.status == 'Completed' ? 'success' : data.status == 'Queued' ? 'secondary' : data.status == 'Failed' ? 'alert' : ''%>
         <div class="row">
             <div class="small-12 columns media-meta">
                 <div class="button-group">
