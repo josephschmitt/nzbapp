@@ -118,6 +118,8 @@ module.exports = function(grunt) {
 
 						// App js files
 						'public_html/js/transition-region.js', 
+						'public_html/js/app.js',
+						'public_html/js/apps/gui/**/*.js', 
 						'public_html/js/**/*.js', 
 
 						// Exclude minified files

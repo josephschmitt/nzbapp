@@ -40,7 +40,31 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
                 jsonp: 'callback'
             super
 
+    class Entities.UpcomingEpisode extends Backbone.Model
+        sync: (method, model, options={}) ->
+            # Don't try to save to the server, just to localStorage
+            if method in ['create', 'update']
+                @local = true
+            else
+                @local = undefined
+            options = _.extend options, 
+                dataType: 'jsonp'
+                jsonp: 'callback'
+            super method, model, options
+
+    class Entities.UpcomingEpisodes extends Backbone.Collection
+        model: Entities.UpcomingEpisode
+        storeName: 'Entities.UpcomingEpisodes'
+        parse: (response, options) ->
+            super response.data?.later, options
+        sync: (method, model, options={}) ->
+            options = _.extend options, 
+                dataType: 'jsonp'
+                jsonp: 'callback'
+            super
+
     shows = null
+    showsTabs = null
 
     getShowSearchResults = (term) ->
         defer = $.Deferred()
@@ -57,6 +81,20 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
         if not shows
             shows = new Entities.ShowResults []
             shows.url = NZBAppManager.request('api:endpoint', 'SickBeard', 'shows')
+            shows.fetch
+                success: ->
+                    # Save results to localStorage
+                    shows.each (show) -> show?.save()
+                    defer.resolve shows
+        else
+            _.defer -> defer.resolve shows
+        defer.promise()
+
+    getUpcomingEpisodes = () ->
+        defer = $.Deferred()
+        if not shows
+            shows = new Entities.UpcomingEpisodes []
+            shows.url = NZBAppManager.request('api:endpoint', 'SickBeard', 'future')
             shows.fetch
                 success: ->
                     # Save results to localStorage
@@ -84,14 +122,27 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
                 tvdbid: show.get 'tvdbid'
         defer.promise()
 
+    getTabs = ->
+        showsTabs = new Backbone.Collection [
+            { name: 'Shows', url: 'wanted', trigger: 'shows:wanted:list' }
+            { name: 'Upcoming', url: 'upcoming', trigger: 'shows:upcoming:list' }
+        ]
+
     NZBAppManager.reqres.setHandler 'shows:search', (term) ->
         getShowSearchResults(term)
 
-    NZBAppManager.reqres.setHandler 'shows:list', ->
+    NZBAppManager.reqres.setHandler 'shows:list:entities', ->
         getShows()
+
+    NZBAppManager.reqres.setHandler 'shows:upcoming:entities', ->
+        getUpcomingEpisodes()
 
     NZBAppManager.reqres.setHandler 'show:info', (tvdbid) ->
         getShow(tvdbid)
 
     NZBAppManager.reqres.setHandler 'show:add', (show) ->
         addShow(show)
+
+    NZBAppManager.reqres.setHandler 'shows:tabs:entities', ->
+        if not showsTabs then getTabs()
+        showsTabs

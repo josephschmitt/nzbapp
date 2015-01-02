@@ -96,6 +96,11 @@
         </div>
     </script>
 
+    <script type="text/template" id="shows-template">
+        <div id="shows-tabs-region"></div>
+        <div id="shows-list-region"></div>
+    </script>
+
     <script type="text/template" id="show-list-template">
         <div class="row">
             <div class="small-12 columns media-meta">
@@ -107,6 +112,21 @@
                 <h4><%= data.show_name || data.name %></h4>
                 <% if (data.network) { %><h6 class="subheader"><%= data.network %></h6><% } %>
                 <% if (data.first_aired) { %><h6 class="subheader">First aired: <%= data.first_aired %></h6><% } %>
+            </div>
+        </div>
+        <div class="row">
+            <div class="small-12 columns media-description">
+                <% if (data.status) { %><p><span class="label radius <% if (data.status != 'Ended' ) { %>success<% } else { %>secondary<% } %>"><%= data.status %></span></p><% } %>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/template" id="show-upcoming-template">
+        <div class="row">
+            <div class="small-12 columns media-meta">
+                <h4><%= data.ep_name %></h4>
+                <% if (data.show_name) { %><h6 class="subheader"><%= data.show_name %></h6><% } %>
+                <% if (data.airs) { %><h6 class="subheader">Airs: <time datetime="<%= data.airdate %>"><%= data.airs %></time></h6><% } %>
             </div>
         </div>
         <div class="row">
@@ -176,10 +196,10 @@
     <script src="config.js"></script>
     <script src="js/transition-region.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/apps/gui/tabs/tabs_view.js"></script>
     <script src="js/apps/downloads/downloads_app.js"></script>
     <script src="js/apps/downloads/list/list_controller.js"></script>
     <script src="js/apps/downloads/list/list_view.js"></script>
-    <script src="js/apps/gui/tabs/tabs_view.js"></script>
     <script src="js/apps/modal/modal_app.js"></script>
     <script src="js/apps/modal/show/show_controller.js"></script>
     <script src="js/apps/modal/show/show_view.js"></script>

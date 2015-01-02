@@ -35,7 +35,7 @@
       return Show;
 
     })(Marionette.ItemView);
-    return List.Shows = (function(_super) {
+    List.Shows = (function(_super) {
       __extends(Shows, _super);
 
       function Shows() {
@@ -62,6 +62,96 @@
       return Shows;
 
     })(Marionette.CollectionView);
+    List.ShowsView = (function(_super) {
+      __extends(ShowsView, _super);
+
+      function ShowsView() {
+        return ShowsView.__super__.constructor.apply(this, arguments);
+      }
+
+      ShowsView.prototype.template = '#shows-template';
+
+      ShowsView.prototype.regions = {
+        tabsRegion: '#shows-tabs-region',
+        contentRegion: '#shows-list-region'
+      };
+
+      ShowsView.prototype.render = function() {
+        ShowsView.__super__.render.apply(this, arguments);
+        return this.tabsRegion.show(new NZBAppManager.GUI.Tabs.TabsView({
+          collection: NZBAppManager.request('shows:tabs:entities'),
+          className: 'tabs small text-center shows-tabs'
+        }));
+      };
+
+      ShowsView.prototype.setCollection = function(collection, type) {
+        var view;
+        view = new List.Shows({
+          collection: collection
+        });
+        this.contentRegion.show(view);
+        return this.setTab(type);
+      };
+
+      ShowsView.prototype.setTab = function(tabUrl) {
+        var collection, _ref, _ref1;
+        collection = this.tabsRegion.currentView.collection;
+        if ((_ref = collection.findWhere({
+          active: true
+        })) != null) {
+          _ref.set('active', false);
+        }
+        return (_ref1 = collection.findWhere({
+          url: tabUrl
+        })) != null ? _ref1.set('active', true) : void 0;
+      };
+
+      return ShowsView;
+
+    })(Marionette.LayoutView);
+    List.UpcomingShow = (function(_super) {
+      __extends(UpcomingShow, _super);
+
+      function UpcomingShow() {
+        return UpcomingShow.__super__.constructor.apply(this, arguments);
+      }
+
+      UpcomingShow.prototype.template = '#show-upcoming-template';
+
+      return UpcomingShow;
+
+    })(List.Show);
+    List.UpcomingShows = (function(_super) {
+      __extends(UpcomingShows, _super);
+
+      function UpcomingShows() {
+        return UpcomingShows.__super__.constructor.apply(this, arguments);
+      }
+
+      UpcomingShows.prototype.childView = List.UpcomingShow;
+
+      return UpcomingShows;
+
+    })(List.Shows);
+    return List.UpcomingShowsView = (function(_super) {
+      __extends(UpcomingShowsView, _super);
+
+      function UpcomingShowsView() {
+        return UpcomingShowsView.__super__.constructor.apply(this, arguments);
+      }
+
+      UpcomingShowsView.prototype.setCollection = function(collection, type) {
+        var view;
+        view = new List.UpcomingShows({
+          collection: collection
+        });
+        this.contentRegion.show(view);
+        return this.setTab(type);
+      };
+
+      return UpcomingShowsView;
+
+    })(List.ShowsView);
   });
 
 }).call(this);

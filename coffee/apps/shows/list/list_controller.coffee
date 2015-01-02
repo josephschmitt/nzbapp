@@ -4,10 +4,15 @@ jjs = window.jjs = (window.jjs or {})
 jjs.NZBAppManager.module 'ShowsApp.List', (List, NZBAppManager, Backbone, Marionette, $, _) ->
 	List.Controller = 
 		listShows: ->
-			listShows = new List.Shows()
+			listShows = new List.ShowsView()
 			NZBAppManager.mainRegion.show listShows
-			$.when(NZBAppManager.request('shows:list')).done (shows) ->
-				listShows.setCollection shows
+			$.when(NZBAppManager.request('shows:list:entities')).done (shows) ->
+				listShows.setCollection shows, 'wanted'
+		listUpcomingShows: ->
+			listShows = new List.UpcomingShowsView()
+			NZBAppManager.mainRegion.show listShows
+			$.when(NZBAppManager.request('shows:upcoming:entities')).done (shows) ->
+				listShows.setCollection shows, 'upcoming'
 		addShow: (show) ->
 			$.when(NZBAppManager.request('show:add', show)).done (added) ->
 				message = added.message

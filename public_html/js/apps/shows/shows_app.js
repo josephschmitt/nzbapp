@@ -15,6 +15,11 @@
         return NZBAppManager.execute('tabs:active:set', 'Shows');
       };
 
+      RoutesController.prototype.listUpcomingShows = function() {
+        Shows.List.Controller.listUpcomingShows();
+        return NZBAppManager.execute('tabs:active:set', 'Shows');
+      };
+
       return RoutesController;
 
     })();
@@ -26,16 +31,21 @@
       }
 
       Router.prototype.appRoutes = {
-        'shows': 'listShows'
+        'shows': 'listShows',
+        'shows/upcoming': 'listUpcomingShows'
       };
 
       return Router;
 
     })(Marionette.AppRouter);
     routesController = new Shows.RoutesController();
-    NZBAppManager.on('shows:list', function() {
+    NZBAppManager.on('shows:list shows:wanted:list', function() {
       NZBAppManager.navigate('shows');
       return routesController.listShows();
+    });
+    NZBAppManager.on('shows:upcoming:list', function() {
+      NZBAppManager.navigate('shows/upcoming');
+      return routesController.listUpcomingShows();
     });
     return NZBAppManager.addInitializer(function() {
       return new Shows.Router({
