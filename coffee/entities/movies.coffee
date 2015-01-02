@@ -14,7 +14,7 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
                 'tmdb_id'
                 'year'
             ]
-            resp._id = response._id
+            resp._id = resp.id = response._id
             resp.in_wanted = !!resp.in_wanted or response.status == 'active'
             resp
         sync: (method, model, options={}) ->
