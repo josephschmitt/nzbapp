@@ -157,13 +157,17 @@ module.exports = function(grunt) {
 				files: [{
 					cwd: 'public_html',
 					expand: true, 
-					src: ['index.html', 'config.js', 'css/lib/**', '!public_html/css/lib/*.css'], 
+					src: ['index.html', 'css/lib/**', '!public_html/css/lib/*.css'], 
 					dest: 'dist/'
 				}]
 			}
 		},
 
 		uglify: {
+			options: {
+				mangle: true
+			},
+
 			dist: {
 				files: {
 					'dist/js/app-min.js': [
@@ -197,6 +201,19 @@ module.exports = function(grunt) {
 				src: ['public_html/css/**/*.css'],
 				dest: 'dist/css/styles.css'
 			}
+		},
+
+		appcache: {
+			options: {
+				basePath: 'dist/',
+				preferOnline: true
+			},
+
+			dist: {
+				dest: 'dist/manifest.appcache',
+				cache: 'dist/**/*',
+				network: '*'
+			}
 		}
     });
 
@@ -210,10 +227,11 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-appcache');
 
     // Default task(s).
     grunt.registerTask('default', ['build', 'install', 'watch']);
     grunt.registerTask('build', ['sass:dev', 'autoprefixer', 'coffee:dev',]);
     grunt.registerTask('install', ['bower:dev', 'injector:dev']);
-    grunt.registerTask('dist', ['copy:dist', 'cssmin:dist', 'uglify:dist', 'injector:dist']);
+    grunt.registerTask('dist', ['copy:dist', 'cssmin:dist', 'uglify:dist', 'injector:dist', 'appcache']);
 };

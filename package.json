@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "devDependencies": {
     "grunt": "~0.4.2",
+    "grunt-appcache": "^0.1.8",
     "grunt-autoprefixer": "~1.0.1",
     "grunt-bower-task": "~0.3.4",
     "grunt-contrib-coffee": "^0.12.0",
