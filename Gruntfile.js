@@ -27,12 +27,6 @@ module.exports = function(grunt) {
 					dest: 'public_html/js/',
 					ext: '.js'
 				}]
-			},
-
-			prod: {
-				files: {
-					'public_html/js/app.js': ['coffee/*.coffee']
-				}
 			}
 		},
 		
@@ -90,10 +84,6 @@ module.exports = function(grunt) {
 					},
 					ignorePackages: ['modernizr', 'foundation']
 				}
-			},
-
-			prod: {
-
 			}
 		},
 
@@ -131,17 +121,22 @@ module.exports = function(grunt) {
 						'!public_html/js/lib/*.css'
 					]
 				}
-			}
-		},
+			},
 
-		yaml: {
-			parse: {
-				files: [{
-					expand: true,
-					cwd: 'yaml/',
-					src: ['*.yaml'],
-					dest: 'public_html/data/'
-				}]
+			dist: {
+				options: {
+					addRootSlash: false,
+					ignorePath: 'dist/'
+				},
+				files: {
+					'dist/index.html': [
+						// Base libs
+						'dist/**/*.js',
+
+						// CSS
+						'dist/**/*.css'
+					]
+				}
 			}
 		},
 
@@ -155,6 +150,53 @@ module.exports = function(grunt) {
 				src: 'public_html/css/*.css',
 				dest: 'public_html/css/'
 			},
+		},
+
+		copy: {
+			dist: {
+				files: [{
+					cwd: 'public_html',
+					expand: true, 
+					src: ['index.html', 'config.js', 'css/lib/**', '!public_html/css/lib/*.css'], 
+					dest: 'dist/'
+				}]
+			}
+		},
+
+		uglify: {
+			dist: {
+				files: {
+					'dist/js/app-min.js': [
+						// Base libs
+						'public_html/js/lib/jquery.js', 
+						'public_html/js/lib/underscore.js', 
+						'public_html/js/lib/backbone.js',  
+						
+						// All other libs
+						'public_html/js/lib/*.js',
+
+						//Config file
+						'public_html/config.js',
+
+						// App js files
+						'public_html/js/transition-region.js', 
+						'public_html/js/app.js',
+						'public_html/js/apps/gui/**/*.js', 
+						'public_html/js/**/*.js', 
+
+						// Exclude minified files
+						'!public_html/js/**/*min*.js', 
+						'!public_html/js/lib/**/*min*.js',
+					]
+				}
+			}
+		},
+
+		cssmin: {
+			dist: {
+				src: ['public_html/css/**/*.css'],
+				dest: 'dist/css/styles.css'
+			}
 		}
     });
 
@@ -162,13 +204,16 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-coffee');
     grunt.loadNpmTasks('grunt-contrib-watch');
-    // grunt.loadNpmTasks('grunt-bower-task');
     grunt.loadNpmTasks('grunt-bower');
     grunt.loadNpmTasks('grunt-injector');
     grunt.loadNpmTasks('grunt-autoprefixer');
+    grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
 
     // Default task(s).
     grunt.registerTask('default', ['build', 'install', 'watch']);
     grunt.registerTask('build', ['sass:dev', 'autoprefixer', 'coffee:dev',]);
     grunt.registerTask('install', ['bower:dev', 'injector:dev']);
+    grunt.registerTask('dist', ['copy:dist', 'cssmin:dist', 'uglify:dist', 'injector:dist']);
 };

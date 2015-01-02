@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>NZBApp</title>
+
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+
+    <link rel="apple-touch-icon" sizes="120x120" href="img/mobile-icon-56.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/mobile-icon-6plus.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+    <!-- injector:css -->
+    <link rel="stylesheet" href="css/lib/foundation-icons.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- endinjector -->
+</head>
+<body>
+    <div id="modal"style="display: none;"></div>
+    <main id="main"></main>
+    <div id="navbar"></div>
+
+    <!-- templates -->
+    <script type="text/template" id="server-setup-template">
+        <div id="server-collection"></div>
+        <div class="row">
+            <a href="#" class="button small-12 medium-4 medium-offset-8" id="server-save">Save</a>
+        </div>
+    </script>
+
+    <script type="text/template" id="server-setup-fields-template">
+        <legend><%- data.name %></legend>
+
+        <h4>Server URL</h4>
+        <div class="row collapse">
+            <div class="small-2 large-1 columns">
+                <span class="prefix fi-link"></span>
+            </div>
+            <div class="small-10 large-11 columns">
+                <input class="server-url" type="text" placeholder="Enter your URL..." value="<%- data.serverUrl %>">
+            </div>
+        </div>
+
+        <h4>API Token</h4>
+        <div class="row collapse">
+            <div class="small-2 large-1 columns">
+                <span class="prefix fi-key"></span>
+            </div>
+            <div class="small-10 large-11 columns">
+                <input class="server-token" type="text" placeholder="Enter API Token" value="<%- data.token %>">
+            </div>
+        </div>
+    </script>
+
+    <script type="text/template" id="navbar-template">
+        <% statusColor = data.status == 'Downloading' ? 'success' : data.status == 'Paused' ? 'warning' : '' %>
+        <% if (data.progress) { %><span class="progbar <%- statusColor %>" style="width: <%- data.progress %>%"></span><% } %>
+        <i class="<%- data.icon %>"></i>
+        <label class="show-for-medium-up"><%= data.name %></label>
+    </script>
+
+    <script type="text/template" id="search-template">
+        <h1 class="text-center">Search</h1>
+        <div class="row">
+            <div class="small-12 search-container columns">
+                <input type="search" placeholder="Search for a Movie or TV Show" <% if (data.value) { %>value="<%= data.value %>"<% } %> />
+            </div>
+        </div>
+        <div class="row">
+            <div class="small-offset-2 small-4 columns search-type-item"><label><input type="radio" name="type" value="movies" <% if (!data.type || data.type == 'movies') { %>checked<% } %> /> Movies</label></div>
+            <div class="small-4 columns search-type-item"><label><input type="radio" name="type" value="shows" <% if (data.type == 'shows') { %>checked<% } %> /> Shows</label></div>
+            <div class="small-2 columns"></div>
+        </div>
+        <div id="search-results-region" class="search-results"></div>
+    </script>
+
+    <script type="text/template" id="movie-list-template">
+        <div class="row">
+            <div class="small-12 columns media-meta">
+                <% if (!data.in_wanted) { %>
+                    <a class="button tiny radius fi-plus success add-item-button"></a>
+                <% } else { %>
+                    <a class="button tiny radius fi-x alert remove-item-button"></a>
+                <% } %>
+                <h4><%= data.title || data.original_title %></h4>
+                <h6 class="subheader"><%= data.year %></h6>
+            </div>
+        </div>
+        <div class="row">
+            <div class="small-12 columns media-description">
+                <% if (data.tagline) { %><p class="subheader"><%= data.tagline %></p><% } %>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/template" id="shows-template">
+        <div id="shows-tabs-region"></div>
+        <div id="shows-list-region"></div>
+    </script>
+
+    <script type="text/template" id="show-list-template">
+        <div class="row">
+            <div class="small-12 columns media-meta">
+                <% if (!data.in_wanted) { %>
+                    <a class="button tiny radius fi-plus success add-item-button"></a>
+                <% } else { %>
+                    <a class="button tiny radius fi-x alert remove-item-button"></a>
+                <% } %>
+                <h4><%= data.show_name || data.name %></h4>
+                <% if (data.network) { %><h6 class="subheader"><%= data.network %></h6><% } %>
+                <% if (data.first_aired) { %><h6 class="subheader">First aired: <%= data.first_aired %></h6><% } %>
+            </div>
+        </div>
+        <div class="row">
+            <div class="small-12 columns media-description">
+                <% if (data.status) { %><p><span class="label radius <% if (data.status != 'Ended' ) { %>success<% } else { %>secondary<% } %>"><%= data.status %></span></p><% } %>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/template" id="show-upcoming-template">
+        <div class="row">
+            <div class="small-12 columns media-meta">
+                <h4><%= data.ep_name %></h4>
+                <% if (data.show_name) { %><h6 class="subheader"><%= data.show_name %></h6><% } %>
+                <% if (data.airs) { %><h6 class="subheader">Airs: <time datetime="<%= data.airdate %>"><%= data.airs %></time></h6><% } %>
+            </div>
+        </div>
+        <div class="row">
+            <div class="small-12 columns media-description">
+                <% if (data.status) { %><p><span class="label radius <% if (data.status != 'Ended' ) { %>success<% } else { %>secondary<% } %>"><%= data.status %></span></p><% } %>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/template" id="tab-template">
+      <a href="#<%= data.url %>"><%= data.name %></a>
+    </script>
+
+    <script type="text/template" id="downloads-template">
+        <div id="downloads-tabs-region"></div>
+        <div id="downloads-content-region"></div>
+        <!--div id="downloads-queue-region" class="downloads-list"></div>
+        <div id="downloads-history-region" class="downloads-list"></div-->
+    </script>
+
+    <script type="text/template" id="download-list-template">
+        <% statusColor = data.status == 'Completed' ? 'success' : data.status == 'Queued' ? 'secondary' : '' %>
+        <div class="row">
+            <div class="small-12 columns media-meta">
+                <div class="button-group">
+                    <% if (data.status == 'Queued' || data.status == 'Downloading') { %> 
+                        <a class="button tiny radius fi-pause secondary pause-queue-button" data-action="pause" data-status="Paused"></a>    
+                    <% } else if (data.status == 'Paused') { %>
+                        <a class="button tiny radius fi-play secondary resume-queue-button" data-action="resume" data-status="Queued"></a>    
+                    <% } %>
+                    <a class="button tiny radius fi-x alert remove-item-button" data-action="delete"></a>
+                </div>
+                <h4><%= data.filename || data.name %></h4>
+                <h6 class="subheader"><span class="label radius <%- statusColor %>"><%= data.status %></span></h6>
+            </div>
+        </div>
+        <% if (data.percentage != 0 && (data.status != 'Completed' && data.status != 'Failed')) { %>
+            <div class="row download-progress">
+                <div class="small-12 columns">
+                    <div class="progress <%- statusColor %>"><span class="meter" style="width: <%- data.percentage %>%"></span></div>
+                </div>
+                <!--div class="small-6 columns"><%= data.mb - data.mbleft %> MB</div>
+                <div class="small-6 columns align-right"><%= data.size %></div-->
+            </div>
+        <% } %>
+    </script>
+
+    <script type="text/template" id="alert-template">
+        <%= data.message %>
+        <a href="#" class="close">&times;</a>
+    </script>
+    
+    <!-- injector:js -->
+    <script src="config.js"></script>
+    <script src="js/app-min.js"></script>
+    <!-- endinjector -->
+
+    <script type="text/javascript">
+        // Override offline status codes (Safari reports a 404 when offline)
+        Backbone.DualStorage.offlineStatusCodes = [404, 408, 502]
+
+        // Start the app after all scripts have loaded
+        jjs.NZBAppManager.start();
+    </script>
+</body>
+</html>
