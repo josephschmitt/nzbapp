@@ -62,6 +62,7 @@
     <script type="text/template" id="navbar-template">
         <% statusColor = data.status == 'Downloading' ? 'success' : data.status == 'Paused' ? 'warning' : '' %>
         <% if (data.progress) { %><span class="progbar <%- statusColor %>" style="width: <%- data.progress %>%"></span><% } %>
+        <% if (data.count) { %><span class="alert round label badge"><%= data.count %></span></span><% } %>
         <i class="<%- data.icon %>"></i>
         <label class="show-for-medium-up"><%= data.name %></label>
     </script>
@@ -152,7 +153,7 @@
     </script>
 
     <script type="text/template" id="download-list-template">
-        <% statusColor = data.status == 'Completed' ? 'success' : data.status == 'Queued' ? 'secondary' : data.status == 'Failed' ? 'alert' : ''%>
+        <% statusColor = data.status == 'Completed' ? 'success' : data.status == 'Queued' || data.status == 'Paused' ? 'secondary' : data.status == 'Failed' ? 'alert' : ''%>
         <div class="row">
             <div class="small-12 columns media-meta">
                 <div class="button-group">
