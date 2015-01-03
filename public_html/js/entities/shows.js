@@ -6,7 +6,16 @@
   jjs = window.jjs = window.jjs || {};
 
   jjs.NZBAppManager.module('Entities', function(Entities, NZBAppManager, Backbone, Marionette, $, _) {
-    var addShow, getShow, getShowSearchResults, getShows, getTabs, getUpcomingEpisodes, shows, showsTabs, upcoming;
+    var addShow, getShow, getShowSearchResults, getShows, getTabs, getUpcomingEpisodes, parseUTCDate, shows, showsTabs, upcoming;
+    parseUTCDate = function(dateString) {
+      var dateParts;
+      if (dateString) {
+        dateParts = dateString.split('-');
+        return new Date(+dateParts[0], --dateParts[1], +dateParts[2]);
+      } else {
+        return '';
+      }
+    };
     Entities.ShowResult = (function(_super) {
       __extends(ShowResult, _super);
 
@@ -15,7 +24,9 @@
       }
 
       ShowResult.prototype.parse = function(response, options) {
+        console.log('parse response', response);
         response = _.pick((response.info != null ? response.info : response), ['name', 'show_name', 'network', 'first_aired', 'status']);
+        response.first_aired = parseUTCDate(response.first_aired);
         return ShowResult.__super__.parse.call(this, response, options);
       };
 
@@ -47,16 +58,16 @@
 
       ShowResults.prototype.model = Entities.ShowResult;
 
-      ShowResults.prototype.parse = function(response) {
+      ShowResults.prototype.parse = function(response, options) {
         var _ref;
         if (response.data) {
           if ((_ref = response.data) != null ? _ref.results : void 0) {
-            return response.data.results;
+            return ShowResults.__super__.parse.call(this, response.data.results, options);
           } else {
-            return _.toArray(response.data);
+            return ShowResults.__super__.parse.call(this, _.toArray(response.data), options);
           }
         } else {
-          return response;
+          return ShowResults.__super__.parse.call(this, response, options);
         }
       };
 
@@ -74,6 +85,25 @@
       return ShowResults;
 
     })(Backbone.Collection);
+    Entities.ShowSearchResults = (function(_super) {
+      __extends(ShowSearchResults, _super);
+
+      function ShowSearchResults() {
+        return ShowSearchResults.__super__.constructor.apply(this, arguments);
+      }
+
+      ShowSearchResults.prototype.parse = function(response, options) {
+        var _ref;
+        if ((_ref = response.data) != null ? _ref.results : void 0) {
+          return ShowSearchResults.__super__.parse.call(this, response.data.results, options);
+        } else {
+          return ShowSearchResults.__super__.parse.call(this, response, options);
+        }
+      };
+
+      return ShowSearchResults;
+
+    })(Entities.ShowResults);
     Entities.UpcomingEpisode = (function(_super) {
       __extends(UpcomingEpisode, _super);
 
@@ -134,7 +164,7 @@
     getShowSearchResults = function(term) {
       var defer, showSearchResults;
       defer = $.Deferred();
-      showSearchResults = new Entities.ShowResults([]);
+      showSearchResults = new Entities.ShowSearchResults([]);
       showSearchResults.url = NZBAppManager.request('api:endpoint', 'SickBeard', 'sb.searchtvdb');
       showSearchResults.fetch({
         data: {

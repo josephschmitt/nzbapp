@@ -118,7 +118,7 @@
                 <% } %>
                 <h4><%= data.show_name || data.name %></h4>
                 <% if (data.network) { %><h6 class="subheader"><%= data.network %></h6><% } %>
-                <% if (data.first_aired) { %><h6 class="subheader">First aired: <%= data.first_aired %></h6><% } %>
+                <% if (data.first_aired) { %><h6 class="subheader">First aired: <%= data.first_aired.toDateString() %></h6><% } %>
             </div>
         </div>
         <div class="row">

@@ -2,8 +2,16 @@
 jjs = window.jjs = (window.jjs or {})
 
 jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marionette, $, _) ->
+    parseUTCDate = (dateString) ->
+        if dateString
+            dateParts = dateString.split '-'
+            return new Date(+dateParts[0], --dateParts[1], +dateParts[2])
+        else
+            return ''
+
     class Entities.ShowResult extends Backbone.Model
         parse: (response, options) ->
+            console.log 'parse response', response
             response = _.pick (if response.info? then response.info else response), [
                 'name'
                 'show_name'
@@ -11,6 +19,7 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
                 'first_aired'
                 'status'
             ]
+            response.first_aired = parseUTCDate(response.first_aired)
             super response, options
         sync: (method, model, options={}) ->
             # Don't try to save to the server, just to localStorage
@@ -25,19 +34,26 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
 
     class Entities.ShowResults extends Backbone.Collection
         model: Entities.ShowResult
-        parse: (response) ->
+        parse: (response, options) ->
             if response.data
                 if response.data?.results
-                    return response.data.results
+                    super response.data.results, options
                 else 
-                    return _.toArray(response.data)
+                    super _.toArray(response.data), options
             else
-                return response
+                super response, options
         sync: (method, model, options={}) ->
             options = _.extend options, 
                 dataType: 'jsonp'
                 jsonp: 'callback'
             super
+
+    class Entities.ShowSearchResults extends Entities.ShowResults
+        parse: (response, options) ->
+            if response.data?.results
+                super response.data.results, options
+            else
+                super response, options
 
     class Entities.UpcomingEpisode extends Backbone.Model
         sync: (method, model, options={}) ->
@@ -67,7 +83,7 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
 
     getShowSearchResults = (term) ->
         defer = $.Deferred()
-        showSearchResults = new Entities.ShowResults []
+        showSearchResults = new Entities.ShowSearchResults []
         showSearchResults.url = NZBAppManager.request('api:endpoint', 'SickBeard', 'sb.searchtvdb')
         showSearchResults.fetch
             data: name: term
