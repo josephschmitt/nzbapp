@@ -6,7 +6,7 @@
   jjs = window.jjs = window.jjs || {};
 
   jjs.NZBAppManager.module('Entities', function(Entities, NZBAppManager, Backbone, Marionette, $, _) {
-    var addShow, getShow, getShowSearchResults, getShows, getTabs, getUpcomingEpisodes, shows, showsTabs;
+    var addShow, getShow, getShowSearchResults, getShows, getTabs, getUpcomingEpisodes, shows, showsTabs, upcoming;
     Entities.ShowResult = (function(_super) {
       __extends(ShowResult, _super);
 
@@ -129,6 +129,7 @@
 
     })(Backbone.Collection);
     shows = null;
+    upcoming = null;
     showsTabs = null;
     getShowSearchResults = function(term) {
       var defer, showSearchResults;
@@ -169,20 +170,20 @@
     getUpcomingEpisodes = function() {
       var defer;
       defer = $.Deferred();
-      if (!shows) {
-        shows = new Entities.UpcomingEpisodes([]);
-        shows.url = shows.storeName = NZBAppManager.request('api:endpoint', 'SickBeard', 'future');
-        shows.fetch({
+      if (!upcoming) {
+        upcoming = new Entities.UpcomingEpisodes([]);
+        upcoming.url = upcoming.storeName = NZBAppManager.request('api:endpoint', 'SickBeard', 'future');
+        upcoming.fetch({
           success: function() {
-            shows.each(function(show) {
+            upcoming.each(function(show) {
               return show != null ? show.save() : void 0;
             });
-            return defer.resolve(shows);
+            return defer.resolve(upcoming);
           }
         });
       } else {
         _.defer(function() {
-          return defer.resolve(shows);
+          return defer.resolve(upcoming);
         });
       }
       return defer.promise();

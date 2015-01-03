@@ -62,6 +62,7 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
             super
 
     shows = null
+    upcoming = null
     showsTabs = null
 
     getShowSearchResults = (term) ->
@@ -90,16 +91,16 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
 
     getUpcomingEpisodes = () ->
         defer = $.Deferred()
-        if not shows
-            shows = new Entities.UpcomingEpisodes []
-            shows.url = shows.storeName = NZBAppManager.request('api:endpoint', 'SickBeard', 'future')
-            shows.fetch
+        if not upcoming
+            upcoming = new Entities.UpcomingEpisodes []
+            upcoming.url = upcoming.storeName = NZBAppManager.request('api:endpoint', 'SickBeard', 'future')
+            upcoming.fetch
                 success: ->
                     # Save results to localStorage
-                    shows.each (show) -> show?.save()
-                    defer.resolve shows
+                    upcoming.each (show) -> show?.save()
+                    defer.resolve upcoming
         else
-            _.defer -> defer.resolve shows
+            _.defer -> defer.resolve upcoming
         defer.promise()
 
     getShow = (tvdbid) ->
