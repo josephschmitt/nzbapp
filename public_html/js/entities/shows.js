@@ -24,7 +24,6 @@
       }
 
       ShowResult.prototype.parse = function(response, options) {
-        console.log('parse response', response);
         response = _.pick((response.info != null ? response.info : response), ['name', 'show_name', 'network', 'first_aired', 'status']);
         response.first_aired = parseUTCDate(response.first_aired);
         return ShowResult.__super__.parse.call(this, response, options);

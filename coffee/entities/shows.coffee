@@ -11,7 +11,6 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
 
     class Entities.ShowResult extends Backbone.Model
         parse: (response, options) ->
-            console.log 'parse response', response
             response = _.pick (if response.info? then response.info else response), [
                 'name'
                 'show_name'
