@@ -6,7 +6,7 @@
   jjs = window.jjs = window.jjs || {};
 
   jjs.NZBAppManager.module('Entities', function(Entities, NZBAppManager, Backbone, Marionette, $, _) {
-    var addShow, getShow, getShowSearchResults, getShows, getTabs, getUpcomingEpisodes, parseUTCDate, shows, showsTabs, upcoming;
+    var addShow, getShow, getShowSearchResults, getShows, getTabs, getUpcomingEpisodes, parseUTCDate, removeShow, shows, showsTabs, upcoming;
     parseUTCDate = function(dateString) {
       var dateParts;
       if (dateString) {
@@ -235,6 +235,17 @@
     addShow = function(show) {
       var defer;
       defer = $.ajax(NZBAppManager.request('api:endpoint', 'SickBeard', 'show.addnew'), {
+        dataType: 'jsonp',
+        jsonp: 'callback',
+        data: {
+          tvdbid: show.get('tvdbid')
+        }
+      });
+      return defer.promise();
+    };
+    removeShow = function(show) {
+      var defer;
+      defer = $.ajax(NZBAppManager.request('api:endpoint', 'SickBeard', 'show.delete'), {
         dataType: 'jsonp',
         jsonp: 'callback',
         data: {

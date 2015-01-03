@@ -18,11 +18,13 @@
       Show.prototype.className = 'show-list-item';
 
       Show.prototype.ui = {
-        add: '.add-item-button'
+        add: '.add-item-button',
+        remove: '.remove-item-button'
       };
 
       Show.prototype.events = {
-        'click @ui.add': 'addShow'
+        'click @ui.add': 'addShow',
+        'click @ui.remove': 'removeMovie'
       };
 
       Show.prototype.addShow = function(e) {
@@ -30,6 +32,13 @@
           e.preventDefault();
         }
         return List.Controller.addShow(this.model);
+      };
+
+      Show.prototype.emoveMovie = function(e) {
+        if (e != null) {
+          e.preventDefault();
+        }
+        return List.Controller.removeShow(this.model);
       };
 
       return Show;

@@ -111,7 +111,7 @@
     <script type="text/template" id="show-list-template">
         <div class="row">
             <div class="small-12 columns media-meta">
-                <% if (!data.in_wanted) { %>
+                <% if (data.first_aired) { %>
                     <a class="button tiny radius fi-plus success add-item-button"></a>
                 <% } else { %>
                     <a class="button tiny radius fi-x alert remove-item-button"></a>

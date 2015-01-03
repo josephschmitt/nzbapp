@@ -7,11 +7,16 @@ jjs.NZBAppManager.module 'ShowsApp.List', (List, NZBAppManager, Backbone, Marion
         className: 'show-list-item'
         ui:
             add: '.add-item-button'
+            remove: '.remove-item-button'
         events:
             'click @ui.add': 'addShow'
+            'click @ui.remove': 'removeMovie'
         addShow: (e) ->
             e?.preventDefault()
             List.Controller.addShow @model
+        emoveMovie: (e) ->
+            e?.preventDefault()
+            List.Controller.removeShow @model
     
     class List.Shows extends Marionette.CollectionView
         childView: List.Show

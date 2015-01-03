@@ -136,6 +136,14 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
                 tvdbid: show.get 'tvdbid'
         defer.promise()
 
+    removeShow = (show) ->
+        defer = $.ajax NZBAppManager.request('api:endpoint', 'SickBeard', 'show.delete'),
+            dataType: 'jsonp'
+            jsonp: 'callback'
+            data:
+                tvdbid: show.get 'tvdbid'
+        defer.promise()
+
     getTabs = ->
         showsTabs = new Backbone.Collection [
             { name: 'Shows', url: 'wanted', trigger: 'shows:wanted:list' }
