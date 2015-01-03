@@ -44,9 +44,12 @@ $xxlarge-only: "#{$screen} and (min-width:#{lower-bound($xxlarge-range)}) and (m
 //
 @import
     'base',
-    'pages/search',
-    'pages/movies',
-    'pages/downloads';
+    'apps/gui',
+    'apps/navbar',
+    'apps/popup',
+    'apps/search',
+    'apps/movies',
+    'apps/downloads';
 
 
 
@@ -76,62 +79,10 @@ body {
 	-webkit-overflow-scrolling: touch;
 }
 
-nav.icon-bar {
-	display: block;
-
-	.item {
-		position: relative;
-
-		&:not(.active) {
-			background: $oil;
-		}
-
-		&.active {
-			.progbar {
-				opacity: 1;
-			}
-		}
-
-		i {
-			position: relative;
-			z-index: 1;
-		}
-
-		.progbar {
-			position: absolute;
-			z-index: 0;
-			left: 0;
-			bottom: 0;
-			right: 0;
-			width: 0%;
-			height: 10%;
-
-			opacity: 0.5;
-
-			&.secondary {
-				background: $secondary-color;
-			}
-			&.alert {
-				background: $alert-color;
-			}
-			&.success {
-				background: $success-color;
-			}
-			&.warning {
-				background: $warning-color;
-			}
-			&.info {
-				background: $info-color;
-			}
-		}
-
-		.badge {
-			position: absolute;
-			top: -5px;
-			right: -5px;
-			z-index: 1;
-		}
-	}
+input[type=search] {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
 }
 
 @media #{$medium-up} {
@@ -147,49 +98,5 @@ nav.icon-bar {
 		order: 0;
 		display: flex;
 		flex-direction: column;
-	}
-
-	nav.icon-bar.medium-vertical {
-		display: flex;
-		flex: 1;
-		flex-direction: column;
-
-		.item {
-			margin: 0;
-			display: flex;
-			flex: 1;
-			flex-direction: column;
-			justify-content: center;
-			align-items: center;
-			padding-left: 0.5rem;
-			padding-right: 0.5rem;
-		}
-	}
-}
-
-input[type=search] {
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	appearance: none;
-}
-
-.alert-box {
-	z-index: $zindex-alert;
-	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
-}
-
-.tabs.small {
-	background: $silver;
-	
-	dd {
-		display: inline-block;
-		float: none;
-
-		& > a {
-			padding: 0.5rem 1rem;
-		}
 	}
 }

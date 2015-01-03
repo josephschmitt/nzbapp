@@ -30,6 +30,23 @@
     <div id="navbar"></div>
 
     <!-- templates -->
+    <script type="text/template" id="navbar-template">
+        <% statusColor = data.status == 'Downloading' ? 'success' : data.status == 'Paused' ? 'warning' : '' %>
+        <% if (data.progress) { %><span class="progbar <%- statusColor %>" style="width: <%- data.progress %>%"></span><% } %>
+        <% if (data.count) { %><span class="alert round label badge"><%= data.count %></span></span><% } %>
+        <i class="<%- data.icon %>"></i>
+        <label class="show-for-medium-up"><%= data.name %></label>
+    </script>
+
+    <script type="text/template" id="tab-template">
+      <a href="#<%= data.url %>"><%= data.name %></a>
+    </script>
+
+    <script type="text/template" id="alert-template">
+        <%= data.message %>
+        <a href="#" class="close">&times;</a>
+    </script>
+
     <script type="text/template" id="server-setup-template">
         <div id="server-collection"></div>
         <div class="row">
@@ -59,14 +76,6 @@
                 <input class="server-token" type="text" placeholder="Enter API Token" value="<%- data.token %>">
             </div>
         </div>
-    </script>
-
-    <script type="text/template" id="navbar-template">
-        <% statusColor = data.status == 'Downloading' ? 'success' : data.status == 'Paused' ? 'warning' : '' %>
-        <% if (data.progress) { %><span class="progbar <%- statusColor %>" style="width: <%- data.progress %>%"></span><% } %>
-        <% if (data.count) { %><span class="alert round label badge"><%= data.count %></span></span><% } %>
-        <i class="<%- data.icon %>"></i>
-        <label class="show-for-medium-up"><%= data.name %></label>
     </script>
 
     <script type="text/template" id="search-template">
@@ -143,10 +152,6 @@
         </div>
     </script>
 
-    <script type="text/template" id="tab-template">
-      <a href="#<%= data.url %>"><%= data.name %></a>
-    </script>
-
     <script type="text/template" id="downloads-template">
         <div id="downloads-tabs-region"></div>
         <div id="downloads-content-region"></div>
@@ -179,11 +184,6 @@
                 <div class="small-6 columns align-right"><%= data.size %></div-->
             </div>
         <% } %>
-    </script>
-
-    <script type="text/template" id="alert-template">
-        <%= data.message %>
-        <a href="#" class="close">&times;</a>
     </script>
     
     <!-- injector:js -->
