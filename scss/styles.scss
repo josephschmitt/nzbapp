@@ -78,10 +78,19 @@ body {
 
 nav.icon-bar {
 	display: block;
-	overflow: hidden;
 
 	.item {
 		position: relative;
+
+		&:not(.active) {
+			background: $oil;
+		}
+
+		&.active {
+			.progbar {
+				opacity: 1;
+			}
+		}
 
 		i {
 			position: relative;
@@ -116,10 +125,11 @@ nav.icon-bar {
 			}
 		}
 
-		&.active {
-			.progbar {
-				opacity: 1;
-			}
+		.badge {
+			position: absolute;
+			top: -5px;
+			right: -5px;
+			z-index: 1;
 		}
 	}
 }

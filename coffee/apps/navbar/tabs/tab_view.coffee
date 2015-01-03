@@ -12,9 +12,11 @@ jjs.NZBAppManager.module 'NavbarApp.Tabs', (Tabs, NZBAppManager, Backbone, Mario
             super
             @listenTo @model, 'change', @render
             if @model.get('name') is 'Downloads'
+                @$el.css 'z-index', 1
                 NZBAppManager.on 'downloads:queue:ping', (progress, queued, status) => 
                     @model.set 'progress', progress * 100
                     @model.set 'status', status
+                    @model.set 'count', queued.length
         render: ->
             super
             @$el

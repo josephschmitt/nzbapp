@@ -64,6 +64,7 @@
     <script type="text/template" id="navbar-template">
         <% statusColor = data.status == 'Downloading' ? 'success' : data.status == 'Paused' ? 'warning' : '' %>
         <% if (data.progress) { %><span class="progbar <%- statusColor %>" style="width: <%- data.progress %>%"></span><% } %>
+        <% if (data.count) { %><span class="alert round label badge"><%= data.count %></span></span><% } %>
         <i class="<%- data.icon %>"></i>
         <label class="show-for-medium-up"><%= data.name %></label>
     </script>

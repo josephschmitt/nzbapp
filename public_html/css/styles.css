@@ -298,10 +298,15 @@ body {
 
 nav.icon-bar {
   display: block;
-  overflow: hidden;
 }
 nav.icon-bar .item {
   position: relative;
+}
+nav.icon-bar .item:not(.active) {
+  background: #333333;
+}
+nav.icon-bar .item.active .progbar {
+  opacity: 1;
 }
 nav.icon-bar .item i {
   position: relative;
@@ -332,8 +337,11 @@ nav.icon-bar .item .progbar.warning {
 nav.icon-bar .item .progbar.info {
   background: #a0d3e8;
 }
-nav.icon-bar .item.active .progbar {
-  opacity: 1;
+nav.icon-bar .item .badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  z-index: 1;
 }
 
 @media only screen and (min-width: 40.063em) {

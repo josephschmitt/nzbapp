@@ -27,10 +27,12 @@
         TabView.__super__.initialize.apply(this, arguments);
         this.listenTo(this.model, 'change', this.render);
         if (this.model.get('name') === 'Downloads') {
+          this.$el.css('z-index', 1);
           return NZBAppManager.on('downloads:queue:ping', (function(_this) {
             return function(progress, queued, status) {
               _this.model.set('progress', progress * 100);
-              return _this.model.set('status', status);
+              _this.model.set('status', status);
+              return _this.model.set('count', queued.length);
             };
           })(this));
         }
