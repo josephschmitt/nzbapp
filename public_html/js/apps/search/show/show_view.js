@@ -74,6 +74,10 @@
           return this.resultsRegion.show(view);
         };
 
+        SearchView.prototype.clearResults = function() {
+          return this.resultsRegion.reset();
+        };
+
         SearchView.prototype.search = function(e) {
           var _ref, _ref1;
           e.preventDefault();

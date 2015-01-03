@@ -38,6 +38,8 @@ do ->
                 @ui.type.filter(':checked').val()
             renderResults: (view) ->
                 @resultsRegion.show view
+            clearResults: ->
+                @resultsRegion.reset()
             search: (e) ->
                 e.preventDefault()
                 NZBAppManager.trigger 'search:results:show', @model?.get('type'), @model?.get('value')

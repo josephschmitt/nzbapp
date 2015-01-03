@@ -10,6 +10,7 @@ jjs.NZBAppManager.module 'SearchApp.Show', (Show, NZBAppManager, Backbone, Mario
             NZBAppManager.mainRegion.show searchView
         showResultsForSearch: (type, term) ->
             if not searchView then Show.Controller.showSearch()
+            else searchView.clearResults()
             searchView.model = new Backbone.Model type: type, value: term
 
             defer?.fail()

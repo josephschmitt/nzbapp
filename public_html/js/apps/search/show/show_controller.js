@@ -15,6 +15,8 @@
       showResultsForSearch: function(type, term) {
         if (!searchView) {
           Show.Controller.showSearch();
+        } else {
+          searchView.clearResults();
         }
         searchView.model = new Backbone.Model({
           type: type,
