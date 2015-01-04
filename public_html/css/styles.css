@@ -323,6 +323,10 @@ nav.icon-bar .item .badge {
   right: 0;
 }
 
+.standalone .alert-box {
+  padding-top: 29px;
+}
+
 .search-container {
   display: -webkit-box;
   display: -webkit-flex;
