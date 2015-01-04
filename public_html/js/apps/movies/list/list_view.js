@@ -27,6 +27,13 @@
         'click @ui.remove': 'removeMovie'
       };
 
+      Movie.prototype.render = function() {
+        Movie.__super__.render.apply(this, arguments);
+        return this.$el.find('img').on('error', function() {
+          return $(this).parent().remove();
+        });
+      };
+
       Movie.prototype.addMovie = function(e) {
         if (e != null) {
           e.preventDefault();

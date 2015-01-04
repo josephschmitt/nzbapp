@@ -111,6 +111,9 @@
                 <% } else { %>
                     <a class="button tiny radius fi-x alert remove-item-button"></a>
                 <% } %>
+                <div class="th">
+                    <img src="<%- _.first(data.images.poster) %>">
+                </div>
                 <h5><%= data.title || data.original_title %></h5>
                 <h6 class="subheader"><%= data.year %></h6>
             </div>

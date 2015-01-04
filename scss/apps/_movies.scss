@@ -2,4 +2,14 @@
 	margin: 0;
 	padding: 0;
 	list-style: none;
+
+	.th {
+		margin-right: 10px;
+		float: left;
+		border-width: 3px;
+
+		img {
+			height: 40px;
+		}
+	}
 }

@@ -11,6 +11,10 @@ jjs.NZBAppManager.module 'MoviesApp.List', (List, NZBAppManager, Backbone, Mario
         events:
             'click @ui.add': 'addMovie'
             'click @ui.remove': 'removeMovie'
+        render: ->
+            super
+            @$el.find('img').on 'error', ->
+                $(@).parent().remove()
         addMovie: (e) ->
             e?.preventDefault()
             List.Controller.addMovie @model

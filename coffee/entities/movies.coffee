@@ -5,6 +5,7 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
     class Entities.MovieResult extends Backbone.Model
         parse: (response, options) ->
             resp = _.pick (if response.info? then response.info else response), [
+                'images'
                 'imdb'
                 'in_wanted'
                 'original_title'

@@ -16,7 +16,7 @@
 
       MovieResult.prototype.parse = function(response, options) {
         var resp;
-        resp = _.pick((response.info != null ? response.info : response), ['imdb', 'in_wanted', 'original_title', 'released', 'runtime', 'tagline', 'title', 'tmdb_id', 'year']);
+        resp = _.pick((response.info != null ? response.info : response), ['images', 'imdb', 'in_wanted', 'original_title', 'released', 'runtime', 'tagline', 'title', 'tmdb_id', 'year']);
         resp._id = resp.id = response._id;
         resp.in_wanted = !!resp.in_wanted || response.status === 'active';
         return resp;
