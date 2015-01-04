@@ -6,16 +6,7 @@
   jjs = window.jjs = window.jjs || {};
 
   jjs.NZBAppManager.module('Entities', function(Entities, NZBAppManager, Backbone, Marionette, $, _) {
-    var addShow, getShow, getShowSearchResults, getShows, getUpcomingEpisodes, parseUTCDate, removeShow, shows, showsTabs, upcoming;
-    parseUTCDate = function(dateString) {
-      var dateParts;
-      if (dateString) {
-        dateParts = dateString.split('-');
-        return new Date(+dateParts[0], --dateParts[1], +dateParts[2]);
-      } else {
-        return '';
-      }
-    };
+    var addShow, getShow, getShowSearchResults, getShows, getUpcomingEpisodes, removeShow, shows, showsTabs, upcoming;
     Entities.ShowResult = (function(_super) {
       __extends(ShowResult, _super);
 
@@ -25,7 +16,7 @@
 
       ShowResult.prototype.parse = function(response, options) {
         response = _.pick((response.info != null ? response.info : response), ['name', 'show_name', 'network', 'first_aired', 'status']);
-        response.first_aired = parseUTCDate(response.first_aired);
+        response.first_aired = response.first_aired ? moment(response.first_aired).format('ddd MMM Do, YYYY') : null;
         return ShowResult.__super__.parse.call(this, response, options);
       };
 

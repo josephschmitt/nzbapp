@@ -16,7 +16,7 @@
 
       MovieResult.prototype.parse = function(response, options) {
         var resp;
-        resp = _.pick((response.info != null ? response.info : response), ['imdb', 'in_wanted', 'original_title', 'runtime', 'tagline', 'title', 'tmdb_id', 'year']);
+        resp = _.pick((response.info != null ? response.info : response), ['imdb', 'in_wanted', 'original_title', 'released', 'runtime', 'tagline', 'title', 'tmdb_id', 'year']);
         resp._id = resp.id = response._id;
         resp.in_wanted = !!resp.in_wanted || response.status === 'active';
         return resp;
@@ -122,12 +122,14 @@
       if (!soon) {
         soon = new Entities.MovieResults([]);
         soon.url = soon.storeName = NZBAppManager.request('api:endpoint', 'CouchPotato', 'dashboard.soon');
+        soon.comparator = 'released';
         soon.fetch({
           data: {
             status: 'active'
           },
           success: function() {
             soon.each(function(movie) {
+              movie.set('year', moment(movie.get('released')).format('ddd MMM Do, YYYY'));
               return movie != null ? movie.save() : void 0;
             });
             return defer.resolve(soon);

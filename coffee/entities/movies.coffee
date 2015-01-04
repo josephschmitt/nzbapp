@@ -8,6 +8,7 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
                 'imdb'
                 'in_wanted'
                 'original_title'
+                'released'
                 'runtime'
                 'tagline'
                 'title'
@@ -79,12 +80,15 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
         if not soon
             soon = new Entities.MovieResults []
             soon.url = soon.storeName = NZBAppManager.request('api:endpoint', 'CouchPotato', 'dashboard.soon')
+            soon.comparator = 'released'
             soon.fetch
                 data:
                     status: 'active'
                 success: ->
                     # Save results to localStorage
-                    soon.each (movie) -> movie?.save()
+                    soon.each (movie) -> 
+                        movie.set 'year', moment(movie.get('released')).format('ddd MMM Do, YYYY')
+                        movie?.save()
                     defer.resolve soon
         else
             _.defer -> defer.resolve soon

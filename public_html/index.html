@@ -147,7 +147,7 @@
                 <% } %>
                 <h5><%= data.show_name || data.name %></h5>
                 <% if (data.network) { %><h6 class="subheader"><%= data.network %></h6><% } %>
-                <% if (data.first_aired) { %><h6 class="subheader">First aired: <%= data.first_aired.toDateString() %></h6><% } %>
+                <% if (data.first_aired) { %><h6 class="subheader">First aired: <%= data.first_aired %></h6><% } %>
             </div>
         </div>
         <div class="row">
@@ -221,6 +221,7 @@
     <script src="js/lib/inobounce.js"></script>
     <script src="js/lib/jquery.cookie.js"></script>
     <script src="js/lib/jquery.placeholder.js"></script>
+    <script src="js/lib/moment.js"></script>
     <script src="config.js"></script>
     <script src="js/transition-region.js"></script>
     <script src="js/app.js"></script>

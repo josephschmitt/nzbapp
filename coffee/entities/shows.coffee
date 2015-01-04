@@ -2,13 +2,6 @@
 jjs = window.jjs = (window.jjs or {})
 
 jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marionette, $, _) ->
-    parseUTCDate = (dateString) ->
-        if dateString
-            dateParts = dateString.split '-'
-            return new Date(+dateParts[0], --dateParts[1], +dateParts[2])
-        else
-            return ''
-
     class Entities.ShowResult extends Backbone.Model
         parse: (response, options) ->
             response = _.pick (if response.info? then response.info else response), [
@@ -18,7 +11,7 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
                 'first_aired'
                 'status'
             ]
-            response.first_aired = parseUTCDate(response.first_aired)
+            response.first_aired = if response.first_aired then moment(response.first_aired).format('ddd MMM Do, YYYY') else null
             super response, options
         sync: (method, model, options={}) ->
             # Don't try to save to the server, just to localStorage
