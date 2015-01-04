@@ -92,15 +92,19 @@
     </script>
 
     <script type="text/template" id="search-template">
-        <div class="row">
+        <div class="search-field-container row text-right">
             <div class="small-12 search-container columns">
+                <div class="keyboard-capture"></div>
                 <input class="radius" type="search" placeholder="Search for a <% if (data.type == 'shows') { %>TV Show<% } else { %>Movie<% } %>" <% if (data.value) { %>value="<%= data.value %>"<% } %> />
             </div>
-        </div>
-        <div class="row">
-            <div class="small-offset-2 small-4 columns search-type-item"><label><input type="radio" name="type" value="movies" <% if (!data.type || data.type == 'movies') { %>checked<% } %> /> Movies</label></div>
-            <div class="small-4 columns search-type-item"><label><input type="radio" name="type" value="shows" <% if (data.type == 'shows') { %>checked<% } %> /> Shows</label></div>
-            <div class="small-2 columns"></div>
+            <div class="small-12 columns">
+                <div class="media-switch-container">
+                    <div class="media-switch">
+                        <label class="fi-ticket"><input type="radio" name="type" value="movies" /><span class="switch-text">Movie</span></label>
+                        <label class="fi-monitor"><input type="radio" name="type" value="shows" /><span class="switch-text">Show</span></label>
+                    </div>
+                </div>
+            </div>
         </div>
         <div id="search-results-region" class="search-results"></div>
     </script>
