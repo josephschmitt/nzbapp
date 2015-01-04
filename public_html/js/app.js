@@ -51,8 +51,8 @@
       };
 
       NZBApplication.prototype.showModal = function(view) {
-        this.modalRegion.$el.show();
-        return this.modalRegion.show(view);
+        this.modalRegion.show(view);
+        return this.modalRegion.$el.show();
       };
 
       NZBApplication.prototype.dismissModal = function() {

@@ -26,8 +26,8 @@ do ->
         getCurrentRoute: ->
             return Backbone.history.fragment
         showModal: (view) =>
-            @modalRegion.$el.show()
             @modalRegion.show view
+            @modalRegion.$el.show()
         dismissModal: =>
             @modalRegion.on 'empty', => @modalRegion.$el.hide()
             @modalRegion.reset()
