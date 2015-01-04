@@ -125,12 +125,13 @@
               if (_this.doBlur && !_this.model.get('value')) {
                 _this.ui["switch"].removeClass('small');
                 _this.positionToggle(true);
-                return _this.ui.container.removeClass('focus');
+                _this.ui.container.removeClass('focus');
+                return _this.doBlur = true;
               } else {
                 return _this.ui.searchField.trigger('focus');
               }
             };
-          })(this), 100);
+          })(this), 250);
         };
 
         SearchView.prototype.typeChange = function(e) {

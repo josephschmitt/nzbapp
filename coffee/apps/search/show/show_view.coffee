@@ -83,9 +83,10 @@ do ->
                         @ui.switch.removeClass 'small'
                         @positionToggle(true)
                         @ui.container.removeClass 'focus'
+                        @doBlur = true
                     else
                         @ui.searchField.trigger 'focus'
-                , 100
+                , 250
             typeChange: (e) ->
                 @ui.searchField.attr 'placeholder', "Search for a #{if @model.get('type') is 'shows' then 'TV Show' else 'Movie'}"
             getTerm: ->
