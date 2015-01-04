@@ -8,6 +8,7 @@ jjs.NZBAppManager.module 'SearchApp', (Search, NZBAppManager, Backbone, Marionet
             NZBAppManager.execute 'tabs:active:set', 'Search'
         showResultsForSearch: (type, term) ->
             Search.Show.Controller.showResultsForSearch(type, term)
+            NZBAppManager.execute 'tabs:active:set', 'Search'
 
     class Search.Router extends Marionette.AppRouter
         appRoutes:

@@ -16,7 +16,8 @@
       };
 
       RoutesController.prototype.showResultsForSearch = function(type, term) {
-        return Search.Show.Controller.showResultsForSearch(type, term);
+        Search.Show.Controller.showResultsForSearch(type, term);
+        return NZBAppManager.execute('tabs:active:set', 'Search');
       };
 
       return RoutesController;
