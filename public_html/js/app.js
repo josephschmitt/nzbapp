@@ -78,6 +78,9 @@
 
       NZBApplication.prototype.start = function() {
         NZBApplication.__super__.start.apply(this, arguments);
+        if (window.navigator.standalone) {
+          $('body').addClass('standalone');
+        }
         if (Backbone.history) {
           Backbone.history.start();
         }

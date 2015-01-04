@@ -486,15 +486,16 @@ input[type=search] {
     -webkit-flex-direction: column;
         -ms-flex-direction: column;
             flex-direction: column;
+    margin-top: 44px;
   }
 
   #titlebar {
     position: absolute;
-    left: 85px;
+    left: 0;
     right: 0;
   }
 
-  .standalone #main {
+  .standalone #main, .standalone #navbar {
     margin-top: 64px;
   }
 }
