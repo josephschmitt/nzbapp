@@ -1,9 +1,15 @@
 .search-container {
 	display: flex;
+	margin-top: 1rem;
 
 	input[type=search] {
 		flex: 1;
+
+		@media #{$medium-up} {
+			font-size: 1.25rem;
+		}
 	}
+
 }
 
 .search-type-item {

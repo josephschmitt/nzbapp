@@ -328,12 +328,18 @@ nav.icon-bar .item .badge {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  margin-top: 1rem;
 }
 .search-container input[type=search] {
   -webkit-box-flex: 1;
   -webkit-flex: 1;
       -ms-flex: 1;
           flex: 1;
+}
+@media only screen and (min-width: 40.063em) {
+  .search-container input[type=search] {
+    font-size: 1.25rem;
+  }
 }
 
 .search-type-item {
