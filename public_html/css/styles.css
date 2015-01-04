@@ -369,6 +369,14 @@ nav.icon-bar .item .badge {
   line-height: 1.25rem;
   margin: 0.5rem 0 0.15rem;
 }
+[class*=list-item] .media-meta .th {
+  margin-right: 10px;
+  float: left;
+  border-width: 3px;
+}
+[class*=list-item] .media-meta .th img {
+  height: 40px;
+}
 [class*=list-item] .media-meta .button-group {
   float: right;
 }
@@ -397,14 +405,6 @@ nav.icon-bar .item .badge {
   margin: 0;
   padding: 0;
   list-style: none;
-}
-.movies-list .th {
-  margin-right: 10px;
-  float: left;
-  border-width: 3px;
-}
-.movies-list .th img {
-  height: 40px;
 }
 
 #downloads-content-region {

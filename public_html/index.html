@@ -148,6 +148,11 @@
                 <% } else { %>
                     <a class="button tiny radius fi-x alert remove-item-button"></a>
                 <% } %>
+                <% if (data.poster) { %>
+                    <div class="th">
+                        <img src="<%- data.poster %>">
+                    </div>
+                <% } %>
                 <h5><%= data.show_name || data.name %></h5>
                 <% if (data.network) { %><h6 class="subheader"><%= data.network %></h6><% } %>
                 <% if (data.first_aired) { %><h6 class="subheader">First aired: <%= data.first_aired %></h6><% } %>
@@ -163,6 +168,11 @@
     <script type="text/template" id="show-upcoming-template">
         <div class="row">
             <div class="small-12 columns media-meta">
+                <% if (data.poster) { %>
+                    <div class="th">
+                        <img src="<%- data.poster %>">
+                    </div>
+                <% } %>
                 <h5><%= data.ep_name %></h5>
                 <% if (data.show_name) { %><h6 class="subheader"><%= data.show_name %></h6><% } %>
                 <% if (data.airs) { %><h6 class="subheader">Airs: <time datetime="<%= data.airdate %>"><%= data.airs %></time></h6><% } %>

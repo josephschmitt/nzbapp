@@ -38,6 +38,16 @@
 	}
 
 	.media-meta {
+		.th {
+			margin-right: 10px;
+			float: left;
+			border-width: 3px;
+
+			img {
+				height: 40px;
+			}
+		}
+		
 		.button-group {
 			float: right;
 			

@@ -15,8 +15,9 @@
       }
 
       ShowResult.prototype.parse = function(response, options) {
-        response = _.pick((response.info != null ? response.info : response), ['name', 'show_name', 'network', 'first_aired', 'status']);
+        response = _.pick((response.info != null ? response.info : response), ['name', 'show_name', 'network', 'first_aired', 'status', 'tvdbid']);
         response.first_aired = response.first_aired ? moment(response.first_aired).format('ddd MMM Do, YYYY') : null;
+        response.poster = "" + (NZBAppManager.request('api:endpoint', 'SickBeard', 'show.getposter')) + "&tvdbid=" + response.tvdbid;
         return ShowResult.__super__.parse.call(this, response, options);
       };
 
@@ -102,6 +103,11 @@
       function UpcomingEpisode() {
         return UpcomingEpisode.__super__.constructor.apply(this, arguments);
       }
+
+      UpcomingEpisode.prototype.parse = function(response, options) {
+        response.poster = "" + (NZBAppManager.request('api:endpoint', 'SickBeard', 'show.getposter')) + "&tvdbid=" + response.tvdbid;
+        return UpcomingEpisode.__super__.parse.call(this, response, options);
+      };
 
       UpcomingEpisode.prototype.sync = function(method, model, options) {
         if (options == null) {

@@ -10,8 +10,10 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
                 'network'
                 'first_aired'
                 'status'
+                'tvdbid'
             ]
             response.first_aired = if response.first_aired then moment(response.first_aired).format('ddd MMM Do, YYYY') else null
+            response.poster = "#{NZBAppManager.request('api:endpoint', 'SickBeard', 'show.getposter')}&tvdbid=#{response.tvdbid}"
             super response, options
         sync: (method, model, options={}) ->
             # Don't try to save to the server, just to localStorage
@@ -50,6 +52,9 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
                 super response, options
 
     class Entities.UpcomingEpisode extends Backbone.Model
+        parse: (response, options) ->
+            response.poster = "#{NZBAppManager.request('api:endpoint', 'SickBeard', 'show.getposter')}&tvdbid=#{response.tvdbid}"
+            super response, options
         sync: (method, model, options={}) ->
             # Don't try to save to the server, just to localStorage
             if method in ['create', 'update']
