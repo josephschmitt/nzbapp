@@ -373,6 +373,7 @@ nav.icon-bar .item .badge {
   margin-right: 10px;
   float: left;
   border-width: 3px;
+  display: none;
 }
 [class*=list-item] .media-meta .th img {
   height: 40px;

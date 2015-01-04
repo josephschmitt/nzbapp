@@ -28,9 +28,17 @@
       };
 
       Movie.prototype.render = function() {
+        var imageLoaded;
         Movie.__super__.render.apply(this, arguments);
+        imageLoaded = function(e) {
+          return $(this).parent().show();
+        };
         return this.$el.find('img').on('error', function() {
           return $(this).parent().remove();
+        }).on('load', imageLoaded).each(function(i, img) {
+          if (img.complete || img.naturalWidth) {
+            return imageLoaded.call(this);
+          }
         });
       };
 

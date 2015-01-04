@@ -11,6 +11,13 @@ jjs.NZBAppManager.module 'ShowsApp.List', (List, NZBAppManager, Backbone, Marion
         events:
             'click @ui.add': 'addShow'
             'click @ui.remove': 'removeMovie'
+        render: ->
+            super
+            imageLoaded = (e) -> $(@).parent().show()
+            @$el.find('img')
+                .on 'error', -> $(@).parent().remove()
+                .on 'load', imageLoaded
+                .each (i, img) -> if img.complete or img.naturalWidth then imageLoaded.call(@)
         addShow: (e) ->
             e?.preventDefault()
             List.Controller.addShow @model

@@ -27,6 +27,21 @@
         'click @ui.remove': 'removeMovie'
       };
 
+      Show.prototype.render = function() {
+        var imageLoaded;
+        Show.__super__.render.apply(this, arguments);
+        imageLoaded = function(e) {
+          return $(this).parent().show();
+        };
+        return this.$el.find('img').on('error', function() {
+          return $(this).parent().remove();
+        }).on('load', imageLoaded).each(function(i, img) {
+          if (img.complete || img.naturalWidth) {
+            return imageLoaded.call(this);
+          }
+        });
+      };
+
       Show.prototype.addShow = function(e) {
         if (e != null) {
           e.preventDefault();

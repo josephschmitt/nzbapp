@@ -13,8 +13,11 @@ jjs.NZBAppManager.module 'MoviesApp.List', (List, NZBAppManager, Backbone, Mario
             'click @ui.remove': 'removeMovie'
         render: ->
             super
-            @$el.find('img').on 'error', ->
-                $(@).parent().remove()
+            imageLoaded = (e) -> $(@).parent().show()
+            @$el.find('img')
+                .on 'error', -> $(@).parent().remove()
+                .on 'load', imageLoaded
+                .each (i, img) -> if img.complete or img.naturalWidth then imageLoaded.call(@)
         addMovie: (e) ->
             e?.preventDefault()
             List.Controller.addMovie @model
