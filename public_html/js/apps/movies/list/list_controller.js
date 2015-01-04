@@ -10,9 +10,9 @@
         listMovies = new List.Movies();
         NZBAppManager.mainRegion.show(listMovies);
         NZBAppManager.execute('titlebar:show', NZBAppManager.request('titlebar:movies:entities'));
+        NZBAppManager.execute('titlebar:activate', 'movies/wanted');
         return $.when(NZBAppManager.request('movies:list')).done(function(movies) {
-          listMovies.setCollection(movies);
-          return NZBAppManager.execute('titlebar:activate', 'movies/wanted');
+          return listMovies.setCollection(movies);
         });
       },
       addMovie: function(movie) {

@@ -13,9 +13,9 @@
           NZBAppManager.mainRegion.show(downloadsView);
         }
         NZBAppManager.execute('titlebar:show', NZBAppManager.request('titlebar:downloads:entities'));
+        NZBAppManager.execute('titlebar:activate', 'downloads/queue');
         return $.when(NZBAppManager.request('downloads:queue:entities')).done(function(queued) {
-          downloadsView.setCollection(queued, 'queue');
-          return NZBAppManager.execute('titlebar:activate', 'downloads/queue');
+          return downloadsView.setCollection(queued, 'queue');
         });
       },
       listHistory: function() {
@@ -24,9 +24,9 @@
           NZBAppManager.mainRegion.show(downloadsView);
         }
         NZBAppManager.execute('titlebar:show', NZBAppManager.request('titlebar:downloads:entities'));
+        NZBAppManager.execute('titlebar:activate', 'downloads/history');
         return $.when(NZBAppManager.request('downloads:history:entities')).done(function(history) {
-          downloadsView.setCollection(history, 'history');
-          return NZBAppManager.execute('titlebar:activate', 'downloads/history');
+          return downloadsView.setCollection(history, 'history');
         });
       }
     };

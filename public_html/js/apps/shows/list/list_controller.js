@@ -10,9 +10,9 @@
         listShows = new List.Shows();
         NZBAppManager.mainRegion.show(listShows);
         NZBAppManager.execute('titlebar:show', NZBAppManager.request('titlebar:shows:entities'));
+        NZBAppManager.execute('titlebar:activate', 'shows/wanted');
         return $.when(NZBAppManager.request('shows:list:entities')).done(function(shows) {
-          listShows.setCollection(shows, 'wanted');
-          return NZBAppManager.execute('titlebar:activate', 'shows/wanted');
+          return listShows.setCollection(shows, 'wanted');
         });
       },
       listUpcomingShows: function() {
@@ -20,9 +20,9 @@
         listShows = new List.UpcomingShows();
         NZBAppManager.mainRegion.show(listShows);
         NZBAppManager.execute('titlebar:show', NZBAppManager.request('titlebar:shows:entities'));
+        NZBAppManager.execute('titlebar:activate', 'shows/upcoming');
         return $.when(NZBAppManager.request('shows:upcoming:entities')).done(function(shows) {
-          listShows.setCollection(shows, 'upcoming');
-          return NZBAppManager.execute('titlebar:activate', 'shows/upcoming');
+          return listShows.setCollection(shows, 'upcoming');
         });
       },
       addShow: function(show) {
