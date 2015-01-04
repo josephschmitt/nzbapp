@@ -409,6 +409,10 @@ nav.icon-bar .item .badge {
   margin-right: -3px;
 }
 
+.download-list-item p.alert {
+  margin-top: 0.15rem;
+}
+
 /*  Base page styles */
 * {
   text-rendering: optimizeLegibility;
@@ -481,4 +485,19 @@ input[type=search] {
         -ms-flex-direction: column;
             flex-direction: column;
   }
+}
+p.secondary {
+  color: #e7e7e7;
+}
+p.alert {
+  color: #f04124;
+}
+p.success {
+  color: #43ac6a;
+}
+p.warning {
+  color: #f08a24;
+}
+p.info {
+  color: #a0d3e8;
 }

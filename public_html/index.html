@@ -185,6 +185,7 @@
                 </div>
                 <h5><%= data.filename || data.name %></h5>
                 <span class="label radius <%- statusColor %>"><%= data.status %></span>
+                <% if (data.fail_message) { %><p class="alert"><small><%= data.fail_message %></small></p><% } %>
             </div>
         </div>
         <% if (data.percentage != 0 && (data.status != 'Completed' && data.status != 'Failed')) { %>
