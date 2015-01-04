@@ -33,7 +33,7 @@
 
     })(Marionette.AppRouter);
     routesController = new Movies.RoutesController();
-    NZBAppManager.on('movies:list', function() {
+    NZBAppManager.on('movies:list movies:wanted:list', function() {
       NZBAppManager.navigate('movies');
       return routesController.listMovies();
     });

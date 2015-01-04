@@ -1,0 +1,45 @@
+.titlebar {
+	display: flex;
+	background: $primary-color;
+	height: $app-titlebar-height;
+	border-bottom: 0.5px solid darken($primary-color, 10%);
+
+	h5 {
+		color: white;
+		font-family: "HelveticaNeue-Medium", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+	}
+
+	& > * {
+		margin: auto;
+	}
+
+	&.standalone {
+		height: $app-standalone-titlebar-height;
+
+		& > * {
+			margin-top: 23px;
+		}
+
+		h5 {
+			margin-top: 29px;
+		}
+	}
+}
+
+.tabs-titlebar {
+	.button-group {
+		a {
+			margin: 0;
+			padding-top: 0.475rem;
+			padding-right: 1.35rem;
+			padding-bottom: 0.5375rem;
+			padding-left: 1.35rem;
+			background-color: scale-color($primary-color, $lightness: -20%);
+		}
+		
+		.active a {
+			background-color: scale-color($primary-color, $lightness: -40%);
+			// background-color: scale-color($primary-color, $lightness: -20%);
+		}
+	}
+}

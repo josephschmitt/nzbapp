@@ -8,6 +8,7 @@ jjs.NZBAppManager.module 'SearchApp.Show', (Show, NZBAppManager, Backbone, Mario
         showSearch: ->
             searchView = new Show.SearchView()
             NZBAppManager.mainRegion.show searchView
+            NZBAppManager.execute 'titlebar:show', NZBAppManager.request('titlebar:search:entities')
         showResultsForSearch: (type, term) ->
             if not searchView then Show.Controller.showSearch()
             else searchView.clearResults()

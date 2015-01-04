@@ -6,6 +6,7 @@
   jjs.NZBAppManager.module('ServersApp.Setup', function(ServersSetup, NZBAppManager, Backbone, Marionette, $, _) {
     return ServersSetup.Controller = {
       listServers: function() {
+        NZBAppManager.execute('titlebar:show', NZBAppManager.request('titlebar:settings:entities'));
         return $.when(NZBAppManager.request('servers:entities')).done((function(_this) {
           return function(serverSettings) {
             NZBAppManager.mainRegion.show(new ServersSetup.Layout({

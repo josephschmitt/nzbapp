@@ -10,6 +10,9 @@ do ->
         initialize: ->
             super
             @addRegions
+                titlebarRegion:
+                    selector: '#titlebar'
+                    regionClass: TransitionRegion
                 mainRegion: 
                     selector: '#main'
                     regionClass: TransitionRegion

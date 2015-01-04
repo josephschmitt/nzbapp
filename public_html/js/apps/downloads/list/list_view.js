@@ -47,7 +47,7 @@
       return Slot;
 
     })(Marionette.ItemView);
-    List.Downloads = (function(_super) {
+    return List.Downloads = (function(_super) {
       __extends(Downloads, _super);
 
       function Downloads() {
@@ -58,56 +58,15 @@
 
       Downloads.prototype.className = 'downloads-list';
 
+      Downloads.prototype.setCollection = function(collection) {
+        this.collection = collection;
+        this.listenTo(this.collection, 'change', this.render);
+        return this.render();
+      };
+
       return Downloads;
 
     })(Marionette.CollectionView);
-    return List.DownloadsView = (function(_super) {
-      __extends(DownloadsView, _super);
-
-      function DownloadsView() {
-        return DownloadsView.__super__.constructor.apply(this, arguments);
-      }
-
-      DownloadsView.prototype.template = '#downloads-template';
-
-      DownloadsView.prototype.regions = {
-        tabsRegion: '#downloads-tabs-region',
-        contentRegion: '#downloads-content-region'
-      };
-
-      DownloadsView.prototype.render = function() {
-        DownloadsView.__super__.render.apply(this, arguments);
-        return this.tabsRegion.show(new NZBAppManager.GUI.Tabs.TabsView({
-          collection: NZBAppManager.request('downloads:tabs:entities'),
-          className: 'tabs small text-center downloads-tabs'
-        }));
-      };
-
-      DownloadsView.prototype.setCollection = function(collection, type) {
-        var view;
-        view = new List.Downloads({
-          collection: collection
-        });
-        this.contentRegion.show(view);
-        return this.setTab(type);
-      };
-
-      DownloadsView.prototype.setTab = function(tabUrl) {
-        var collection, _ref, _ref1;
-        collection = this.tabsRegion.currentView.collection;
-        if ((_ref = collection.findWhere({
-          active: true
-        })) != null) {
-          _ref.set('active', false);
-        }
-        return (_ref1 = collection.findWhere({
-          url: tabUrl
-        })) != null ? _ref1.set('active', true) : void 0;
-      };
-
-      return DownloadsView;
-
-    })(Marionette.LayoutView);
   });
 
 }).call(this);

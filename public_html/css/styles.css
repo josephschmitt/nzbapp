@@ -185,6 +185,44 @@ a:hover {
   padding: 0.5rem 1rem;
 }
 
+.titlebar {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  background: #008cba;
+  height: 44px;
+  border-bottom: 0.5px solid #006687;
+}
+.titlebar h5 {
+  color: white;
+  font-family: "HelveticaNeue-Medium", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+}
+.titlebar > * {
+  margin: auto;
+}
+.titlebar.standalone {
+  height: 64px;
+}
+.titlebar.standalone > * {
+  margin-top: 23px;
+}
+.titlebar.standalone h5 {
+  margin-top: 29px;
+}
+
+.tabs-titlebar .button-group a {
+  margin: 0;
+  padding-top: 0.475rem;
+  padding-right: 1.35rem;
+  padding-bottom: 0.5375rem;
+  padding-left: 1.35rem;
+  background-color: #007095;
+}
+.tabs-titlebar .button-group .active a {
+  background-color: #005470;
+}
+
 nav.icon-bar {
   display: block;
 }

@@ -15,7 +15,7 @@
     <link rel="apple-touch-icon" sizes="58x58" href="AppIcon.appiconset/Icon-Small@2x.png" />
 
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
     <!-- injector:css -->
     <link rel="stylesheet" href="css/foundation.css">
@@ -25,11 +25,24 @@
     <!-- endinjector -->
 </head>
 <body>
+    <div id="titlebar"></div>
     <div id="modal"style="display: none;"></div>
     <main id="main"></main>
     <div id="navbar"></div>
 
     <!-- templates -->
+    <script type="text/template" id="titlebar-text-template">
+        <h5><%= data.title %></h5>
+    </script>
+
+    <script type="text/template" id="titlebar-tabs-template">
+        <ul class="button-group round"></ul>
+    </script>
+
+    <script type="text/template" id="titlebar-tab-item-template">
+        <a href="#" class="small button"><%= data.title %></a>
+    </script>
+
     <script type="text/template" id="navbar-template">
         <% statusColor = data.status == 'Downloading' ? 'success' : data.status == 'Paused' ? 'warning' : '' %>
         <% if (data.progress) { %><span class="progbar <%- statusColor %>" style="width: <%- data.progress %>%"></span><% } %>
@@ -79,7 +92,6 @@
     </script>
 
     <script type="text/template" id="search-template">
-        <h1 class="text-center">Search</h1>
         <div class="row">
             <div class="small-12 search-container columns">
                 <input type="search" placeholder="Search for a <% if (data.type == 'shows') { %>TV Show<% } else { %>Movie<% } %>" <% if (data.value) { %>value="<%= data.value %>"<% } %> />
@@ -101,7 +113,7 @@
                 <% } else { %>
                     <a class="button tiny radius fi-x alert remove-item-button"></a>
                 <% } %>
-                <h4><%= data.title || data.original_title %></h4>
+                <h5><%= data.title || data.original_title %></h5>
                 <h6 class="subheader"><%= data.year %></h6>
             </div>
         </div>
@@ -125,7 +137,7 @@
                 <% } else { %>
                     <a class="button tiny radius fi-x alert remove-item-button"></a>
                 <% } %>
-                <h4><%= data.show_name || data.name %></h4>
+                <h5><%= data.show_name || data.name %></h5>
                 <% if (data.network) { %><h6 class="subheader"><%= data.network %></h6><% } %>
                 <% if (data.first_aired) { %><h6 class="subheader">First aired: <%= data.first_aired.toDateString() %></h6><% } %>
             </div>
@@ -140,7 +152,7 @@
     <script type="text/template" id="show-upcoming-template">
         <div class="row">
             <div class="small-12 columns media-meta">
-                <h4><%= data.ep_name %></h4>
+                <h5><%= data.ep_name %></h5>
                 <% if (data.show_name) { %><h6 class="subheader"><%= data.show_name %></h6><% } %>
                 <% if (data.airs) { %><h6 class="subheader">Airs: <time datetime="<%= data.airdate %>"><%= data.airs %></time></h6><% } %>
             </div>
@@ -171,8 +183,8 @@
                     <% } %>
                     <a class="button tiny radius fi-x alert remove-item-button" data-action="delete"></a>
                 </div>
-                <h4><%= data.filename || data.name %></h4>
-                <h6 class="subheader"><span class="label radius <%- statusColor %>"><%= data.status %></span></h6>
+                <h5><%= data.filename || data.name %></h5>
+                <span class="label radius <%- statusColor %>"><%= data.status %></span>
             </div>
         </div>
         <% if (data.percentage != 0 && (data.status != 'Completed' && data.status != 'Failed')) { %>
@@ -231,6 +243,9 @@
     <script src="js/apps/shows/list/list_controller.js"></script>
     <script src="js/apps/shows/list/list_view.js"></script>
     <script src="js/apps/shows/shows_app.js"></script>
+    <script src="js/apps/titlebar/show/show_controller.js"></script>
+    <script src="js/apps/titlebar/show/show_view.js"></script>
+    <script src="js/apps/titlebar/titlebar_app.js"></script>
     <script src="js/entities/api.js"></script>
     <script src="js/entities/downloads.js"></script>
     <script src="js/entities/modal.js"></script>
@@ -238,6 +253,7 @@
     <script src="js/entities/server.js"></script>
     <script src="js/entities/shows.js"></script>
     <script src="js/entities/tabs.js"></script>
+    <script src="js/entities/titlebar.js"></script>
     <!-- endinjector -->
 
     <script type="text/javascript">

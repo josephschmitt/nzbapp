@@ -13,7 +13,7 @@ jjs.NZBAppManager.module 'MoviesApp', (Movies, NZBAppManager, Backbone, Marionet
 
 	routesController = new Movies.RoutesController()
 
-	NZBAppManager.on 'movies:list', ->
+	NZBAppManager.on 'movies:list movies:wanted:list', ->
 		NZBAppManager.navigate('movies')
 		routesController.listMovies()
 

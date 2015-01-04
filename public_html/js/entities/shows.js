@@ -6,7 +6,7 @@
   jjs = window.jjs = window.jjs || {};
 
   jjs.NZBAppManager.module('Entities', function(Entities, NZBAppManager, Backbone, Marionette, $, _) {
-    var addShow, getShow, getShowSearchResults, getShows, getTabs, getUpcomingEpisodes, parseUTCDate, removeShow, shows, showsTabs, upcoming;
+    var addShow, getShow, getShowSearchResults, getShows, getUpcomingEpisodes, parseUTCDate, removeShow, shows, showsTabs, upcoming;
     parseUTCDate = function(dateString) {
       var dateParts;
       if (dateString) {
@@ -254,19 +254,6 @@
       });
       return defer.promise();
     };
-    getTabs = function() {
-      return showsTabs = new Backbone.Collection([
-        {
-          name: 'Shows',
-          url: 'wanted',
-          trigger: 'shows:wanted:list'
-        }, {
-          name: 'Upcoming',
-          url: 'upcoming',
-          trigger: 'shows:upcoming:list'
-        }
-      ]);
-    };
     NZBAppManager.reqres.setHandler('shows:search', function(term) {
       return getShowSearchResults(term);
     });
@@ -279,14 +266,8 @@
     NZBAppManager.reqres.setHandler('show:info', function(tvdbid) {
       return getShow(tvdbid);
     });
-    NZBAppManager.reqres.setHandler('show:add', function(show) {
+    return NZBAppManager.reqres.setHandler('show:add', function(show) {
       return addShow(show);
-    });
-    return NZBAppManager.reqres.setHandler('shows:tabs:entities', function() {
-      if (!showsTabs) {
-        getTabs();
-      }
-      return showsTabs;
     });
   });
 

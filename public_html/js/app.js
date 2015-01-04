@@ -23,6 +23,10 @@
       NZBApplication.prototype.initialize = function() {
         NZBApplication.__super__.initialize.apply(this, arguments);
         return this.addRegions({
+          titlebarRegion: {
+            selector: '#titlebar',
+            regionClass: TransitionRegion
+          },
           mainRegion: {
             selector: '#main',
             regionClass: TransitionRegion

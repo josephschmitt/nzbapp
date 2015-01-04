@@ -45,6 +45,7 @@ $xxlarge-only: "#{$screen} and (min-width:#{lower-bound($xxlarge-range)}) and (m
 @import
     'base',
     'apps/gui',
+    'apps/titlebar',
     'apps/navbar',
     'apps/popup',
     'apps/search',

@@ -7,18 +7,22 @@
     return List.Controller = {
       listShows: function() {
         var listShows;
-        listShows = new List.ShowsView();
+        listShows = new List.Shows();
         NZBAppManager.mainRegion.show(listShows);
+        NZBAppManager.execute('titlebar:show', NZBAppManager.request('titlebar:shows:entities'));
         return $.when(NZBAppManager.request('shows:list:entities')).done(function(shows) {
-          return listShows.setCollection(shows, 'wanted');
+          listShows.setCollection(shows, 'wanted');
+          return NZBAppManager.execute('titlebar:activate', 'shows/wanted');
         });
       },
       listUpcomingShows: function() {
         var listShows;
-        listShows = new List.UpcomingShowsView();
+        listShows = new List.UpcomingShows();
         NZBAppManager.mainRegion.show(listShows);
+        NZBAppManager.execute('titlebar:show', NZBAppManager.request('titlebar:shows:entities'));
         return $.when(NZBAppManager.request('shows:upcoming:entities')).done(function(shows) {
-          return listShows.setCollection(shows, 'upcoming');
+          listShows.setCollection(shows, 'upcoming');
+          return NZBAppManager.execute('titlebar:activate', 'shows/upcoming');
         });
       },
       addShow: function(show) {

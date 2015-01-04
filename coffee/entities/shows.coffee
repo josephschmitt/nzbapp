@@ -144,12 +144,6 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
                 tvdbid: show.get 'tvdbid'
         defer.promise()
 
-    getTabs = ->
-        showsTabs = new Backbone.Collection [
-            { name: 'Shows', url: 'wanted', trigger: 'shows:wanted:list' }
-            { name: 'Upcoming', url: 'upcoming', trigger: 'shows:upcoming:list' }
-        ]
-
     NZBAppManager.reqres.setHandler 'shows:search', (term) ->
         getShowSearchResults(term)
 
@@ -164,7 +158,3 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
 
     NZBAppManager.reqres.setHandler 'show:add', (show) ->
         addShow(show)
-
-    NZBAppManager.reqres.setHandler 'shows:tabs:entities', ->
-        if not showsTabs then getTabs()
-        showsTabs

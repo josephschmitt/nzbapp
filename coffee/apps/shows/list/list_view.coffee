@@ -28,35 +28,9 @@ jjs.NZBAppManager.module 'ShowsApp.List', (List, NZBAppManager, Backbone, Marion
             @collection = collection
             @listenTo @collection, 'change', @render
             @render()
-    
-
-    class List.ShowsView extends Marionette.LayoutView
-        template: '#shows-template'
-        regions:
-            tabsRegion: '#shows-tabs-region'
-            contentRegion: '#shows-list-region'
-        render: ->
-            super
-            @tabsRegion.show new NZBAppManager.GUI.Tabs.TabsView 
-                collection: NZBAppManager.request 'shows:tabs:entities'
-                className: 'tabs small text-center shows-tabs'
-        setCollection: (collection, type) ->
-            view = new List.Shows collection: collection
-            @contentRegion.show view
-            @setTab type
-        setTab: (tabUrl) ->
-            collection = @tabsRegion.currentView.collection
-            collection.findWhere(active: true)?.set 'active', false
-            collection.findWhere(url: tabUrl)?.set 'active', true
 
     class List.UpcomingShow extends List.Show
         template: '#show-upcoming-template'
 
     class List.UpcomingShows extends List.Shows
         childView: List.UpcomingShow
-
-    class List.UpcomingShowsView extends List.ShowsView
-        setCollection: (collection, type) ->
-            view = new List.UpcomingShows collection: collection
-            @contentRegion.show view
-            @setTab type

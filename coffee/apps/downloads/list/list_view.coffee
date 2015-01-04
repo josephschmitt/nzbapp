@@ -22,22 +22,7 @@ jjs.NZBAppManager.module 'DownloadsApp.List', (List, NZBAppManager, Backbone, Ma
     class List.Downloads extends Marionette.CollectionView
         childView: List.Slot
         className: 'downloads-list'
-
-    class List.DownloadsView extends Marionette.LayoutView
-        template: '#downloads-template'
-        regions:
-            tabsRegion: '#downloads-tabs-region'
-            contentRegion: '#downloads-content-region'
-        render: ->
-            super
-            @tabsRegion.show new NZBAppManager.GUI.Tabs.TabsView 
-                collection: NZBAppManager.request 'downloads:tabs:entities'
-                className: 'tabs small text-center downloads-tabs'
-        setCollection: (collection, type) ->
-            view = new List.Downloads collection: collection
-            @contentRegion.show view
-            @setTab type
-        setTab: (tabUrl) ->
-            collection = @tabsRegion.currentView.collection
-            collection.findWhere(active: true)?.set 'active', false
-            collection.findWhere(url: tabUrl)?.set 'active', true
+        setCollection: (collection) ->
+            @collection = collection
+            @listenTo @collection, 'change', @render
+            @render()

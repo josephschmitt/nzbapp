@@ -10,7 +10,8 @@
     return Show.Controller = {
       showSearch: function() {
         searchView = new Show.SearchView();
-        return NZBAppManager.mainRegion.show(searchView);
+        NZBAppManager.mainRegion.show(searchView);
+        return NZBAppManager.execute('titlebar:show', NZBAppManager.request('titlebar:search:entities'));
       },
       showResultsForSearch: function(type, term) {
         if (!searchView) {
