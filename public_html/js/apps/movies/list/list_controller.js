@@ -15,6 +15,16 @@
           return listMovies.setCollection(movies);
         });
       },
+      listAvailableSoon: function() {
+        var availableSoon;
+        availableSoon = new List.Movies();
+        NZBAppManager.mainRegion.show(availableSoon);
+        NZBAppManager.execute('titlebar:show', NZBAppManager.request('titlebar:movies:entities'));
+        NZBAppManager.execute('titlebar:activate', 'movies/soon');
+        return $.when(NZBAppManager.request('movies:soon')).done(function(movies) {
+          return availableSoon.setCollection(movies);
+        });
+      },
       addMovie: function(movie) {
         return $.when(NZBAppManager.request('movies:add', movie)).done(function(added) {
           var message, status;

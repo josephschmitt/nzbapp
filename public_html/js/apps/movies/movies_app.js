@@ -15,6 +15,11 @@
         return NZBAppManager.execute('tabs:active:set', 'Movies');
       };
 
+      RoutesController.prototype.listAvailableSoon = function() {
+        Movies.List.Controller.listAvailableSoon();
+        return NZBAppManager.execute('tabs:active:set', 'Movies');
+      };
+
       return RoutesController;
 
     })();
@@ -26,7 +31,8 @@
       }
 
       Router.prototype.appRoutes = {
-        'movies': 'listMovies'
+        'movies': 'listMovies',
+        'movies/soon': 'listAvailableSoon'
       };
 
       return Router;
@@ -36,6 +42,10 @@
     NZBAppManager.on('movies:list movies:wanted:list', function() {
       NZBAppManager.navigate('movies');
       return routesController.listMovies();
+    });
+    NZBAppManager.on('movies:soon:list', function() {
+      NZBAppManager.navigate('movies/soon');
+      return routesController.listAvailableSoon();
     });
     return NZBAppManager.addInitializer(function() {
       return new Movies.Router({

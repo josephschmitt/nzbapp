@@ -10,6 +10,13 @@ jjs.NZBAppManager.module 'MoviesApp.List', (List, NZBAppManager, Backbone, Mario
             NZBAppManager.execute 'titlebar:activate', 'movies/wanted'
             $.when(NZBAppManager.request('movies:list')).done (movies) ->
                 listMovies.setCollection movies
+        listAvailableSoon: ->
+            availableSoon = new List.Movies()
+            NZBAppManager.mainRegion.show availableSoon
+            NZBAppManager.execute 'titlebar:show', NZBAppManager.request('titlebar:movies:entities')
+            NZBAppManager.execute 'titlebar:activate', 'movies/soon'
+            $.when(NZBAppManager.request('movies:soon')).done (movies) ->
+                availableSoon.setCollection movies
         addMovie: (movie) ->
             $.when(NZBAppManager.request('movies:add', movie)).done (added) ->
                 message = "Added #{movie.get('title') or movie.get('original_title')} (#{movie.get('year')}) to your list"

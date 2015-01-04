@@ -42,6 +42,7 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
             super
 
     movies = null
+    soon = null
 
     getMovieSearchResults = (term) ->
         defer = $.Deferred()
@@ -71,6 +72,22 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
             _.defer -> defer.resolve movies
         defer.promise()
 
+    getComingSoon = () ->
+        defer = $.Deferred()
+        if not soon
+            soon = new Entities.MovieResults []
+            soon.url = soon.storeName = NZBAppManager.request('api:endpoint', 'CouchPotato', 'dashboard.soon')
+            soon.fetch
+                data:
+                    status: 'active'
+                success: ->
+                    # Save results to localStorage
+                    soon.each (movie) -> movie?.save()
+                    defer.resolve soon
+        else
+            _.defer -> defer.resolve soon
+        defer.promise()
+
     addMovie = (movie) ->
         defer = $.ajax NZBAppManager.request('api:endpoint', 'CouchPotato', 'movie.add'),
             dataType: 'jsonp'
@@ -93,6 +110,9 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
 
     NZBAppManager.reqres.setHandler 'movies:list', ->
         getMovies()
+
+    NZBAppManager.reqres.setHandler 'movies:soon', ->
+        getComingSoon()
 
     NZBAppManager.reqres.setHandler 'movies:add', (movie) ->
         addMovie(movie)

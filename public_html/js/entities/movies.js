@@ -6,7 +6,7 @@
   jjs = window.jjs = window.jjs || {};
 
   jjs.NZBAppManager.module('Entities', function(Entities, NZBAppManager, Backbone, Marionette, $, _) {
-    var addMovie, getMovieSearchResults, getMovies, movies, removeMovie;
+    var addMovie, getComingSoon, getMovieSearchResults, getMovies, movies, removeMovie, soon;
     Entities.MovieResult = (function(_super) {
       __extends(MovieResult, _super);
 
@@ -73,6 +73,7 @@
 
     })(Backbone.Collection);
     movies = null;
+    soon = null;
     getMovieSearchResults = function(term) {
       var defer, movieSearchResults;
       defer = $.Deferred();
@@ -113,6 +114,30 @@
       }
       return defer.promise();
     };
+    getComingSoon = function() {
+      var defer;
+      defer = $.Deferred();
+      if (!soon) {
+        soon = new Entities.MovieResults([]);
+        soon.url = soon.storeName = NZBAppManager.request('api:endpoint', 'CouchPotato', 'dashboard.soon');
+        soon.fetch({
+          data: {
+            status: 'active'
+          },
+          success: function() {
+            soon.each(function(movie) {
+              return movie != null ? movie.save() : void 0;
+            });
+            return defer.resolve(soon);
+          }
+        });
+      } else {
+        _.defer(function() {
+          return defer.resolve(soon);
+        });
+      }
+      return defer.promise();
+    };
     addMovie = function(movie) {
       var defer;
       defer = $.ajax(NZBAppManager.request('api:endpoint', 'CouchPotato', 'movie.add'), {
@@ -141,6 +166,9 @@
     });
     NZBAppManager.reqres.setHandler('movies:list', function() {
       return getMovies();
+    });
+    NZBAppManager.reqres.setHandler('movies:soon', function() {
+      return getComingSoon();
     });
     NZBAppManager.reqres.setHandler('movies:add', function(movie) {
       return addMovie(movie);
