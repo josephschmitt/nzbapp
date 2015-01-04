@@ -7,11 +7,13 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
 
     class Entities.DownloadsQueue extends Backbone.Collection
         model: Entities.DownloadsSlot
-        parse: (response) ->
+        parse: (response, options) ->
             if response?.history?.slots
-                super response.history?.slots
+                super response.history?.slots, options
+            else if response.queue?.length
+                super response.queue?.slots, options
             else
-                super response.queue?.slots
+                super [], options
         sync: (method, collection, options={}) ->
             options = _.extend options, 
                 dataType: 'jsonp'

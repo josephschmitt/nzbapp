@@ -21,6 +21,7 @@ jjs.NZBAppManager.module 'MoviesApp.List', (List, NZBAppManager, Backbone, Mario
     class List.Movies extends Marionette.CollectionView
         childView: List.Movie
         className: 'movies-list'
+        emptyView: NZBAppManager.GUI.List.NoResults
         initialize: ->
             super
             if @collection then @setCollection @collection

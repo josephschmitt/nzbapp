@@ -50,11 +50,13 @@
 
       MovieResults.prototype.model = Entities.MovieResult;
 
-      MovieResults.prototype.parse = function(response) {
+      MovieResults.prototype.parse = function(response, options) {
         if (response.movies) {
-          return response.movies;
+          return MovieResults.__super__.parse.call(this, response.movies, options);
+        } else if (response.length) {
+          return MovieResults.__super__.parse.call(this, response, options);
         } else {
-          return response;
+          return MovieResults.__super__.parse.call(this, [], options);
         }
       };
 

@@ -39,8 +39,10 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
                     super response.data.results, options
                 else 
                     super _.toArray(response.data), options
-            else
+            else if response.length
                 super response, options
+            else
+                super [], options
         sync: (method, model, options={}) ->
             options = _.extend options, 
                 dataType: 'jsonp'

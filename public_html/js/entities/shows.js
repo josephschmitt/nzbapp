@@ -65,8 +65,10 @@
           } else {
             return ShowResults.__super__.parse.call(this, _.toArray(response.data), options);
           }
-        } else {
+        } else if (response.length) {
           return ShowResults.__super__.parse.call(this, response, options);
+        } else {
+          return ShowResults.__super__.parse.call(this, [], options);
         }
       };
 

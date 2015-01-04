@@ -55,6 +55,8 @@
 
       Shows.prototype.className = 'shows-list';
 
+      Shows.prototype.emptyView = NZBAppManager.GUI.List.NoResults;
+
       Shows.prototype.initialize = function() {
         Shows.__super__.initialize.apply(this, arguments);
         if (this.collection) {

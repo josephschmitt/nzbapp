@@ -55,6 +55,8 @@
 
       Movies.prototype.className = 'movies-list';
 
+      Movies.prototype.emptyView = NZBAppManager.GUI.List.NoResults;
+
       Movies.prototype.initialize = function() {
         Movies.__super__.initialize.apply(this, arguments);
         if (this.collection) {

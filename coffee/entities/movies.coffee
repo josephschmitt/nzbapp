@@ -30,11 +30,13 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
 
     class Entities.MovieResults extends Backbone.Collection
         model: Entities.MovieResult
-        parse: (response) ->
+        parse: (response, options) ->
             if response.movies
-                response.movies
+                super response.movies, options
+            else if response.length
+                super response, options
             else
-                response
+                super [], options
         sync: (method, model, options={}) ->
             options = _.extend options, 
                 dataType: 'jsonp'

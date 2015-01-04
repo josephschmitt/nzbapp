@@ -47,6 +47,18 @@
       return Slot;
 
     })(Marionette.ItemView);
+    List.NoQueueResults = (function(_super) {
+      __extends(NoQueueResults, _super);
+
+      function NoQueueResults() {
+        return NoQueueResults.__super__.constructor.apply(this, arguments);
+      }
+
+      NoQueueResults.prototype.title = 'No Downloads in Queue';
+
+      return NoQueueResults;
+
+    })(NZBAppManager.GUI.List.NoResults);
     return List.Downloads = (function(_super) {
       __extends(Downloads, _super);
 
@@ -57,6 +69,8 @@
       Downloads.prototype.childView = List.Slot;
 
       Downloads.prototype.className = 'downloads-list';
+
+      Downloads.prototype.emptyView = List.NoQueueResults;
 
       Downloads.prototype.setCollection = function(collection) {
         this.collection = collection;

@@ -21,6 +21,7 @@ jjs.NZBAppManager.module 'ShowsApp.List', (List, NZBAppManager, Backbone, Marion
     class List.Shows extends Marionette.CollectionView
         childView: List.Show
         className: 'shows-list'
+        emptyView: NZBAppManager.GUI.List.NoResults
         initialize: ->
             super
             if @collection then @setCollection @collection
