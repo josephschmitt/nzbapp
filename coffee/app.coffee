@@ -39,6 +39,8 @@ do ->
                     @trigger 'home:show'
         start: ->
             super
+            if window.navigator.standalone then 'standalone'
+                $('body').addClass 'standalone'
             if Backbone.history then Backbone.history.start()
             @checkServerSettings()
 

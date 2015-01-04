@@ -15,7 +15,7 @@
 
       TextTitlebar.prototype.template = '#titlebar-text-template';
 
-      TextTitlebar.prototype.className = "titlebar " + (window.navigator.standalone ? 'standalone' : '');
+      TextTitlebar.prototype.className = "titlebar";
 
       return TextTitlebar;
 
@@ -43,7 +43,7 @@
 
       TabsTitlebar.prototype.template = '#titlebar-tabs-template';
 
-      TabsTitlebar.prototype.className = "titlebar tabs-titlebar " + (window.navigator.standalone ? 'standalone' : '');
+      TabsTitlebar.prototype.className = "titlebar tabs-titlebar";
 
       TabsTitlebar.prototype.childView = Show.TitlebarTab;
 

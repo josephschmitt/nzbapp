@@ -12,8 +12,10 @@
 	& > * {
 		margin: auto;
 	}
+}
 
-	&.standalone {
+.standalone {
+	.titlebar {
 		height: $app-standalone-titlebar-height;
 
 		& > * {
@@ -39,7 +41,6 @@
 		
 		.active a {
 			background-color: scale-color($primary-color, $lightness: -40%);
-			// background-color: scale-color($primary-color, $lightness: -20%);
 		}
 	}
 }
