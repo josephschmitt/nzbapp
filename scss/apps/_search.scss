@@ -30,10 +30,15 @@
 	.media-switch-container {
 		margin-top: 1rem;
 		display: none;
+		visibility: hidden;
 
 		&.animate {
 			display: inline-block;
 			transition: 0.25s transform ease;
+		}
+
+		&.visible {
+			visibility: visible;
 		}
 	}
 

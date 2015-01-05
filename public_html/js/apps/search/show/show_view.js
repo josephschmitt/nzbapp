@@ -76,7 +76,12 @@
               value: this.getTerm()
             });
           }
-          _.defer(this.positionToggle);
+          _.defer((function(_this) {
+            return function() {
+              _this.positionToggle();
+              return _this.ui.switchContainer.addClass('visible');
+            };
+          })(this));
           clearTimeout(this.timeout);
           this.ui.searchField.on('keyup', (function(_this) {
             return function(e) {

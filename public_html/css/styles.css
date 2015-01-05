@@ -368,11 +368,15 @@ nav.icon-bar .item .badge {
 .search-field-container .media-switch-container {
   margin-top: 1rem;
   display: none;
+  visibility: hidden;
 }
 .search-field-container .media-switch-container.animate {
   display: inline-block;
   -webkit-transition: 0.25s -webkit-transform ease;
           transition: 0.25s transform ease;
+}
+.search-field-container .media-switch-container.visible {
+  visibility: visible;
 }
 .search-field-container.focus {
   -webkit-transform: translateY(0);

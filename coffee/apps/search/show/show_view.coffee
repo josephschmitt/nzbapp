@@ -43,7 +43,9 @@ do ->
                     @model = new Backbone.Model type: @getType(), value: @getTerm()
 
                 # Position toggle
-                _.defer @positionToggle
+                _.defer =>
+                    @positionToggle()
+                    @ui.switchContainer.addClass 'visible'
 
                 # Setup search on keyup
                 clearTimeout @timeout
