@@ -108,7 +108,7 @@
                 return function() {
                   return _this.ui.searchField.trigger('focus');
                 };
-              })(this), 100);
+              })(this), 250);
             }
           }
         };
@@ -159,7 +159,7 @@
                 return _this.ui.searchField.trigger('focus');
               }
             };
-          })(this), 250);
+          })(this), 100);
         };
 
         SearchView.prototype.typeChange = function(e) {

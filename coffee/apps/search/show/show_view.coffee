@@ -70,7 +70,7 @@ do ->
                     if focused
                         _.delay =>
                             @ui.searchField.trigger 'focus'
-                        , 100
+                        , 250
             updateToggleSwitch: ->
                 toggle = not @ui.type.eq(0).prop 'checked'
                 @ui.switch.toggleClass 'flip', toggle
@@ -105,7 +105,7 @@ do ->
                         @updateState(false)
                     else
                         @ui.searchField.trigger 'focus'
-                , 250
+                , 100
             typeChange: (e) ->
                 @model.set 'type', @getType()
                 if @getTerm() then @search(e)
