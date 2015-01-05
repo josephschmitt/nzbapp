@@ -11,6 +11,7 @@
 		flex: 1;
         box-shadow: $shadow-level2;
         border: none;
+        transition: 0.3s all ease;
 
 		@media #{$medium-up} {
 			font-size: 1.25rem;
@@ -45,6 +46,10 @@
 
 		.keyboard-capture {
 			pointer-events: none;
+		}
+
+		input[type=search] {
+			box-shadow: $shadow-level1;
 		}
 	}
 }

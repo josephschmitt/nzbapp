@@ -114,7 +114,7 @@
               return function() {
                 return _this.ui.searchField.trigger('focus');
               };
-            })(this), 300);
+            })(this), 100);
           }
         };
 

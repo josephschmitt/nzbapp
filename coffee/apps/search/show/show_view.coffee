@@ -75,7 +75,7 @@ do ->
 
                     _.delay =>
                         @ui.searchField.trigger 'focus'
-                    , 300
+                    , 100
             blurField: (e) ->
                 @doBlur = true
                 _.delay =>
