@@ -108,7 +108,7 @@
                 return function() {
                   return _this.ui.searchField.trigger('focus');
                 };
-              })(this), 250);
+              })(this), 300);
             }
           }
         };
