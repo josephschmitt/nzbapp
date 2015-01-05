@@ -23,6 +23,18 @@
 
         SearchView.prototype.doBlur = true;
 
+        SearchView.prototype.keycodes = {
+          backspace: 8,
+          tab: 9,
+          enter: 13,
+          shift: 16,
+          left: 37,
+          up: 38,
+          right: 39,
+          down: 40,
+          "delete": 46
+        };
+
         SearchView.prototype.regions = {
           resultsRegion: '#search-results-region'
         };
@@ -41,10 +53,19 @@
           'blur @ui.searchField': 'blurField',
           'change @ui.type': 'typeChange',
           'click @ui.type': function(e) {
-            e.stopPropagation();
-            return $(this).trigger('change');
+            return e.stopPropagation();
           },
           'click @ui.switch': 'switchMedia'
+        };
+
+        SearchView.prototype.initialize = function() {
+          SearchView.__super__.initialize.apply(this, arguments);
+          $(window).on('resize', (function(_this) {
+            return function() {
+              return _this.positionToggle();
+            };
+          })(this));
+          return this.model = new Backbone.Model();
         };
 
         SearchView.prototype.render = function() {
@@ -56,30 +77,51 @@
             });
           }
           _.defer(this.positionToggle);
-          $(window).on('resize', (function(_this) {
-            return function() {
-              return _this.positionToggle();
-            };
-          })(this));
           clearTimeout(this.timeout);
           this.ui.searchField.on('keyup', (function(_this) {
             return function(e) {
-              _this.model.set('value', _this.getTerm());
-              clearTimeout(_this.timeout);
-              return _this.timeout = setTimeout(function() {
-                return _this.search(e);
-              }, 500);
-            };
-          })(this));
-          this.ui.type.eq(0).prop('checked', true);
-          return this.ui.type.on('change', (function(_this) {
-            return function(e) {
-              _this.model.set('type', _this.getType());
-              if (_this.model.get('value')) {
-                return _this.search(e);
+              var _ref;
+              if ((_ref = e.which) !== _this.keycodes.tab && _ref !== _this.keycodes.shift && _ref !== _this.keycodes.left && _ref !== _this.keycodes.up && _ref !== _this.keycodes.right && _ref !== _this.keycodes.down) {
+                _this.model.set('value', _this.getTerm());
+                clearTimeout(_this.timeout);
+                return _this.timeout = setTimeout(function() {
+                  return _this.search(e);
+                }, 500);
               }
             };
           })(this));
+          this.updateState();
+          return this.updateToggleSwitch();
+        };
+
+        SearchView.prototype.updateState = function(focused) {
+          var _ref;
+          if (!focused && !((_ref = this.resultsRegion.currentView) != null ? _ref.collection.length : void 0) && !this.model.get('value')) {
+            this.ui["switch"].removeClass('small');
+            this.positionToggle(true);
+            return this.ui.container.removeClass('focus');
+          } else {
+            this.ui.container.addClass('focus');
+            this.ui["switch"].addClass('small');
+            if (focused) {
+              return _.delay((function(_this) {
+                return function() {
+                  return _this.ui.searchField.trigger('focus');
+                };
+              })(this), 100);
+            }
+          }
+        };
+
+        SearchView.prototype.updateToggleSwitch = function() {
+          var toggle;
+          toggle = !this.ui.type.eq(0).prop('checked');
+          this.ui["switch"].toggleClass('flip', toggle);
+          return setTimeout((function(_this) {
+            return function() {
+              return _this.ui["switch"].toggleClass('backface', toggle);
+            };
+          })(this), 125);
         };
 
         SearchView.prototype.positionToggle = function(animate) {
@@ -92,41 +134,27 @@
 
         SearchView.prototype.switchMedia = _.throttle(function(e) {
           this.doBlur = false;
-          this.ui["switch"].toggleClass('flip');
-          setTimeout((function(_this) {
-            return function() {
-              return _this.ui["switch"].toggleClass('backface');
-            };
-          })(this), 125);
-          if (this.ui["switch"].hasClass('flip')) {
-            return this.ui.type.eq(1).prop('checked', true).trigger('change');
+          if (this.ui.type.eq(0).prop('checked')) {
+            this.ui.type.eq(1).prop('checked', true).trigger('change');
           } else {
-            return this.ui.type.eq(0).prop('checked', true).trigger('change');
+            this.ui.type.eq(0).prop('checked', true).trigger('change');
           }
+          return this.updateToggleSwitch();
         }, 10);
 
         SearchView.prototype.focusField = function(e) {
-          e.preventDefault();
-          if (!this.ui.container.hasClass('focus')) {
-            this.ui.container.addClass('focus');
-            this.ui["switch"].addClass('small');
-            return _.delay((function(_this) {
-              return function() {
-                return _this.ui.searchField.trigger('focus');
-              };
-            })(this), 100);
+          if (e != null) {
+            e.preventDefault();
           }
+          return this.updateState(true);
         };
 
         SearchView.prototype.blurField = function(e) {
           this.doBlur = true;
           return _.delay((function(_this) {
             return function() {
-              if (_this.doBlur && !_this.model.get('value')) {
-                _this.ui["switch"].removeClass('small');
-                _this.positionToggle(true);
-                _this.ui.container.removeClass('focus');
-                return _this.doBlur = true;
+              if (_this.doBlur) {
+                return _this.updateState(false);
               } else {
                 return _this.ui.searchField.trigger('focus');
               }
@@ -135,6 +163,10 @@
         };
 
         SearchView.prototype.typeChange = function(e) {
+          this.model.set('type', this.getType());
+          if (this.getTerm()) {
+            this.search(e);
+          }
           return this.ui.searchField.attr('placeholder', "Search for a " + (this.model.get('type') === 'shows' ? 'TV Show' : 'Movie'));
         };
 
@@ -143,7 +175,15 @@
         };
 
         SearchView.prototype.getType = function() {
-          return this.ui.type.filter(':checked').val();
+          var checked;
+          checked = _.find(this.ui.type, function(el) {
+            return $(el).prop('checked');
+          });
+          if (checked) {
+            return $(checked).val();
+          } else {
+            return this.ui.type.eq(0).val();
+          }
         };
 
         SearchView.prototype.renderResults = function(view) {
@@ -157,9 +197,7 @@
         SearchView.prototype.search = function(e) {
           var _ref, _ref1;
           e.preventDefault();
-          if (this.model.get('value')) {
-            return NZBAppManager.trigger('search:results:show', (_ref = this.model) != null ? _ref.get('type') : void 0, (_ref1 = this.model) != null ? _ref1.get('value') : void 0);
-          }
+          return NZBAppManager.trigger('search:results:show', (_ref = this.model) != null ? _ref.get('type') : void 0, (_ref1 = this.model) != null ? _ref1.get('value') : void 0);
         };
 
         return SearchView;

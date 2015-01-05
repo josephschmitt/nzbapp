@@ -16,13 +16,17 @@
       showResultsForSearch: function(type, term) {
         if (!searchView) {
           Show.Controller.showSearch();
+          searchView.model.set({
+            type: type,
+            value: term
+          });
+          searchView.render();
         } else {
           searchView.clearResults();
         }
-        searchView.model = new Backbone.Model({
-          type: type,
-          value: term
-        });
+        if (!type || !term) {
+          return;
+        }
         if (defer != null) {
           defer.fail();
         }

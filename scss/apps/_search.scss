@@ -40,6 +40,10 @@
 	&.focus {
 		transform: translateY(0);
 
+		.media-switch-row {
+			height: 0;
+		}
+
 		.media-switch-container {
 			transform: translate(-3px, -83px) !important;
 		}

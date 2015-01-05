@@ -379,6 +379,9 @@ nav.icon-bar .item .badge {
       -ms-transform: translateY(0);
           transform: translateY(0);
 }
+.search-field-container.focus .media-switch-row {
+  height: 0;
+}
 .search-field-container.focus .media-switch-container {
   -webkit-transform: translate(-3px, -83px) !important;
       -ms-transform: translate(-3px, -83px) !important;
