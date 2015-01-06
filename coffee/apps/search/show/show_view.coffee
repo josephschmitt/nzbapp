@@ -39,7 +39,7 @@ do ->
                 @model = new Backbone.Model()
             render: ->
                 super
-                if not @model
+                if not @model?.get 'type' or not @model?.get 'value'
                     @model = new Backbone.Model type: @getType(), value: @getTerm()
 
                 # Position toggle

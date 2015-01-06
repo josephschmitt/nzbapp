@@ -69,8 +69,9 @@
         };
 
         SearchView.prototype.render = function() {
+          var _ref, _ref1;
           SearchView.__super__.render.apply(this, arguments);
-          if (!this.model) {
+          if (!((_ref = this.model) != null ? _ref.get('type' || !((_ref1 = this.model) != null ? _ref1.get('value') : void 0)) : void 0)) {
             this.model = new Backbone.Model({
               type: this.getType(),
               value: this.getTerm()
@@ -85,8 +86,8 @@
           clearTimeout(this.timeout);
           this.ui.searchField.on('keyup', (function(_this) {
             return function(e) {
-              var _ref;
-              if ((_ref = e.which) !== _this.keycodes.tab && _ref !== _this.keycodes.shift && _ref !== _this.keycodes.left && _ref !== _this.keycodes.up && _ref !== _this.keycodes.right && _ref !== _this.keycodes.down) {
+              var _ref2;
+              if ((_ref2 = e.which) !== _this.keycodes.tab && _ref2 !== _this.keycodes.shift && _ref2 !== _this.keycodes.left && _ref2 !== _this.keycodes.up && _ref2 !== _this.keycodes.right && _ref2 !== _this.keycodes.down) {
                 _this.model.set('value', _this.getTerm());
                 clearTimeout(_this.timeout);
                 return _this.timeout = setTimeout(function() {
