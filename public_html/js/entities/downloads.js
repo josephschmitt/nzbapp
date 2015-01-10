@@ -6,7 +6,7 @@
   jjs = window.jjs = window.jjs || {};
 
   jjs.NZBAppManager.module('Entities', function(Entities, NZBAppManager, Backbone, Marionette, $, _) {
-    var checkPing, doPing, downloads, downloadsHistory, downloadsTabs, getHistory, getQueued, getTabs, pauseQueue, performActionOnItem, pingInterval, resumeQueue, shouldPing;
+    var checkPing, doPing, downloads, downloadsHistory, downloadsTabs, getHistory, getQueued, pauseQueue, performActionOnItem, pingInterval, resumeQueue, shouldPing;
     Entities.DownloadsSlot = (function(_super) {
       __extends(DownloadsSlot, _super);
 
@@ -29,11 +29,11 @@
       DownloadsQueue.prototype.model = Entities.DownloadsSlot;
 
       DownloadsQueue.prototype.parse = function(response, options) {
-        var _ref, _ref1, _ref2, _ref3;
+        var _ref, _ref1, _ref2;
         if (response != null ? (_ref = response.history) != null ? _ref.slots : void 0 : void 0) {
           return DownloadsQueue.__super__.parse.call(this, (_ref1 = response.history) != null ? _ref1.slots : void 0, options);
-        } else if ((_ref2 = response.queue) != null ? _ref2.length : void 0) {
-          return DownloadsQueue.__super__.parse.call(this, (_ref3 = response.queue) != null ? _ref3.slots : void 0, options);
+        } else if (response != null ? response.queue : void 0) {
+          return DownloadsQueue.__super__.parse.call(this, (_ref2 = response.queue) != null ? _ref2.slots : void 0, options);
         } else {
           return DownloadsQueue.__super__.parse.call(this, [], options);
         }
@@ -114,19 +114,6 @@
       }
       return defer.promise();
     };
-    getTabs = function() {
-      return downloadsTabs = new Backbone.Collection([
-        {
-          name: 'Queue',
-          url: 'queue',
-          trigger: 'downloads:queue:list'
-        }, {
-          name: 'History',
-          url: 'history',
-          trigger: 'downloads:history:list'
-        }
-      ]);
-    };
     pauseQueue = function() {
       var defer;
       defer = $.ajax(NZBAppManager.request('api:endpoint', 'SABnzbd', 'pause'), {
@@ -160,12 +147,6 @@
     });
     NZBAppManager.reqres.setHandler('downloads:history:entities', function() {
       return getHistory();
-    });
-    NZBAppManager.reqres.setHandler('downloads:tabs:entities', function() {
-      if (!downloadsTabs) {
-        getTabs();
-      }
-      return downloadsTabs;
     });
     NZBAppManager.reqres.setHandler('downloads:queue:pause', function() {
       return pauseQueue();

@@ -73,8 +73,12 @@
       Downloads.prototype.emptyView = List.NoQueueResults;
 
       Downloads.prototype.setCollection = function(collection) {
-        this.collection = collection;
-        this.listenTo(this.collection, 'change', this.render);
+        if (!this.collection) {
+          this.collection = collection;
+          this.listenTo(this.collection, 'sync', this.render);
+        } else {
+          this.collection.reset(collection.models);
+        }
         return this.render();
       };
 

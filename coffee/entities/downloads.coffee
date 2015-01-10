@@ -10,7 +10,7 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
         parse: (response, options) ->
             if response?.history?.slots
                 super response.history?.slots, options
-            else if response.queue?.length
+            else if response?.queue
                 super response.queue?.slots, options
             else
                 super [], options
@@ -64,12 +64,6 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
             _.defer -> defer.resolve downloadsHistory
         defer.promise()
 
-    getTabs = ->
-        downloadsTabs = new Backbone.Collection [
-            { name: 'Queue', url: 'queue', trigger: 'downloads:queue:list' }
-            { name: 'History', url: 'history', trigger: 'downloads:history:list' }
-        ]
-
     pauseQueue = ->
         defer = $.ajax NZBAppManager.request('api:endpoint', 'SABnzbd', 'pause'),
             dataType: 'jsonp'
@@ -95,9 +89,6 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
         getQueued()
     NZBAppManager.reqres.setHandler 'downloads:history:entities', ->
         getHistory()
-    NZBAppManager.reqres.setHandler 'downloads:tabs:entities', ->
-        if not downloadsTabs then getTabs()
-        downloadsTabs
     NZBAppManager.reqres.setHandler 'downloads:queue:pause', ->
         pauseQueue()
     NZBAppManager.reqres.setHandler 'downloads:queue:resume', ->

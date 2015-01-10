@@ -27,6 +27,9 @@ jjs.NZBAppManager.module 'DownloadsApp.List', (List, NZBAppManager, Backbone, Ma
         className: 'downloads-list'
         emptyView: List.NoQueueResults
         setCollection: (collection) ->
-            @collection = collection
-            @listenTo @collection, 'change', @render
+            if not @collection
+                @collection = collection
+                @listenTo @collection, 'sync', @render
+            else
+                @collection.reset collection.models
             @render()
