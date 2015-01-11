@@ -48,8 +48,6 @@
         return MovieResults.__super__.constructor.apply(this, arguments);
       }
 
-      MovieResults.prototype.comparator = 'original_title';
-
       MovieResults.prototype.model = Entities.MovieResult;
 
       MovieResults.prototype.parse = function(response, options) {
@@ -76,6 +74,30 @@
       return MovieResults;
 
     })(Backbone.Collection);
+    Entities.WantedMovies = (function(_super) {
+      __extends(WantedMovies, _super);
+
+      function WantedMovies() {
+        return WantedMovies.__super__.constructor.apply(this, arguments);
+      }
+
+      WantedMovies.prototype.comparator = 'original_title';
+
+      WantedMovies.prototype.sync = function(method, model, options) {
+        if (options == null) {
+          options = {};
+        }
+        options = _.extend(options, {
+          data: {
+            status: 'active'
+          }
+        });
+        return WantedMovies.__super__.sync.apply(this, arguments);
+      };
+
+      return WantedMovies;
+
+    })(Entities.MovieResults);
     movies = null;
     soon = null;
     getMovieSearchResults = function(term) {
@@ -98,12 +120,9 @@
       var defer;
       defer = $.Deferred();
       if (!movies) {
-        movies = new Entities.MovieResults([]);
+        movies = new Entities.WantedMovies([]);
         movies.url = movies.storeName = NZBAppManager.request('api:endpoint', 'CouchPotato', 'movie.list');
         movies.fetch({
-          data: {
-            status: 'active'
-          },
           success: function() {
             movies.each(function(movie) {
               return movie != null ? movie.save() : void 0;
@@ -122,7 +141,7 @@
       var defer;
       defer = $.Deferred();
       if (!soon) {
-        soon = new Entities.MovieResults([]);
+        soon = new Entities.WantedMovies([]);
         soon.url = soon.storeName = NZBAppManager.request('api:endpoint', 'CouchPotato', 'dashboard.soon');
         soon.comparator = 'released';
         soon.fetch({
@@ -152,12 +171,21 @@
         data: {
           title: movie != null ? movie.get('title') : void 0,
           identifier: movie != null ? movie.get('imdb') : void 0
+        },
+        complete: function(xhr) {
+          movie.set('in_wanted', true);
+          if (movies) {
+            return movies.add(new Entities.MovieResult(Entities.MovieResult.prototype.parse(xhr.responseJSON.movie)));
+          }
         }
       });
       return defer.promise();
     };
     removeMovie = function(movie) {
       var defer;
+      if (movies) {
+        movies.remove(movie);
+      }
       defer = $.ajax(NZBAppManager.request('api:endpoint', 'CouchPotato', 'movie.delete'), {
         dataType: 'jsonp',
         jsonp: 'callback_func',

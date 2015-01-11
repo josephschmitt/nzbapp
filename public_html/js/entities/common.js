@@ -16,18 +16,27 @@
         this.filtered.filterFunction = options.filterFunction;
         this.filtered.filter = this.filter;
         this.filtered.where = this.where;
-        this.original.on("reset", function() {
-          var items;
-          items = this.applyFilter(this.filtered._currentCriterion, this.filtered._currentFilter);
-          this.filtered.reset(items);
-        });
-        this.original.on("add", function(models) {
-          var coll, items;
-          coll = new this.original.constructor();
-          coll.add(models);
-          items = this.applyFilter(this.filtered._currentCriterion, this.filtered._currentFilter, coll);
-          this.filtered.add(items);
-        });
+        this.original.on("reset", (function(_this) {
+          return function() {
+            var items;
+            items = _this.applyFilter(_this.filtered._currentCriterion, _this.filtered._currentFilter);
+            _this.filtered.reset(items);
+          };
+        })(this));
+        this.original.on("add", (function(_this) {
+          return function(models) {
+            var coll, items;
+            coll = new _this.original.constructor();
+            coll.add(models);
+            items = _this.applyFilter(_this.filtered._currentCriterion, _this.filtered._currentFilter, coll);
+            _this.filtered.add(items);
+          };
+        })(this));
+        this.original.on("remove", (function(_this) {
+          return function(models) {
+            _this.filtered.reset(_this.original.models);
+          };
+        })(this));
         return this.filtered;
       }
 

@@ -31,7 +31,6 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
             super method, model, options
 
     class Entities.MovieResults extends Backbone.Collection
-        comparator: 'original_title'
         model: Entities.MovieResult
         parse: (response, options) ->
             if response.movies
@@ -44,6 +43,13 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
             options = _.extend options, 
                 dataType: 'jsonp'
                 jsonp: 'callback_func'
+            super
+
+    class Entities.WantedMovies extends Entities.MovieResults
+        comparator: 'original_title'
+        sync: (method, model, options={}) ->
+            options = _.extend options, 
+                data: status: 'active'
             super
 
     movies = null
@@ -64,11 +70,9 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
     getMovies = () ->
         defer = $.Deferred()
         if not movies
-            movies = new Entities.MovieResults []
+            movies = new Entities.WantedMovies []
             movies.url = movies.storeName = NZBAppManager.request('api:endpoint', 'CouchPotato', 'movie.list')
             movies.fetch
-                data:
-                    status: 'active'
                 success: ->
                     # Save results to localStorage
                     movies.each (movie) -> movie?.save()
@@ -80,7 +84,7 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
     getComingSoon = () ->
         defer = $.Deferred()
         if not soon
-            soon = new Entities.MovieResults []
+            soon = new Entities.WantedMovies []
             soon.url = soon.storeName = NZBAppManager.request('api:endpoint', 'CouchPotato', 'dashboard.soon')
             soon.comparator = 'released'
             soon.fetch
@@ -103,9 +107,13 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
             data:
                 title: movie?.get 'title'
                 identifier: movie?.get 'imdb'
+            complete: (xhr) ->
+                movie.set 'in_wanted', true
+                if movies then movies.add new Entities.MovieResult(Entities.MovieResult.prototype.parse(xhr.responseJSON.movie))
         defer.promise()
 
     removeMovie = (movie) ->
+        if movies then movies.remove movie
         defer = $.ajax NZBAppManager.request('api:endpoint', 'CouchPotato', 'movie.delete'),
             dataType: 'jsonp'
             jsonp: 'callback_func'

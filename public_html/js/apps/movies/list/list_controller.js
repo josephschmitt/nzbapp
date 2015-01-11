@@ -37,20 +37,14 @@
           var message, status;
           message = "Added " + (movie.get('title') || movie.get('original_title')) + " (" + (movie.get('year')) + ") to your list";
           status = added.success ? 'success' : 'alert';
-          movie.set('in_wanted', true);
           return NZBAppManager.execute('popup:alert:show', message, status);
         });
       },
       removeMovie: function(movie) {
         return $.when(NZBAppManager.request('movies:remove', movie)).done(function(removed) {
-          var collection, message, status;
+          var message, status;
           message = "Removed " + (movie.get('title') || movie.get('original_title')) + " (" + (movie.get('year')) + ") from your list";
           status = removed.success ? 'alert' : 'warning';
-          collection = movie.collection;
-          collection.remove(collection.findWhere({
-            _id: movie.get('_id')
-          }));
-          collection.trigger('change');
           return NZBAppManager.execute('popup:alert:show', message, status);
         });
       }

@@ -16,7 +16,7 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
             # when the original collection is reset,
             # the filtered collection will re-filter itself
             # and end up with the new filtered result set
-            @original.on "reset", ->
+            @original.on "reset", =>
                 items = @applyFilter(@filtered._currentCriterion, @filtered._currentFilter)
 
                 # reset the filtered collection with the new items
@@ -28,11 +28,15 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
             # 2. filter it
             # 3. add the filtered models (i.e. the models that were added *and*
             #     match the filtering criterion) to the `filtered` collection
-            @original.on "add", (models) ->
+            @original.on "add", (models) =>
                 coll = new @original.constructor()
                 coll.add models
                 items = @applyFilter(@filtered._currentCriterion, @filtered._currentFilter, coll)
                 @filtered.add items
+                return
+
+            @original.on "remove", (models) =>
+                @filtered.reset @original.models
                 return
 
             return @filtered
