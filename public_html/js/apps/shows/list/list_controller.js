@@ -4,10 +4,11 @@
   jjs = window.jjs = window.jjs || {};
 
   jjs.NZBAppManager.module('ShowsApp.List', function(List, NZBAppManager, Backbone, Marionette, $, _) {
+    var listShows;
+    listShows = null;
     return List.Controller = {
       listShows: function() {
-        var listShows;
-        listShows = new List.Shows();
+        listShows = new List.ShowsView();
         NZBAppManager.mainRegion.show(listShows);
         NZBAppManager.execute('titlebar:show', NZBAppManager.request('titlebar:shows:entities'));
         NZBAppManager.execute('titlebar:activate', 'shows/wanted');
@@ -15,8 +16,13 @@
           return listShows.setCollection(shows, 'wanted');
         });
       },
+      sortShows: function(sort_by) {
+        if (!listShows) {
+          List.Controller.listShows();
+        }
+        return listShows.sort(sort_by);
+      },
       listUpcomingShows: function() {
-        var listShows;
         listShows = new List.UpcomingShows();
         NZBAppManager.mainRegion.show(listShows);
         NZBAppManager.execute('titlebar:show', NZBAppManager.request('titlebar:shows:entities'));

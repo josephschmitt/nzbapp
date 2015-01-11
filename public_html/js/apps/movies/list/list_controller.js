@@ -4,16 +4,23 @@
   jjs = window.jjs = window.jjs || {};
 
   jjs.NZBAppManager.module('MoviesApp.List', function(List, NZBAppManager, Backbone, Marionette, $, _) {
+    var listMovies;
+    listMovies = null;
     return List.Controller = {
       listMovies: function() {
-        var listMovies;
-        listMovies = new List.Movies();
+        listMovies = new List.MoviesView();
         NZBAppManager.mainRegion.show(listMovies);
         NZBAppManager.execute('titlebar:show', NZBAppManager.request('titlebar:movies:entities'));
         NZBAppManager.execute('titlebar:activate', 'movies/wanted');
         return $.when(NZBAppManager.request('movies:list')).done(function(movies) {
           return listMovies.setCollection(movies);
         });
+      },
+      sortMovies: function(sort_by) {
+        if (!listMovies) {
+          List.Controller.listMovies();
+        }
+        return listMovies.sort(sort_by);
       },
       listAvailableSoon: function() {
         var availableSoon;

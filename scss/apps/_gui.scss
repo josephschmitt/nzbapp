@@ -10,3 +10,51 @@
 		}
 	}
 }
+
+.sub-nav {
+	background-color: #f2f2f2;
+	padding: 10px; 
+}
+
+.filter-bar {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	margin: 0;
+
+	dt {
+		margin-left: 0;
+	}
+}
+
+.filter-item-container {
+	display: flex;
+	align-items: center;
+}
+
+.filter-search {
+	flex: 1;
+	margin: 0 0 0.5rem 0 !important;
+	width: 100%;
+	order: -1;
+
+	input {
+		width: calc(100% - 20px);
+		display: block;
+		height: auto;
+		margin: 0;
+		font-size: 0.9em;
+	}
+}
+
+@media #{$medium-up} {
+	.sub-nav {
+		flex-direction: row;
+
+		.filter-search {
+			margin: 0 0 0 1rem !important;
+			width: auto;
+			order: 0;
+		}
+	}
+}

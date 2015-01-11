@@ -104,6 +104,26 @@
         <div id="search-results-region" class="search-results"></div>
     </script>
 
+    <script type="text/template" id="filterable-list-template">
+        <div id="filter-bar-region"></div>
+        <div id="list-region"></div>
+    </script>
+
+    <script type="text/template" id="filter-bar-template">
+        <dl class="sub-nav filter-bar">
+            <div class="sort-options">
+                <dt>Sort By:</dt>
+                <div class="filter-item-container">
+            </div>
+            </div>
+            <dd class="filter-search"><input class="radius" type="search" placeholder="Filter results..." /></dd>
+        </dl>
+    </script>
+
+    <script type="text/template" id="filter-bar-item-template">
+        <dd <% if (data.active) { %>class="active"<% } %>><a href="#"><%- data.title %></a></dd>
+    </script>
+
     <script type="text/template" id="movie-list-template">
         <div class="row">
             <div class="small-12 columns media-meta">

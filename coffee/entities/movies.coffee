@@ -31,6 +31,7 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
             super method, model, options
 
     class Entities.MovieResults extends Backbone.Collection
+        comparator: 'original_title'
         model: Entities.MovieResult
         parse: (response, options) ->
             if response.movies
@@ -112,6 +113,12 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
                 id: movie?.get '_id'
         defer.promise()
 
+    getSortOptions = ->
+        new Backbone.Collection [
+            {title: 'Title', active: true, trigger: 'movies:sort', name: 'original_title'}
+            {title: 'Release Date', trigger: 'movies:sort', name: 'released'}
+        ]
+
     NZBAppManager.reqres.setHandler 'movies:search', (term) ->
         getMovieSearchResults(term)
 
@@ -126,3 +133,6 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
 
     NZBAppManager.reqres.setHandler 'movies:remove', (movie) ->
         removeMovie(movie)
+
+    NZBAppManager.reqres.setHandler 'movies:sort_options', ->
+        getSortOptions()

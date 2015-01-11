@@ -11,6 +11,7 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
                 'first_aired'
                 'status'
                 'tvdbid'
+                'next_ep_airdate'
             ]
             response.first_aired = if response.first_aired then moment(response.first_aired).format('ddd MMM Do, YYYY') else null
             response.poster = "#{NZBAppManager.request('api:endpoint', 'SickBeard', 'show.getposter')}&tvdbid=#{response.tvdbid}"
@@ -27,6 +28,7 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
             super method, model, options
 
     class Entities.ShowResults extends Backbone.Collection
+        comparator: 'show_name'
         model: Entities.ShowResult
         parse: (response, options) ->
             if response.data
@@ -144,6 +146,13 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
                 tvdbid: show.get 'tvdbid'
         defer.promise()
 
+    getSortOptions = ->
+        new Backbone.Collection [
+            {title: 'Name', active: true, trigger: 'shows:sort', name: 'show_name'}
+            {title: 'Status', trigger: 'shows:sort', name: 'status'}
+            {title: 'Latest', trigger: 'shows:sort', name: 'next_ep_airdate'}
+        ]
+
     NZBAppManager.reqres.setHandler 'shows:search', (term) ->
         getShowSearchResults(term)
 
@@ -158,3 +167,6 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
 
     NZBAppManager.reqres.setHandler 'show:add', (show) ->
         addShow(show)
+
+    NZBAppManager.reqres.setHandler 'shows:sort_options', ->
+        getSortOptions()

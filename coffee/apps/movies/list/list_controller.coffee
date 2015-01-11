@@ -2,14 +2,19 @@
 jjs = window.jjs = (window.jjs or {})
 
 jjs.NZBAppManager.module 'MoviesApp.List', (List, NZBAppManager, Backbone, Marionette, $, _) ->
+    listMovies = null
+
     List.Controller = 
         listMovies: ->
-            listMovies = new List.Movies()
+            listMovies = new List.MoviesView()
             NZBAppManager.mainRegion.show listMovies
             NZBAppManager.execute 'titlebar:show', NZBAppManager.request('titlebar:movies:entities')
             NZBAppManager.execute 'titlebar:activate', 'movies/wanted'
             $.when(NZBAppManager.request('movies:list')).done (movies) ->
                 listMovies.setCollection movies
+        sortMovies: (sort_by) ->
+            if not listMovies then List.Controller.listMovies()
+            listMovies.sort(sort_by)
         listAvailableSoon: ->
             availableSoon = new List.Movies()
             NZBAppManager.mainRegion.show availableSoon

@@ -6,6 +6,9 @@ jjs.NZBAppManager.module 'MoviesApp', (Movies, NZBAppManager, Backbone, Marionet
 		listMovies: ->
 			Movies.List.Controller.listMovies()
 			NZBAppManager.execute 'tabs:active:set', 'Movies'
+		sortMovies: (sort_by) ->
+			Movies.List.Controller.sortMovies(sort_by)
+			NZBAppManager.execute 'tabs:active:set', 'Movies'
 		listAvailableSoon: ->
 			Movies.List.Controller.listAvailableSoon()
 			NZBAppManager.execute 'tabs:active:set', 'Movies'
@@ -24,6 +27,9 @@ jjs.NZBAppManager.module 'MoviesApp', (Movies, NZBAppManager, Backbone, Marionet
 	NZBAppManager.on 'movies:soon:list', ->
 		NZBAppManager.navigate('movies/soon')
 		routesController.listAvailableSoon()
+
+	NZBAppManager.on 'movies:sort', (sort_by) ->
+		routesController.sortMovies(sort_by)
 
 	NZBAppManager.addInitializer ->
 		new Movies.Router controller: routesController

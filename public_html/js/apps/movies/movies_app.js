@@ -15,6 +15,11 @@
         return NZBAppManager.execute('tabs:active:set', 'Movies');
       };
 
+      RoutesController.prototype.sortMovies = function(sort_by) {
+        Movies.List.Controller.sortMovies(sort_by);
+        return NZBAppManager.execute('tabs:active:set', 'Movies');
+      };
+
       RoutesController.prototype.listAvailableSoon = function() {
         Movies.List.Controller.listAvailableSoon();
         return NZBAppManager.execute('tabs:active:set', 'Movies');
@@ -46,6 +51,9 @@
     NZBAppManager.on('movies:soon:list', function() {
       NZBAppManager.navigate('movies/soon');
       return routesController.listAvailableSoon();
+    });
+    NZBAppManager.on('movies:sort', function(sort_by) {
+      return routesController.sortMovies(sort_by);
     });
     return NZBAppManager.addInitializer(function() {
       return new Movies.Router({

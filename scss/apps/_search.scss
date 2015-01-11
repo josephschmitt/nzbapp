@@ -13,6 +13,10 @@
         border: none;
         transition: 0.3s all ease;
 
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		appearance: none;
+
 		@media #{$medium-up} {
 			font-size: 1.25rem;
 		}

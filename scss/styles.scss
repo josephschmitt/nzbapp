@@ -80,12 +80,6 @@ body {
 	-webkit-overflow-scrolling: touch;
 }
 
-input[type=search] {
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	appearance: none;
-}
-
 @media #{$large-up} {
 	body {
 		flex-direction: row;

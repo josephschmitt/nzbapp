@@ -6,7 +6,7 @@
   jjs = window.jjs = window.jjs || {};
 
   jjs.NZBAppManager.module('Entities', function(Entities, NZBAppManager, Backbone, Marionette, $, _) {
-    var addShow, getShow, getShowSearchResults, getShows, getUpcomingEpisodes, removeShow, shows, showsTabs, upcoming;
+    var addShow, getShow, getShowSearchResults, getShows, getSortOptions, getUpcomingEpisodes, removeShow, shows, showsTabs, upcoming;
     Entities.ShowResult = (function(_super) {
       __extends(ShowResult, _super);
 
@@ -15,7 +15,7 @@
       }
 
       ShowResult.prototype.parse = function(response, options) {
-        response = _.pick((response.info != null ? response.info : response), ['name', 'show_name', 'network', 'first_aired', 'status', 'tvdbid']);
+        response = _.pick((response.info != null ? response.info : response), ['name', 'show_name', 'network', 'first_aired', 'status', 'tvdbid', 'next_ep_airdate']);
         response.first_aired = response.first_aired ? moment(response.first_aired).format('ddd MMM Do, YYYY') : null;
         response.poster = "" + (NZBAppManager.request('api:endpoint', 'SickBeard', 'show.getposter')) + "&tvdbid=" + response.tvdbid;
         return ShowResult.__super__.parse.call(this, response, options);
@@ -46,6 +46,8 @@
       function ShowResults() {
         return ShowResults.__super__.constructor.apply(this, arguments);
       }
+
+      ShowResults.prototype.comparator = 'show_name';
 
       ShowResults.prototype.model = Entities.ShowResult;
 
@@ -253,6 +255,24 @@
       });
       return defer.promise();
     };
+    getSortOptions = function() {
+      return new Backbone.Collection([
+        {
+          title: 'Name',
+          active: true,
+          trigger: 'shows:sort',
+          name: 'show_name'
+        }, {
+          title: 'Status',
+          trigger: 'shows:sort',
+          name: 'status'
+        }, {
+          title: 'Latest',
+          trigger: 'shows:sort',
+          name: 'next_ep_airdate'
+        }
+      ]);
+    };
     NZBAppManager.reqres.setHandler('shows:search', function(term) {
       return getShowSearchResults(term);
     });
@@ -265,8 +285,11 @@
     NZBAppManager.reqres.setHandler('show:info', function(tvdbid) {
       return getShow(tvdbid);
     });
-    return NZBAppManager.reqres.setHandler('show:add', function(show) {
+    NZBAppManager.reqres.setHandler('show:add', function(show) {
       return addShow(show);
+    });
+    return NZBAppManager.reqres.setHandler('shows:sort_options', function() {
+      return getSortOptions();
     });
   });
 

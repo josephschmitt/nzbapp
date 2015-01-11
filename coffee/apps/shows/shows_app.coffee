@@ -6,6 +6,9 @@ jjs.NZBAppManager.module 'ShowsApp', (Shows, NZBAppManager, Backbone, Marionette
 		listShows: ->
 			Shows.List.Controller.listShows()
 			NZBAppManager.execute 'tabs:active:set', 'Shows'
+		sortShows: (sort_by) ->
+			Shows.List.Controller.sortShows(sort_by)
+			NZBAppManager.execute 'tabs:active:set', 'Shows'
 		listUpcomingShows: ->
 			Shows.List.Controller.listUpcomingShows()
 			NZBAppManager.execute 'tabs:active:set', 'Shows'
@@ -24,6 +27,9 @@ jjs.NZBAppManager.module 'ShowsApp', (Shows, NZBAppManager, Backbone, Marionette
 	NZBAppManager.on 'shows:upcoming:list', ->
 		NZBAppManager.navigate('shows/upcoming')
 		routesController.listUpcomingShows()
+
+	NZBAppManager.on 'shows:sort', (sort_by) ->
+		routesController.sortShows(sort_by)
 
 	NZBAppManager.addInitializer ->
 		new Shows.Router controller: routesController

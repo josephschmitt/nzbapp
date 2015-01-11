@@ -34,5 +34,28 @@ jjs.NZBAppManager.module 'MoviesApp.List', (List, NZBAppManager, Backbone, Mario
             if @collection then @setCollection @collection
         setCollection: (collection) ->
             @collection = collection
-            @listenTo @collection, 'change', @render
+            @listenTo @collection, 'change reset sort', @render
             @render()
+
+    class List.MoviesView extends NZBAppManager.GUI.List.FilterableList
+        listClass: List.Movies
+        initialize: ->
+            @filtersCollection = NZBAppManager.request 'movies:sort_options'
+            @on 'filter', @filter
+            super
+        setCollection: (collection) ->
+            @listRegion.currentView?.setCollection new NZBAppManager.Entities.FilteredCollection
+                collection: collection
+                filterFunction: (criterion) ->
+                    criterion = criterion.toLowerCase()
+                    (model) ->
+                        model.get('original_title').toLowerCase().indexOf(criterion) >= 0
+            super collection
+        filter: (term) =>
+            collection = @listRegion.currentView?.collection
+            collection.filter(term)
+        sort: (sort_by) ->
+            collection = @listRegion.currentView?.collection
+            collection.comparator = sort_by
+            collection.sort()
+            @listRegion.currentView

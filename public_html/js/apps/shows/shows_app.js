@@ -15,6 +15,11 @@
         return NZBAppManager.execute('tabs:active:set', 'Shows');
       };
 
+      RoutesController.prototype.sortShows = function(sort_by) {
+        Shows.List.Controller.sortShows(sort_by);
+        return NZBAppManager.execute('tabs:active:set', 'Shows');
+      };
+
       RoutesController.prototype.listUpcomingShows = function() {
         Shows.List.Controller.listUpcomingShows();
         return NZBAppManager.execute('tabs:active:set', 'Shows');
@@ -46,6 +51,9 @@
     NZBAppManager.on('shows:upcoming:list', function() {
       NZBAppManager.navigate('shows/upcoming');
       return routesController.listUpcomingShows();
+    });
+    NZBAppManager.on('shows:sort', function(sort_by) {
+      return routesController.sortShows(sort_by);
     });
     return NZBAppManager.addInitializer(function() {
       return new Shows.Router({

@@ -6,7 +6,7 @@
   jjs = window.jjs = window.jjs || {};
 
   jjs.NZBAppManager.module('Entities', function(Entities, NZBAppManager, Backbone, Marionette, $, _) {
-    var addMovie, getComingSoon, getMovieSearchResults, getMovies, movies, removeMovie, soon;
+    var addMovie, getComingSoon, getMovieSearchResults, getMovies, getSortOptions, movies, removeMovie, soon;
     Entities.MovieResult = (function(_super) {
       __extends(MovieResult, _super);
 
@@ -47,6 +47,8 @@
       function MovieResults() {
         return MovieResults.__super__.constructor.apply(this, arguments);
       }
+
+      MovieResults.prototype.comparator = 'original_title';
 
       MovieResults.prototype.model = Entities.MovieResult;
 
@@ -165,6 +167,20 @@
       });
       return defer.promise();
     };
+    getSortOptions = function() {
+      return new Backbone.Collection([
+        {
+          title: 'Title',
+          active: true,
+          trigger: 'movies:sort',
+          name: 'original_title'
+        }, {
+          title: 'Release Date',
+          trigger: 'movies:sort',
+          name: 'released'
+        }
+      ]);
+    };
     NZBAppManager.reqres.setHandler('movies:search', function(term) {
       return getMovieSearchResults(term);
     });
@@ -177,8 +193,11 @@
     NZBAppManager.reqres.setHandler('movies:add', function(movie) {
       return addMovie(movie);
     });
-    return NZBAppManager.reqres.setHandler('movies:remove', function(movie) {
+    NZBAppManager.reqres.setHandler('movies:remove', function(movie) {
       return removeMovie(movie);
+    });
+    return NZBAppManager.reqres.setHandler('movies:sort_options', function() {
+      return getSortOptions();
     });
   });
 

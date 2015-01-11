@@ -1,7 +1,8 @@
 (function() {
   var jjs,
     __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   jjs = window.jjs = window.jjs || {};
 
@@ -81,13 +82,62 @@
 
       Shows.prototype.setCollection = function(collection) {
         this.collection = collection;
-        this.listenTo(this.collection, 'change', this.render);
+        this.listenTo(this.collection, 'change reset sort', this.render);
         return this.render();
       };
 
       return Shows;
 
     })(Marionette.CollectionView);
+    List.ShowsView = (function(_super) {
+      __extends(ShowsView, _super);
+
+      function ShowsView() {
+        this.filter = __bind(this.filter, this);
+        return ShowsView.__super__.constructor.apply(this, arguments);
+      }
+
+      ShowsView.prototype.listClass = List.Shows;
+
+      ShowsView.prototype.initialize = function() {
+        this.filtersCollection = NZBAppManager.request('shows:sort_options');
+        this.on('filter', this.filter);
+        return ShowsView.__super__.initialize.apply(this, arguments);
+      };
+
+      ShowsView.prototype.setCollection = function(collection) {
+        var _ref;
+        if ((_ref = this.listRegion.currentView) != null) {
+          _ref.setCollection(new NZBAppManager.Entities.FilteredCollection({
+            collection: collection,
+            filterFunction: function(criterion) {
+              criterion = criterion.toLowerCase();
+              return function(model) {
+                return model.get('show_name').toLowerCase().indexOf(criterion) >= 0;
+              };
+            }
+          }));
+        }
+        return ShowsView.__super__.setCollection.apply(this, arguments);
+      };
+
+      ShowsView.prototype.filter = function(term) {
+        var collection, _ref;
+        collection = (_ref = this.listRegion.currentView) != null ? _ref.collection : void 0;
+        return collection.filter(term);
+      };
+
+      ShowsView.prototype.sort = function(sort_by) {
+        var collection, _ref;
+        collection = (_ref = this.listRegion.currentView) != null ? _ref.collection : void 0;
+        collection.comparator = sort_by;
+        collection.sort();
+        return this.listRegion.currentView;
+      };
+
+      return ShowsView;
+
+    })(NZBAppManager.GUI.List.FilterableList);
     List.UpcomingShow = (function(_super) {
       __extends(UpcomingShow, _super);
 
@@ -100,7 +150,7 @@
       return UpcomingShow;
 
     })(List.Show);
-    return List.UpcomingShows = (function(_super) {
+    List.UpcomingShows = (function(_super) {
       __extends(UpcomingShows, _super);
 
       function UpcomingShows() {
@@ -112,6 +162,16 @@
       return UpcomingShows;
 
     })(List.Shows);
+    return List.UpcomingShowsView = (function(_super) {
+      __extends(UpcomingShowsView, _super);
+
+      function UpcomingShowsView() {
+        return UpcomingShowsView.__super__.constructor.apply(this, arguments);
+      }
+
+      return UpcomingShowsView;
+
+    })(List.ShowsView);
   });
 
 }).call(this);
