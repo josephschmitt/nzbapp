@@ -68,7 +68,7 @@
 
       TabsView.prototype.childView = Tabs.TabView;
 
-      TabsView.prototype.className = 'icon-bar medium-vertical';
+      TabsView.prototype.className = 'icon-bar large-vertical';
 
       TabsView.prototype.tagName = 'nav';
 

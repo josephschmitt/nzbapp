@@ -56,21 +56,45 @@ nav.icon-bar {
 	}
 }
 
-@media #{$medium-up} {
-	nav.icon-bar.medium-vertical {
+@media #{$large-up} {
+	#navbar {
+		width: 20%;
+
+		&:before {
+			content: 'NZB App';
+			font-family: 'HelveticaNeue-Light';
+			color: scale-color(white, $lightness: -50%);
+			background: scale-color($oil, $lightness: 5%);
+			border-bottom: 0.5px solid darken($oil, 5%);
+			height: $app-titlebar-height;
+			padding: 0.6rem 1.5rem;
+		}
+	}
+
+	nav.icon-bar.large-vertical {
 		display: flex;
 		flex: 1;
 		flex-direction: column;
 
 		.item {
 			margin: 0;
-			display: flex;
-			flex: 1;
-			flex-direction: column;
-			justify-content: center;
-			align-items: center;
-			padding-left: 0.5rem;
-			padding-right: 0.5rem;
+			text-align: left;
+			padding: 1rem 1.5rem;
+
+			& > * {
+				display: inline-block !important;
+				margin: 0;
+				width: auto;
+			}
+
+			i {
+				width: 30px;
+				text-align: center;
+			}
+
+			label {
+				padding-left: 10%;
+			}
 		}
 	}
 }

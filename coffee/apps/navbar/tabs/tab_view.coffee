@@ -34,7 +34,7 @@ jjs.NZBAppManager.module 'NavbarApp.Tabs', (Tabs, NZBAppManager, Backbone, Mario
 
     class Tabs.TabsView extends Marionette.CollectionView
         childView: Tabs.TabView
-        className: 'icon-bar medium-vertical'
+        className: 'icon-bar large-vertical'
         tagName: 'nav'
         tabClasses: ['two-up', 'three-up', 'four-up', 'five-up']
         activeTabCount: ->
