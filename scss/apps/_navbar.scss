@@ -59,15 +59,27 @@ nav.icon-bar {
 @media #{$large-up} {
 	#navbar {
 		width: 20%;
+		position: relative;
 
 		&:before {
-			content: 'NZB App';
+			content: attr(data-appname);
 			font-family: 'HelveticaNeue-Light';
 			color: scale-color(white, $lightness: -50%);
 			background: scale-color($oil, $lightness: 5%);
 			border-bottom: 0.5px solid darken($oil, 5%);
 			height: $app-titlebar-height;
 			padding: 0.6rem 1.5rem;
+		}
+		
+		&:after {
+			content: "v " attr(data-version);
+			font-family: 'HelveticaNeue-Light';
+			font-style: italic;
+			font-size: 0.9em;
+			color: scale-color(white, $lightness: -50%);
+			position: absolute;
+			bottom: 0;
+			right: 1.5rem;
 		}
 	}
 

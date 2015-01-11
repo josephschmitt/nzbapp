@@ -275,15 +275,26 @@ nav.icon-bar .item .badge {
 @media only screen and (min-width: 64.063em) {
   #navbar {
     width: 20%;
+    position: relative;
   }
   #navbar:before {
-    content: 'NZB App';
+    content: attr(data-appname);
     font-family: 'HelveticaNeue-Light';
     color: gray;
     background: #3d3d3d;
     border-bottom: 0.5px solid #262626;
     height: 44px;
     padding: 0.6rem 1.5rem;
+  }
+  #navbar:after {
+    content: "v " attr(data-version);
+    font-family: 'HelveticaNeue-Light';
+    font-style: italic;
+    font-size: 0.9em;
+    color: gray;
+    position: absolute;
+    bottom: 0;
+    right: 1.5rem;
   }
 
   nav.icon-bar.large-vertical {
