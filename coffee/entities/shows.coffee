@@ -139,11 +139,14 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
         defer.promise()
 
     removeShow = (show) ->
+        if shows then shows.remove show
+        
         defer = $.ajax NZBAppManager.request('api:endpoint', 'SickBeard', 'show.delete'),
             dataType: 'jsonp'
             jsonp: 'callback'
             data:
                 tvdbid: show.get 'tvdbid'
+        # defer = $.Deferred()
         defer.promise()
 
     getSortOptions = ->
@@ -167,6 +170,9 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
 
     NZBAppManager.reqres.setHandler 'show:add', (show) ->
         addShow(show)
+
+    NZBAppManager.reqres.setHandler 'show:remove', (show) ->
+        removeShow(show)
 
     NZBAppManager.reqres.setHandler 'shows:sort_options', ->
         getSortOptions()

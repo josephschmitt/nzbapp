@@ -246,6 +246,9 @@
     };
     removeShow = function(show) {
       var defer;
+      if (shows) {
+        shows.remove(show);
+      }
       defer = $.ajax(NZBAppManager.request('api:endpoint', 'SickBeard', 'show.delete'), {
         dataType: 'jsonp',
         jsonp: 'callback',
@@ -287,6 +290,9 @@
     });
     NZBAppManager.reqres.setHandler('show:add', function(show) {
       return addShow(show);
+    });
+    NZBAppManager.reqres.setHandler('show:remove', function(show) {
+      return removeShow(show);
     });
     return NZBAppManager.reqres.setHandler('shows:sort_options', function() {
       return getSortOptions();

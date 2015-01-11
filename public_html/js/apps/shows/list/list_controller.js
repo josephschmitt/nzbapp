@@ -38,6 +38,14 @@
           status = added.result === 'success' ? 'success' : 'alert';
           return NZBAppManager.execute('popup:alert:show', message, status);
         });
+      },
+      removeShow: function(show) {
+        return $.when(NZBAppManager.request('show:remove', show)).done(function(removed) {
+          var message, status;
+          message = removed.message;
+          status = removed.success ? 'alert' : 'warning';
+          return NZBAppManager.execute('popup:alert:show', message, status);
+        });
       }
     };
   });

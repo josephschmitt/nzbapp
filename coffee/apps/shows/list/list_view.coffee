@@ -10,7 +10,7 @@ jjs.NZBAppManager.module 'ShowsApp.List', (List, NZBAppManager, Backbone, Marion
             remove: '.remove-item-button'
         events:
             'click @ui.add': 'addShow'
-            'click @ui.remove': 'removeMovie'
+            'click @ui.remove': 'removeShow'
         render: ->
             super
             imageLoaded = (e) -> $(@).parent().show()
@@ -21,7 +21,7 @@ jjs.NZBAppManager.module 'ShowsApp.List', (List, NZBAppManager, Backbone, Marion
         addShow: (e) ->
             e?.preventDefault()
             List.Controller.addShow @model
-        emoveMovie: (e) ->
+        removeShow: (e) ->
             e?.preventDefault()
             List.Controller.removeShow @model
     

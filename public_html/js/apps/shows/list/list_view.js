@@ -25,7 +25,7 @@
 
       Show.prototype.events = {
         'click @ui.add': 'addShow',
-        'click @ui.remove': 'removeMovie'
+        'click @ui.remove': 'removeShow'
       };
 
       Show.prototype.render = function() {
@@ -50,7 +50,7 @@
         return List.Controller.addShow(this.model);
       };
 
-      Show.prototype.emoveMovie = function(e) {
+      Show.prototype.removeShow = function(e) {
         if (e != null) {
           e.preventDefault();
         }
