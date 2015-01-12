@@ -26,6 +26,28 @@
     <div id="navbar" data-appname="NZBApp" data-version="0.1.0"></div>
 
     <!-- templates -->
+    <script type="text/template" id="titlebar-template">
+        <% _.each(_.keys(data), function(key) { %>
+            <div class="<%- key %>">
+                <% if (data[key].title) { %>
+                    <% var item = data[key] %>
+                    <h5 class="<% if (item.icon) { %><%- item.icon %><% } %>" <% if (item.icon) { %>title="<%- item.title %>"<% } %>><% if (!item.icon && item.title) { %><%- item.title %><% } %></h5>
+                <% } else if (data[key].length && data[key].length > 1) { %>
+                    <ul class="button-group round">
+                        <% _.each(data[key], function(item) { %>
+                            <li <% if (item.active) { %>class="active"<% } %>>
+                                <a data-trigger="<%- item.trigger %>" href="#<%- item.url %>" class="small button <% if (item.icon) { %><%- item.icon %><% } %>" <% if (item.icon) { %>title="<%- item.title %>"<% } %>><% if (!item.icon && item.title) { %><%- item.title %><% } %></a>
+                            </li>
+                        <% }) %>
+                    </ul>
+                <% } else { %>
+                    <% var item = _.first(data[key]) %>
+                    <a class="small button round <% if (item.icon) { %><%- item.icon %><% } %>" <% if (item.icon) { %>title="<%- item.title %>"<% } %>><% if (!item.icon && item.title) { %><%- item.title %><% } %></a>
+                <% } %>
+            </div>
+        <% }); %>
+    </script>
+
     <script type="text/template" id="titlebar-text-template">
         <h5><%= data.title %></h5>
     </script>
