@@ -268,11 +268,60 @@ a:hover {
   border-bottom: 0.5px solid #006687;
 }
 .titlebar h5 {
+  margin: 0;
   color: white;
   font-family: "HelveticaNeue-Medium", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 }
 .titlebar > * {
   margin: auto;
+}
+.titlebar .button {
+  padding-top: 0.475rem;
+  padding-right: 1.35rem;
+  padding-bottom: 0.5375rem;
+  padding-left: 1.35rem;
+  background-color: #007095;
+  margin: 0;
+}
+.titlebar .button:active, .titlebar .button.active {
+  background-color: #005470;
+}
+.titlebar .left {
+  width: 65px;
+}
+.titlebar .left + .center {
+  margin-left: 0;
+}
+.titlebar .center {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  margin-left: 65px;
+  margin-right: 65px;
+}
+.titlebar .right {
+  width: 65px;
+  margin-left: -65px;
+}
+.titlebar .button-group a {
+  padding-top: 0.475rem;
+  padding-right: 1.35rem;
+  padding-bottom: 0.5375rem;
+  padding-left: 1.35rem;
+  background-color: #007095;
+  margin: 0;
+}
+.titlebar .button-group .active a {
+  background-color: #005470;
 }
 
 .standalone .titlebar {
@@ -283,18 +332,6 @@ a:hover {
 }
 .standalone .titlebar h5 {
   margin-top: 29px;
-}
-
-.tabs-titlebar .button-group a {
-  margin: 0;
-  padding-top: 0.475rem;
-  padding-right: 1.35rem;
-  padding-bottom: 0.5375rem;
-  padding-left: 1.35rem;
-  background-color: #007095;
-}
-.tabs-titlebar .button-group .active a {
-  background-color: #005470;
 }
 
 nav.icon-bar {

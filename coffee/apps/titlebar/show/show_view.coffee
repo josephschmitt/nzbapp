@@ -2,16 +2,17 @@
 jjs = window.jjs = (window.jjs or {})
 
 jjs.NZBAppManager.module 'TitlebarApp.Show', (Show, NZBAppManager, Backbone, Marionette, $, _) ->
-	class Show.TextTitlebar extends NZBAppManager.GUI.Tabs.TabView
-		template: '#titlebar-text-template'
+	class Show.Titlebar extends Marionette.ItemView
+		template: '#titlebar-template'
 		className: "titlebar"
-
-	class Show.TitlebarTab extends NZBAppManager.GUI.Tabs.TabView
-		template: '#titlebar-tab-item-template'
-		tagName: 'li'
-
-	class Show.TabsTitlebar extends Marionette.CompositeView
-		template: '#titlebar-tabs-template'
-		className: "titlebar tabs-titlebar"
-		childView: Show.TitlebarTab
-		childViewContainer: 'ul.button-group'
+		events:
+            'click a': 'navigate'
+        initialize: ->
+            super
+            @listenTo @model, 'change', @render
+        activate: (url) ->
+        	@$('.active').removeClass 'active'
+        	@$("[href*='#{url}']").parent().addClass 'active'
+        navigate: (e) ->
+            e.preventDefault()
+            NZBAppManager.trigger $(e.target).data('trigger')

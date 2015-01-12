@@ -8,51 +8,69 @@
     titleData = null;
     getSearchTitlebar = function() {
       return titleData = new Backbone.Model({
-        title: 'Search'
+        center: {
+          title: 'Search'
+        }
       });
     };
     getMoviesTitlebar = function() {
-      return titleData = new Backbone.Collection([
-        {
-          title: 'Movies',
-          url: 'movies/wanted',
-          trigger: 'movies:wanted:list'
-        }, {
-          title: 'Soon',
-          url: 'movies/soon',
-          trigger: 'movies:soon:list'
-        }
-      ]);
+      return titleData = new Backbone.Model({
+        center: [
+          {
+            title: 'Movies',
+            url: 'movies/wanted',
+            trigger: 'movies:wanted:list'
+          }, {
+            title: 'Soon',
+            url: 'movies/soon',
+            trigger: 'movies:soon:list'
+          }
+        ],
+        right: [
+          {
+            title: 'Refresh',
+            url: 'movies/wanted',
+            trigger: 'movies:wanted:list',
+            icon: 'fi-refresh'
+          }
+        ]
+      });
     };
     getShowsTitlebar = function() {
-      return titleData = new Backbone.Collection([
-        {
-          title: 'Shows',
-          url: 'shows/wanted',
-          trigger: 'shows:wanted:list'
-        }, {
-          title: 'Upcoming',
-          url: 'shows/upcoming',
-          trigger: 'shows:upcoming:list'
-        }
-      ]);
+      return titleData = new Backbone.Model({
+        center: [
+          {
+            title: 'Shows',
+            url: 'shows/wanted',
+            trigger: 'shows:wanted:list'
+          }, {
+            title: 'Upcoming',
+            url: 'shows/upcoming',
+            trigger: 'shows:upcoming:list'
+          }
+        ]
+      });
     };
     getDownloadsTitlebar = function() {
-      return titleData = new Backbone.Collection([
-        {
-          title: 'Queue',
-          url: 'downloads/queue',
-          trigger: 'downloads:queue:list'
-        }, {
-          title: 'History',
-          url: 'downloads/history',
-          trigger: 'downloads:history:list'
-        }
-      ]);
+      return titleData = new Backbone.Model({
+        center: [
+          {
+            title: 'Queue',
+            url: 'downloads/queue',
+            trigger: 'downloads:queue:list'
+          }, {
+            title: 'History',
+            url: 'downloads/history',
+            trigger: 'downloads:history:list'
+          }
+        ]
+      });
     };
     getSettingsTitlebar = function() {
       return titleData = new Backbone.Model({
-        title: 'Settings'
+        center: {
+          title: 'Settings'
+        }
       });
     };
     NZBAppManager.reqres.setHandler('titlebar:search:entities', function() {

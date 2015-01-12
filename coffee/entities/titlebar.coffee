@@ -5,28 +5,36 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
 	titleData =  null
 
 	getSearchTitlebar = ->
-		titleData = new Backbone.Model title: 'Search'
+		titleData = new Backbone.Model
+			center: title: 'Search'
 
 	getMoviesTitlebar = ->
-		titleData = new Backbone.Collection [
-			{title: 'Movies', url: 'movies/wanted', trigger: 'movies:wanted:list'}
-			{title: 'Soon', url: 'movies/soon', trigger: 'movies:soon:list'}
-		]
+		titleData = new Backbone.Model 
+			center: [
+				{title: 'Movies', url: 'movies/wanted', trigger: 'movies:wanted:list'}
+				{title: 'Soon', url: 'movies/soon', trigger: 'movies:soon:list'}
+			]
+			right: [
+				{title: 'Refresh', url: 'movies/wanted', trigger: 'movies:wanted:list', icon: 'fi-refresh'}
+			]
 
 	getShowsTitlebar = ->
-		titleData = new Backbone.Collection [
-			{ title: 'Shows', url: 'shows/wanted', trigger: 'shows:wanted:list'}
-            { title: 'Upcoming', url: 'shows/upcoming', trigger: 'shows:upcoming:list' }
-		]
+		titleData = new Backbone.Model 
+			center: [
+				{ title: 'Shows', url: 'shows/wanted', trigger: 'shows:wanted:list'}
+	            { title: 'Upcoming', url: 'shows/upcoming', trigger: 'shows:upcoming:list' }
+			]
 
 	getDownloadsTitlebar = ->
-		titleData = new Backbone.Collection [
-			{title: 'Queue', url: 'downloads/queue', trigger: 'downloads:queue:list'}
-			{title: 'History', url: 'downloads/history', trigger: 'downloads:history:list'}
-		]
+		titleData = new Backbone.Model 
+			center: [
+				{title: 'Queue', url: 'downloads/queue', trigger: 'downloads:queue:list'}
+				{title: 'History', url: 'downloads/history', trigger: 'downloads:history:list'}
+			]
 
 	getSettingsTitlebar = ->
-		titleData = new Backbone.Model title: 'Settings'
+		titleData = new Backbone.Model 
+			center: title: 'Settings'
 
 	NZBAppManager.reqres.setHandler 'titlebar:search:entities', ->
 		getSearchTitlebar()

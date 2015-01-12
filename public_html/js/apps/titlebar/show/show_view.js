@@ -6,52 +6,39 @@
   jjs = window.jjs = window.jjs || {};
 
   jjs.NZBAppManager.module('TitlebarApp.Show', function(Show, NZBAppManager, Backbone, Marionette, $, _) {
-    Show.TextTitlebar = (function(_super) {
-      __extends(TextTitlebar, _super);
+    return Show.Titlebar = (function(_super) {
+      __extends(Titlebar, _super);
 
-      function TextTitlebar() {
-        return TextTitlebar.__super__.constructor.apply(this, arguments);
+      function Titlebar() {
+        return Titlebar.__super__.constructor.apply(this, arguments);
       }
 
-      TextTitlebar.prototype.template = '#titlebar-text-template';
+      Titlebar.prototype.template = '#titlebar-template';
 
-      TextTitlebar.prototype.className = "titlebar";
+      Titlebar.prototype.className = "titlebar";
 
-      return TextTitlebar;
+      Titlebar.prototype.events = {
+        'click a': 'navigate'
+      };
 
-    })(NZBAppManager.GUI.Tabs.TabView);
-    Show.TitlebarTab = (function(_super) {
-      __extends(TitlebarTab, _super);
+      Titlebar.prototype.initialize = function() {
+        Titlebar.__super__.initialize.apply(this, arguments);
+        return this.listenTo(this.model, 'change', this.render);
+      };
 
-      function TitlebarTab() {
-        return TitlebarTab.__super__.constructor.apply(this, arguments);
-      }
+      Titlebar.prototype.activate = function(url) {
+        this.$('.active').removeClass('active');
+        return this.$("[href*='" + url + "']").parent().addClass('active');
+      };
 
-      TitlebarTab.prototype.template = '#titlebar-tab-item-template';
+      Titlebar.prototype.navigate = function(e) {
+        e.preventDefault();
+        return NZBAppManager.trigger($(e.target).data('trigger'));
+      };
 
-      TitlebarTab.prototype.tagName = 'li';
+      return Titlebar;
 
-      return TitlebarTab;
-
-    })(NZBAppManager.GUI.Tabs.TabView);
-    return Show.TabsTitlebar = (function(_super) {
-      __extends(TabsTitlebar, _super);
-
-      function TabsTitlebar() {
-        return TabsTitlebar.__super__.constructor.apply(this, arguments);
-      }
-
-      TabsTitlebar.prototype.template = '#titlebar-tabs-template';
-
-      TabsTitlebar.prototype.className = "titlebar tabs-titlebar";
-
-      TabsTitlebar.prototype.childView = Show.TitlebarTab;
-
-      TabsTitlebar.prototype.childViewContainer = 'ul.button-group';
-
-      return TabsTitlebar;
-
-    })(Marionette.CompositeView);
+    })(Marionette.ItemView);
   });
 
 }).call(this);

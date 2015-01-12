@@ -1,3 +1,16 @@
+@mixin titlebar-button {
+	padding-top: 0.475rem;
+	padding-right: 1.35rem;
+	padding-bottom: 0.5375rem;
+	padding-left: 1.35rem;
+	background-color: scale-color($primary-color, $lightness: -20%);
+	margin: 0;
+}
+
+@mixin titlebar-button-active {
+	background-color: scale-color($primary-color, $lightness: -40%);
+}
+
 .titlebar {
 	display: flex;
 	background: $primary-color;
@@ -5,12 +18,54 @@
 	border-bottom: 0.5px solid darken($primary-color, 10%);
 
 	h5 {
+		margin: 0;
 		color: white;
 		font-family: "HelveticaNeue-Medium", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 	}
 
 	& > * {
 		margin: auto;
+	}
+
+	$button-width: 65px;
+	.button {
+		@include titlebar-button;
+
+		&:active, &.active {
+			@include titlebar-button-active;
+		}
+	}
+
+	.left {
+		width: $button-width;
+
+		& + .center {
+			margin-left: 0;
+		}
+	}
+
+	.center {
+		display: flex;
+		justify-content: center;
+		flex: 1;
+
+		margin-left: $button-width;
+		margin-right: $button-width;
+	}
+
+	.right {
+		width: $button-width;
+		margin-left: -$button-width;
+	}
+
+	.button-group {
+		a {
+			@include titlebar-button;
+		}
+		
+		.active a {
+			@include titlebar-button-active;
+		}
 	}
 }
 
@@ -24,23 +79,6 @@
 
 		h5 {
 			margin-top: 29px;
-		}
-	}
-}
-
-.tabs-titlebar {
-	.button-group {
-		a {
-			margin: 0;
-			padding-top: 0.475rem;
-			padding-right: 1.35rem;
-			padding-bottom: 0.5375rem;
-			padding-left: 1.35rem;
-			background-color: scale-color($primary-color, $lightness: -20%);
-		}
-		
-		.active a {
-			background-color: scale-color($primary-color, $lightness: -40%);
 		}
 	}
 }
