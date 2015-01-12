@@ -1,8 +1,4 @@
 @mixin titlebar-button {
-	padding-top: 0.475rem;
-	padding-right: 1.35rem;
-	padding-bottom: 0.5375rem;
-	padding-left: 1.35rem;
 	background-color: scale-color($primary-color, $lightness: -20%);
 	margin: 0;
 }
@@ -27,9 +23,10 @@
 		margin: auto;
 	}
 
-	$button-width: 65px;
+	$button-width: 30px;
 	.button {
 		@include titlebar-button;
+		padding: 0.475rem 0.675rem;
 
 		&:active, &.active {
 			@include titlebar-button-active;
@@ -63,6 +60,10 @@
 	.button-group {
 		a {
 			@include titlebar-button;
+			padding-top: 0.475rem;
+			padding-right: 1.35rem;
+			padding-bottom: 0.5375rem;
+			padding-left: 1.35rem;
 		}
 		
 		.active a {

@@ -15,7 +15,7 @@
 
       Titlebar.prototype.template = '#titlebar-template';
 
-      Titlebar.prototype.className = "titlebar";
+      Titlebar.prototype.className = "titlebar columns";
 
       Titlebar.prototype.events = {
         'click a': 'navigate'
