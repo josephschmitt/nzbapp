@@ -68,9 +68,25 @@
     };
     getSettingsTitlebar = function() {
       return titleData = new Backbone.Model({
+        left: [
+          {
+            title: 'Cancel',
+            url: 'settings',
+            trigger: 'home:show',
+            icon: 'fi-x'
+          }
+        ],
         center: {
           title: 'Settings'
-        }
+        },
+        right: [
+          {
+            title: 'Save',
+            url: 'settings',
+            trigger: 'home:show',
+            icon: 'fi-check'
+          }
+        ]
       });
     };
     NZBAppManager.reqres.setHandler('titlebar:search:entities', function() {

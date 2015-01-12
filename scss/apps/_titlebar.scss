@@ -38,6 +38,7 @@
 
 	.left {
 		width: $button-width;
+		text-align: right;
 
 		& + .center {
 			margin-left: 0;
@@ -56,6 +57,7 @@
 	.right {
 		width: $button-width;
 		margin-left: -$button-width;
+		text-align: left;
 	}
 
 	.button-group {

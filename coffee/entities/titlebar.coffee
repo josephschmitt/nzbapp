@@ -34,7 +34,13 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
 
 	getSettingsTitlebar = ->
 		titleData = new Backbone.Model 
+			left: [
+				{title: 'Cancel', url: 'settings', trigger: 'home:show', icon: 'fi-x'}
+			]
 			center: title: 'Settings'
+			right: [
+				{title: 'Save', url: 'settings', trigger: 'home:show', icon: 'fi-check'}
+			]
 
 	NZBAppManager.reqres.setHandler 'titlebar:search:entities', ->
 		getSearchTitlebar()

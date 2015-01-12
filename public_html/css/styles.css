@@ -288,6 +288,7 @@ a:hover {
 }
 .titlebar .left {
   width: 65px;
+  text-align: right;
 }
 .titlebar .left + .center {
   margin-left: 0;
@@ -311,6 +312,7 @@ a:hover {
 .titlebar .right {
   width: 65px;
   margin-left: -65px;
+  text-align: left;
 }
 .titlebar .button-group a {
   padding-top: 0.475rem;
