@@ -30,7 +30,7 @@
           {
             title: 'Refresh',
             url: 'movies/wanted',
-            trigger: 'movies:wanted:list',
+            trigger: 'movies:refresh',
             icon: 'fi-refresh'
           }
         ]
@@ -48,6 +48,14 @@
             url: 'shows/upcoming',
             trigger: 'shows:upcoming:list'
           }
+        ],
+        right: [
+          {
+            title: 'Refresh',
+            url: 'movies/wanted',
+            trigger: 'shows:refresh',
+            icon: 'fi-refresh'
+          }
         ]
       });
     };
@@ -62,6 +70,14 @@
             title: 'History',
             url: 'downloads/history',
             trigger: 'downloads:history:list'
+          }
+        ],
+        right: [
+          {
+            title: 'Refresh',
+            url: 'movies/wanted',
+            trigger: 'downloads:refresh',
+            icon: 'fi-refresh'
           }
         ]
       });

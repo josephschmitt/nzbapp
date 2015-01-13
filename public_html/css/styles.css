@@ -326,7 +326,7 @@ a:hover {
 .standalone .titlebar {
   height: 64px;
 }
-.standalone .titlebar > * {
+.standalone .titlebar > * > * {
   margin-top: 23px;
 }
 .standalone .titlebar h5 {

@@ -76,7 +76,7 @@
 	.titlebar {
 		height: $app-standalone-titlebar-height;
 
-		& > * {
+		& > * > * {
 			margin-top: 23px;
 		}
 

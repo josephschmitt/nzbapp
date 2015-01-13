@@ -15,7 +15,7 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
 				{title: 'Soon', url: 'movies/soon', trigger: 'movies:soon:list'}
 			]
 			right: [
-				{title: 'Refresh', url: 'movies/wanted', trigger: 'movies:wanted:list', icon: 'fi-refresh'}
+				{title: 'Refresh', url: 'movies/wanted', trigger: 'movies:refresh', icon: 'fi-refresh'}
 			]
 
 	getShowsTitlebar = ->
@@ -24,12 +24,18 @@ jjs.NZBAppManager.module 'Entities', (Entities, NZBAppManager, Backbone, Marione
 				{ title: 'Shows', url: 'shows/wanted', trigger: 'shows:wanted:list'}
 	            { title: 'Upcoming', url: 'shows/upcoming', trigger: 'shows:upcoming:list' }
 			]
+			right: [
+				{title: 'Refresh', url: 'movies/wanted', trigger: 'shows:refresh', icon: 'fi-refresh'}
+			]
 
 	getDownloadsTitlebar = ->
 		titleData = new Backbone.Model 
 			center: [
 				{title: 'Queue', url: 'downloads/queue', trigger: 'downloads:queue:list'}
 				{title: 'History', url: 'downloads/history', trigger: 'downloads:history:list'}
+			]
+			right: [
+				{title: 'Refresh', url: 'movies/wanted', trigger: 'downloads:refresh', icon: 'fi-refresh'}
 			]
 
 	getSettingsTitlebar = ->
